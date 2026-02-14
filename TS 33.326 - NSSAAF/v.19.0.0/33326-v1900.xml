@@ -1,0 +1,94 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.326">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	NSSAAF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	NSSAAF-specific security functional requirements and related test cases" level="2">
+      <Section title="4.2.1	Routes the S-NSSAI to the right place" level="3">
+        <Requirement>
+          <Name>Routes the S-NSSAI to the right place</Name>
+          <Reference>TS 33.501 [2], clause 6.8.1.2.3</Reference>
+          <Description>If the AAA-P is present (e.g. because the AAA-S belongs to a third party and the operator deploys a proxy towards third parties), the NSSAAF forwards the EAP ID Response message to the AAA-P, otherwise the NSSAAF forwards the message directly to the AAA-S. NSSAAF routes to the AAA-S based on the S-NSSAI, as specified in TS 33.501 [2], clause 6.13.
+Threat Reference: TR 33.926 [4], clause P.3.2 – Threats related to NSSAAF.</Description>
+        </Requirement>
+        <TestCase>
+          <Name>TC_NSSAAF_CORRECT_ROUTING</Name>
+          <Purpose>Verify that the NSSAAF forwards the NSSAA request to the right receiving end.</Purpose>
+          <PreConditions>-	Test environment with AMF, AAA-S and AAA-P, which may be simulated. The NSAAF under test is connected with AMF, AAA-S and AAA-P.
+-	A document describes the logic how the NSSAAF selects an AAA-S or AAA-P based on S-NSSAI.
+-	Preconfigure the NSSAAF under test with two routing entries, each for a NSSAI. One of the slice is a part of MNO and the AAA-S can be directly found by the NSSAAF, while the other slice serves 3rd party and the AAA-P will be used for NSSAA procedure.</PreConditions>
+          <ExecutionSteps>1. The AMF sends Nssaaf_NSSAA_Authenticate Req to the NSSAAF including one of the S-NSSAI.
+2. The NSSAAF sends AAA message to an AAA-P.
+3. Repeat step 1 and 2 with the other S-NSSAI, and the NSSAAF sends AAA message to an AAA-S.</ExecutionSteps>
+          <ExpectedResults>The NSSAAF forwards the NSSAA request to the correct AAA-S or AAA-P on the S-NSSAI.</ExpectedResults>
+          <EvidenceFormat>Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+        </TestCase>
+      </Section>
+      <Section title="4.2.2	AAA-S authorization in re-authentication and revocation scenarios" level="3">
+        <Requirement>
+          <Name>AAA-S authorization in re-authentication and revocation scenarios</Name>
+          <Reference>TS 33.501 [2], clause 16.4</Reference>
+          <Description>The NSSAAF checks whether the AAA-S is authorized to request the re-authentication and re-authorization by checking the local configuration of AAA-S address per S-NSSAI. If success, the NSSAAF requests UDM for the AMF serving the UE using the Nudm_UECM_Get (GPSI, AMF Registration) service operation. The UDM provides the NSSAAF with the AMF ID of the AMF serving the UE as specified in TS 33.501 [2], clause 6.13.
+Threat Reference: TR 33.926 [4], clause P.3.2 – Threats related to NSSAAF.</Description>
+        </Requirement>
+        <TestCase>
+          <Name>TC_NSSAAF_AAAS_AUTHORIZATION_REAUTH_REVOCATION</Name>
+          <Purpose>Verify that the AAA-S is authorized to send the re-authentication or revocation.</Purpose>
+          <PreConditions>-	Test environment with AAA-S and AAA-P, which may be simulated. The NSAAF under test is connected with AAA-S and AAA-P.
+-	A document describes the mapping between S-NSSAI and AAA-S server.</PreConditions>
+          <ExecutionSteps>1. The AAA-S sends Re-authentication or revocation message to the NSSAAF including the S-NSSAI and the GPSI.
+2. The NSSAAF checks whether the AAA-S can be matched against with the S-NSSAI based on the mapping table.</ExecutionSteps>
+          <ExpectedResults>The NSSAAF rejects the re-authentication or revocation when the AAA-S and S-NSSAI are not mapped.
+The NSSAAF passes the re-authentication or revocation when the AAA-S and S-NSSAI are mapped.</ExpectedResults>
+          <EvidenceFormat>Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+        </TestCase>
+      </Section>
+      <Section title="4.2.3	Technical baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4">
+          <Section title="4.2.3.4.1	Authentication attributes" level="5"/>
+        </Section>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating systems" level="3"/>
+      <Section title="4.2.5	Web servers" level="3"/>
+      <Section title="4.2.6	Network devices" level="3">
+        <Section title="4.2.6.1	Protection of data and information" level="4"/>
+        <Section title="4.2.6.2	Protecting availability and integrity" level="4">
+          <Section title="4.2.6.2.1	Packet filtering" level="5"/>
+          <Section title="4.2.6.2.2	Interface robustness requirements" level="5"/>
+          <Section title="4.2.6.2.3	GTP-C Filtering" level="5"/>
+          <Section title="4.2.6.2.4	GTP-U Filtering" level="5"/>
+        </Section>
+      </Section>
+    </Section>
+    <Section title="4.3	NSSAAF-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical Baseline" level="3"/>
+      <Section title="4.3.3	Operating Systems" level="3"/>
+      <Section title="4.3.4	Web Servers" level="3"/>
+      <Section title="4.3.5	Network Devices" level="3"/>
+      <Section title="4.3.6	Network Functions in service-based architecture" level="3"/>
+    </Section>
+    <Section title="4.4	NSSAAF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="Annex A (informative):
+Change history" level="8"/>
+    </Section>
+  </Section>
+</Specification>

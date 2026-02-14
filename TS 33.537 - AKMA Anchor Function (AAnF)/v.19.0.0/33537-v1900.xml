@@ -1,0 +1,112 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.537">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	AAnF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	AAnF-specific adaptations of security functional requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the AAnF deriving from 3GPP specifications and related test cases" level="3">
+        <Section title="4.2.2.0	General" level="4"/>
+        <Section title="4.2.2.1	AKMA key storage and update" level="4">
+          <Requirement>
+            <Name>AKMA key storage update</Name>
+            <Reference>TS 33.535 [4], clause 6.1</Reference>
+            <Description>The AAnF stores the latest information sent by the AUSF. After receiving the new generated A-KID and KAKMA, the AAnF deletes the old A-KID and KAKMA and stores the new generated A-KID and KAKMA as specified in TS 33.535 [4], clause 6.1.</Description>
+            <ThreatReference>TR 33.926 [3], Annex W.2.2.3, AKMA key storage and update</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_AKMA_Key_Storage_Update</Name>
+            <Purpose>Verify that the AAnF stores only the latest AKMA context received by the AUSF.</Purpose>
+            <PreConditions>-	Test environment with AUSF and AF. The AUSF and the AF may be simulated.
+-	AAnF network product is connected in emulated/real network environment.</PreConditions>
+            <ExecutionSteps>Test A:
+1)	Primary authentication is simulated for a specific UE, leading to the simulated AUSF pushing SUPI, A-KID1, KAKMA1 to the AAnF.
+2)	The AF requests a KAF from the AAnF by proving A-KID1 and AF_ID.
+3)	Another primary authentication is simulated for the same UE, leading to the simulated AUSF pushing SUPI, A-KID2, KAKMA2 to the AAnF.
+4)	The AF requests a KAF by providing A-KID1 to the AAnF.
+5)	The AF requests a KAF by providing A-KID2 to the AAnF.</ExecutionSteps>
+            <ExpectedResults>The AF received an error message indicating the AKMA context related to A-KID 1 is not found after step 4). After step 5), the AF received a KAF which is different from the KAF that received after step 2).</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interfaces for each step, between AAnF and AUSF, AAnF and AF/NEF, e.g., evidence can be presented in the form of screenshot/screen-capture or pcap traces.</EvidenceFormat>
+          </TestCase>
+        </Section>
+      </Section>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.4.1	Confidentiality, integrity and replay protections over SBA interface" level="5">
+            <Requirement>
+              <Name>Confidentiality, integrity and replay protections over SBA interface</Name>
+              <Reference>TS 33.535 [4], clause 4.4.0</Reference>
+              <Description>The SBA interface between the AAnF and the AUSF is confidentiality, integrity and replay protected as specified in TS 33.535 [4], clause 4.4.0</Description>
+              <ThreatReference>TR 33.926 [3], Annex W.2.2.1, Control plane data protection with AUSF</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_PROTECT_SBA_AAnF_AUSF</Name>
+              <Purpose>Verify that the transported data between AAnF and AUSF are confidentiality, integrity and replay protected over SBA interface.</Purpose>
+              <PreConditions>-	AAnF and AUSF network products are connected in simulated/real network environment.
+-	Network product documentation containing information about supported TLS protocol and certificates is provided by the vendor.
+-	Tester shall have access to the SBA interface between AAnF and AUSF.</PreConditions>
+              <ExecutionSteps>The requirement mentioned in this clause is tested in accordance with the procedure mentioned in clause 4.2.2.2.2 of TS 33.117 [2].</ExecutionSteps>
+              <ExpectedResults>The user data transported between AAnF and AUSF is confidentiality, integrity and replay protected.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of screenshot/screen-capture or pcap traces.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.3.2.4.2	Confidentiality, integrity and replay protections over SBA interface" level="5">
+            <Requirement>
+              <Name>Confidentiality, integrity and replay protections over SBA interface</Name>
+              <Reference>TS 33.535 [4], clause 4.4.0</Reference>
+              <Description>The SBA interface between AAnF and AF/NEF is confidentiality, integrity and replay protected as specified in TS 33.535 [4], clause 4.4.0</Description>
+              <ThreatReference>TR 33.926 [3], Annex W.2.2.2, Control plane data protection with AF/NEF</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_PROTECT_AAnF_AF_NEF</Name>
+              <Purpose>Verify that the transported data between AAnF and AF/NEF are confidentiality, integrity and replay protected over SBA interface.</Purpose>
+              <PreConditions>-	AAnF and AF/NEF network products are connected in simulated/real network environment.
+-	Network product documentation containing information about supported TLS protocol and certificates is provided by the vendor.
+-	Tester shall have access to the SBA interface between AAnF and AF/NEF.</PreConditions>
+              <ExecutionSteps>The requirement mentioned in this clause is tested in accordance with the procedure mentioned in clause 4.2.2.2.2 of TS 33.117 [2].</ExecutionSteps>
+              <ExpectedResults>The user data transported between AAnF and AF/NEF is confidentiality, integrity and replay protected.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of screenshot/screen-capture or pcap traces.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating systems" level="3"/>
+      <Section title="4.2.5	Web servers" level="3"/>
+      <Section title="4.2.6	Network devices" level="3"/>
+    </Section>
+    <Section title="4.3	AAnF-specific adaptations of hardening requirements and related test cases." level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical Baseline" level="3"/>
+      <Section title="4.3.3	Operating Systems" level="3"/>
+      <Section title="4.3.4	Web Servers" level="3"/>
+      <Section title="4.3.5	Network Devices" level="3"/>
+      <Section title="4.3.6	Network Functions in service-based architecture" level="3"/>
+    </Section>
+    <Section title="4.4	AAnF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative): 
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>

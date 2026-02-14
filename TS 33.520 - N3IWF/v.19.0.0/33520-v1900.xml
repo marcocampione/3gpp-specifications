@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.520">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	N3IWF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	N3IWF-specific security functional adaptations of requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the N3IWF deriving from 3GPP specifications and related test cases" level="3">
+        <Section title="4.2.2.1	Security functional requirements on the N3IWF deriving from 3GPP specifications – TS 33.501 [2]" level="4">
+          <Section title="4.2.2.1.1	Handling of EAP-Identity Request message" level="5">
+            <Requirement>
+              <Name>Handling of EAP-Identity Request message</Name>
+              <Reference>TS 33.501 [2], clause 7.2.1</Reference>
+              <Description>The N3IWF refrains from sending an EAP-Identity request. The UE may ignore an EAP Identity request or respond with the SUCI it sent in the Registration Request, as specified in TS 33.501 [2], clause 7.2.1.
+Threat Reference:  TR 33.926 [3], clause M.Y.2, N3IWF sends EAP-Identity Request</Description>
+            </Requirement>
+            <TestCase>
+              <Name>TC_N3IWF_REFRAIN_SEND_IDENTITY_REQUEST</Name>
+              <Purpose>Verify that the N3IWF will not send an EAP-Identity request message, and if the N3IWF sends EAP-Identity Request message, whether the N3IWF will conintue to proceed the EAP-5G procedure.</Purpose>
+              <PreConditions>-	The AMF network product shall be connected in emulated/real network environments. UE may be simulated.
+- 	A document describes whether the N3IWF will send an EAP-Identity Request message.</PreConditions>
+              <ExecutionSteps>1. The UE initiates IKE_SA_INIT procedure without UE identity.
+2. The N3IWF responses an EAP message</ExecutionSteps>
+              <ExpectedResults>If the EAP message is EAP-5G start, then it is ok.
+If the EAP message is EAP-Identity Request meesage, then check whether the N3IWF sends a N2 msg to the AMF, and whether the procedure in 7.2 of TS 33.501[2] runs successfully.</ExpectedResults>
+              <EvidenceFormat>Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+      </Section>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating Systems" level="3"/>
+      <Section title="4.2.5	Web Servers" level="3"/>
+      <Section title="4.2.6	Network Devices" level="3"/>
+    </Section>
+    <Section title="4.3	N3IWF-specific adaptations of hardening requirements and related test cases." level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical Baseline" level="3"/>
+      <Section title="4.3.3	Operating Systems" level="3"/>
+      <Section title="4.3.4	Web Servers" level="3"/>
+      <Section title="4.3.5	Network Devices" level="3"/>
+    </Section>
+    <Section title="4.4	N3IWF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="Annex A (informative):
+Change history" level="9"/>
+    </Section>
+  </Section>
+</Specification>

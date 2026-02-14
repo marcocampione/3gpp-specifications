@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.530">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	UDR-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	UDR-specific adaptations of security functional requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the UDR deriving from 3GPP specifications and related test cases" level="3">
+        <Section title="4.2.2.1	General" level="4"/>
+        <Section title="4.2.2.2	Specific UE security-related information update in the UDR" level="4">
+          <Requirement>
+            <Name>Ability of NFs to update UE security-related information in the UDR</Name>
+            <Reference>TS 33.501 [4], clause 5.8b Requirements on the UDR</Reference>
+            <ThreatReference>TR 33.926 [5], clause AA.2 Assets and threats specific to the UDR</ThreatReference>
+            <Description>Only the UDM is able to update security-related information in the UDR.
+Test Case:</Description>
+          </Requirement>
+          <TestCase>
+            <Name>TC_ONLY_UDM_CAN_UPDATE_UDR</Name>
+            <Purpose>- Verify that only the UDM is able to update the security related information in the UDR.
+Procedure and execution steps:
+Pre-Condition:
+- The test case is applicable if UDR and UDM are implemented as separate network functions (non-colocated)
+- The network environment, such as the UDM, can be simulated.
+- The network environment, such as the non-UDM, can be simulated.</Purpose>
+            <ExecutionSteps>Test Case 1:
+1)	The tester correctly calculates an access token with valid audience and scope claims reflecting the UDM network function to access the UDR resources.
+2)	The tester includes the access token into an update request to the UDR, e.g., update the SQN or the Authentication Status.
+Test Case 2:
+1)	The tester correctly calculates an access token with valid audience and scope claims reflecting a non-UDM network function to access the UDR resources.
+2)	The tester includes the access token into an update request to the UDR, e.g., update the SQN or the Authentication Status.</ExecutionSteps>
+            <ExpectedResults>For test case 1: The UDR accepts the service request.
+For test case 2: The UDR rejects the service request.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g., pcap file or screenshot containing the operational results.</EvidenceFormat>
+          </TestCase>
+        </Section>
+      </Section>
+    </Section>
+    <Section title="4.3	UDR-specific adaptations of hardening requirements and related test cases." level="2"/>
+    <Section title="4.4	UDR-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port Scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative):
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>

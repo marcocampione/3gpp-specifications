@@ -1,0 +1,127 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.526">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	MnF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	MnF-specific security functional adaptations of requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the MnF deriving from 3GPP specifications and related test cases" level="3"/>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4">
+          <Section title="4.2.3.3.1	System handling during overload situations" level="5"/>
+          <Section title="4.2.3.3.2	Boot from intended memory devices only" level="5"/>
+          <Section title="4.2.3.3.3	System handling during excessive overload situations" level="5"/>
+          <Section title="4.2.3.3.4	System robustness against unexpected input." level="5"/>
+          <Section title="4.2.3.3.5	Network Product software package integrity" level="5"/>
+        </Section>
+        <Section title="4.2.3.4	Authentication and authorization" level="4">
+          <Section title="4.2.3.4.1	Authentication policy" level="5"/>
+          <Section title="4.2.3.4.2	Authentication attributes" level="5">
+            <Section title="4.2.3.4.2.1	Account protection by at least one authentication attribute." level="6"/>
+            <Section title="4.2.3.4.2.2	Predefined accounts shall be deleted or disabled." level="6"/>
+            <Section title="4.2.3.4.2.3	Predefined or default authentication attributes shall be deleted or disabled." level="6"/>
+          </Section>
+          <Section title="4.2.3.4.3	Password policy" level="5">
+            <Section title="4.2.3.4.3.1	Password Structure" level="6"/>
+            <Section title="4.2.3.4.3.2	Password changes" level="6"/>
+            <Section title="4.2.3.4.3.3	Protection against brute force and dictionary attacks" level="6"/>
+            <Section title="4.2.3.4.3.4	Hiding password display" level="6"/>
+          </Section>
+          <Section title="4.2.3.4.4	Specific Authentication use cases" level="5">
+            <Section title="4.2.3.4.4.1 	Network Product Management and Maintenance interfaces" level="6"/>
+          </Section>
+          <Section title="4.2.3.4.5	Policy regarding consecutive failed login attempts" level="5"/>
+          <Section title="4.2.3.4.6	Authorization and access control" level="5"/>
+          <Section title="4.2.3.4.6	Authorization and access control" level="5">
+            <Section title="4.2.3.4.6.1	Authorization policy" level="6"/>
+            <Section title="4.2.3.4.6.2	Role-based access control" level="6"/>
+          </Section>
+        </Section>
+        <Section title="4.2.3.5	Protecting sessions" level="4">
+          <Section title="4.2.3.5.1	Protecting sessions – logout function" level="5"/>
+          <Section title="4.2.3.5.2	Protecting sessions – Inactivity timeout" level="5"/>
+        </Section>
+        <Section title="4.2.3.6	Logging" level="4">
+          <Section title="4.2.3.6.1	Security event logging" level="5"/>
+          <Section title="4.2.3.6.2	Log transfer to centralized storage" level="5"/>
+          <Section title="4.2.3.6.3	Protection of security event log files" level="5"/>
+        </Section>
+      </Section>
+      <Section title="4.2.4	Operating systems" level="3"/>
+      <Section title="4.2.5	Web servers" level="3">
+        <Section title="4.2.5.1	HTTPS" level="4"/>
+        <Section title="4.2.5.2	Logging" level="4"/>
+        <Section title="4.2.5.3	HTTP User sessions" level="4"/>
+        <Section title="4.2.5.4	HTTP input validation" level="4"/>
+      </Section>
+      <Section title="4.2.6	Network devices" level="3">
+        <Section title="4.2.6.1	Protection of data and information" level="4"/>
+        <Section title="4.2.6.2	Protecting availability and integrity" level="4">
+          <Section title="4.2.6.2.1	Packet filtering" level="5"/>
+          <Section title="4.2.6.2.2	Interface robustness requirements" level="5"/>
+          <Section title="4.2.6.2.3	GTP-C Filtering" level="5"/>
+          <Section title="4.2.6.2.4	GTP-U Filtering" level="5"/>
+        </Section>
+      </Section>
+    </Section>
+    <Section title="4.3	MnF-specific adaptations of hardening requirements and related test cases." level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical Baseline" level="3"/>
+      <Section title="4.3.3	Operating Systems" level="3">
+        <Section title="4.3.3.1	General operating system requirements and test cases" level="4">
+          <Section title="4.3.3.1.1	IP-Source address spoofing mitigation" level="5"/>
+          <Section title="4.3.3.1.2	Minimized kernel network functions" level="5"/>
+          <Section title="4.3.3.1.3	No automatic launch of removable media" level="5"/>
+          <Section title="4.3.3.1.4	SYN Flood Prevention" level="5"/>
+          <Section title="4.3.3.1.5	Protection from buffer overflows" level="5"/>
+          <Section title="4.3.3.1.6	External file system mount restrictions" level="5"/>
+        </Section>
+      </Section>
+      <Section title="4.3.4	Web Servers" level="3">
+        <Section title="4.3.4.1	General" level="4"/>
+        <Section title="4.3.4.2	No system privileges for web server" level="4"/>
+        <Section title="4.3.4.3	No unused HTTP methods" level="4"/>
+        <Section title="4.3.4.4	No unused add-ons" level="4"/>
+        <Section title="4.3.4.5	No compiler, interpreter, or shell via CGI or other server-side scripting" level="4"/>
+        <Section title="4.3.4.6	No CGI or other scripting for uploads" level="4"/>
+        <Section title="4.3.4.7	No execution of system commands with SSI" level="4"/>
+        <Section title="4.3.4.8	Access rights for web server configuration" level="4"/>
+        <Section title="4.3.4.9	No default content" level="4"/>
+        <Section title="4.3.4.10	No directory listings" level="4"/>
+        <Section title="4.3.4.11	Web server information in HTTP headers" level="4"/>
+        <Section title="4.3.4.12	Web server information in error pages" level="4"/>
+        <Section title="4.3.4.13	Minimized file type mappings" level="4"/>
+        <Section title="4.3.4.14	Restricted file access" level="4"/>
+        <Section title="4.3.4.15	Execute rights exclusive for CGI/Scripting directory" level="4"/>
+      </Section>
+      <Section title="4.3.5	Network Devices" level="3">
+        <Section title="4.3.5.1	Traffic Separation" level="4"/>
+      </Section>
+      <Section title="4.3.6	Network Functions in service-based architecture" level="3">
+        <Section title="4.3.6.1	Introduction" level="4"/>
+        <Section title="4.3.6.2	No code execution or inclusion of external resources by JSON parsers" level="4"/>
+        <Section title="4.3.6.3	Unique key values in IEs" level="4"/>
+        <Section title="4.3.6.4	The valid format and range of values for IEs" level="4"/>
+      </Section>
+    </Section>
+    <Section title="4.4	MnF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="Annex A (informative): 
+Change history" level="9"/>
+    </Section>
+  </Section>
+</Specification>

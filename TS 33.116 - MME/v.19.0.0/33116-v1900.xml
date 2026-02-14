@@ -1,0 +1,177 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.116">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions and abbreviations" level="1">
+    <Section title="3.1	Definitions" level="2"/>
+    <Section title="3.2	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	MME-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	MME-specific adaptations of security functional requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the MME deriving from 3GPP specifications and related test cases" level="3">
+        <Section title="4.2.2.1	Security functional requirements on the MME deriving from 3GPP specifications – general approach" level="4"/>
+        <Section title="4.2.2.2	Authentication and key agreement procedure" level="4">
+          <Section title="4.2.2.2.1	Access with GSM SIM forbidden" level="5">
+            <Requirement>
+              <Name>GSM SIM access forbidden</Name>
+              <Reference>TS 33.401[5], clause 6.1.1</Reference>
+              <Description>&quot;Access to E-UTRAN with a GSM SIM or a SIM application on a UICC shall not be granted.&quot; as specified in TS 33.401 [5], clause 6.1.1.</Description>
+              <ThreatReference>TR 33.926 [9], clause A.2.2.1 Access to GSM.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.2.2	Re-synchronization" level="5">
+            <Requirement>
+              <Name>Inclusion of RAND, AUTS</Name>
+              <Reference>TS 33.401[5], clause 6.1.2</Reference>
+              <Description>&quot;In the case of a synchronization failure, the MME shall also include RAND and AUTS.&quot; as specified in TS 33.401 [5], clause 6.1.2.</Description>
+              <ThreatReference>TR 33.926 [9], clause A.2.2.2 Resynchronization.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.2.3	Integrity check of Attach message" level="5">
+            <Requirement>
+              <Name>Integrity check of Attach message</Name>
+              <Reference>TS 33.401[5], clause 6.1.4</Reference>
+              <Description>&quot;If the user cannot be identified or the integrity check fails, then the MME shall send a response indicating that the user identity cannot be retrieved.&quot; as specified in TS 33.401, clause 6.1.4.</Description>
+              <ThreatReference>TR 33.926 [9], clause A.2.2.3 Failed Integrity check of Attach message.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.2.4	Not forwarding EPS authentication data to SGSN" level="5">
+            <Requirement>
+              <Name>Not forwarding EPS authentication data to SGSN</Name>
+              <Reference>TS 33.401[5], clause 6.1.4</Reference>
+              <Description>&quot;EPS authentication data shall not be forwarded from an MME towards an SGSN.&quot; as specified in TS 33.401[5], clause 6.1.4.</Description>
+              <ThreatReference>TR 33.926 [9], clause A.2.2.4 Forwarding EPS authentication data to SGSN.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.2.5	Not forwarding unused EPS authentication data between different security domains" level="5">
+            <Requirement>
+              <Name>Not forwarding unused EPS authentication between different security domains</Name>
+              <Reference>TS 33.401[5], clause 6.1.5</Reference>
+              <Description>&quot;Unused EPS authentication vectors, or non-current EPS security contexts, shall not be distributed between MMEs belonging to different serving domains (PLMNs).&quot; as specified in TS 33.401, clause 6.1.5.</Description>
+              <ThreatReference>TR 33.926 [9], clause A.2.2.5 Forwarding unused EPS authentication data between different security domains.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.3	Security mode command procedure" level="5"/>
+          <Section title="4.2.2.3.1	Bidding down prevention" level="5">
+            <Requirement>
+              <Name>Bidding down prevention</Name>
+              <Reference>TS 33.401[5], clause 7.2</Reference>
+              <Description>&quot;The SECURITY MODE COMMAND shall include the replayed security capabilities of the UE.&quot; as specified in TS 33.401[5], clause 7.2.</Description>
+              <ThreatReference>TR 33.926 [9], A.2.3.1 Bidding Down.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.3.2	NAS integrity algorithm selection and use" level="5">
+            <Requirement>
+              <Name>NAS integrity algorithm selection</Name>
+              <Reference>TS 33.401[5], clause 7.2.4.3.1</Reference>
+              <Description>&quot;The MME shall protect the SECURITY MODE COMMAND message with the integrity algorithm, which has the highest priority according to the ordered lists.&quot; as specified in TS 33.401 [5], clause 7.2.4.3.1.&quot;
+NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It should properly read: &quot;…which has the highest priority according to the ordered lists and is contained in the UE EPS security capabilities.&quot;</Description>
+              <ThreatReference>TR 33.926 [9], A.2.3.2 NAS integrity selection and use</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.3.3	NAS NULL integrity protection" level="5">
+            <Requirement>
+              <Name>NAS NULL integrity protection</Name>
+              <Reference>TS 33.401[5], clause 5.1.4.1</Reference>
+              <Description>&quot;EIA0 shall only be used for unauthenticated emergency calls.&quot; as specified in TS 33.401[5], clause 5.1.4.1.&quot;</Description>
+              <ThreatReference>TR 33.926 [9], A.2.3.3 NAS NULL integrity protection</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.3.4	NAS confidentiality protection" level="5">
+            <Requirement>
+              <Name>NAS confidentiality protection</Name>
+              <Reference>TS 33.401[5], clause 7.2.4.3.1</Reference>
+              <Description>&quot;The UE…sends the NAS security mode complete message to MME ciphered and integrity protected.&quot; as specified in TS 33.401[5], clause 7.2.4.3.1.</Description>
+              <ThreatReference>TR 33.926 [9], A.2.3.4 NAS confidentiality protection</ThreatReference>
+            </Requirement>
+          </Section>
+        </Section>
+        <Section title="4.2.2.4	Security in intra-RAT mobility" level="4">
+          <Section title="4.2.2.4.1	Bidding down prevention in X2-handovers" level="5">
+            <Requirement>
+              <Name>Bidding down prevention in X2-handovers</Name>
+              <Reference>TS 33.401[5], clause 7.2.4.2.2</Reference>
+              <Description>&quot;The MME shall verify that the UE EPS security capabilities received from the eNB are the same as the UE EPS security capabilities that the MME has stored.&quot; as specified in TS 33.401[5], clause 7.2.4.2.2.&quot;</Description>
+              <ThreatReference>TR 33.926 [9], A.2.4.1 Bidding down on X2-Handover</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.4.2	NAS integrity protection algorithm selection in MME change" level="5">
+            <Requirement>
+              <Name>NAS integrity protection algorithm selection in MME change</Name>
+              <Reference>TS 33.401[5], clause 7.2.4.3.2</Reference>
+              <Description>&quot;In case there is change of MMEs and algorithms to be used for NAS, the target MME shall initiate a NAS security mode command procedure and include the chosen algorithms and the UE security capabilities (to detect modification of the UE security capabilities by an attacker) in the message to the UE (see clause 7.2.4.4). The MME shall select the NAS algorithms which have the highest priority according to the ordered lists (see clause 7.2.4.3.1).&quot; as specified in TS 33.401[5], clause 7.2.4.3.2.&quot;</Description>
+              <ThreatReference>TR 33.926 [9], A.2.4.2 NAS integrity protection algorithm selection in MME change</ThreatReference>
+            </Requirement>
+          </Section>
+        </Section>
+        <Section title="4.2.2.5	Security in inter-RAT mobility" level="4">
+          <Section title="4.2.2.5.1	No access with GSM SIM via idle mode mobility" level="5">
+            <Requirement>
+              <Name>Idle mode mobility into E-UTRAN forbidden for GSM subscribers</Name>
+              <Reference>TS 33.401[5], clause 9.1.2</Reference>
+              <Description>&quot;In case the MM context in the Context Response/SGSN Context Response indicates GSM security mode, the MME shall abort the procedure.&quot; as specified in TS 33.401, clause 9.1.2.</Description>
+              <ThreatReference>TR 33.926 [9], A.2.5.1 GSM SIM access via idle mode mobility</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.5.2	No access with GSM SIM via handover" level="5">
+            <Requirement>
+              <Name>Handover into E-UTRAN forbidden for GSM subscribers</Name>
+              <Reference>TS 33.401[5], clause 9.2.2</Reference>
+              <Description>&quot;In case the MM context in the Forward relocation request message indicates GSM security mode (i.e. it contains a Kc), the MME shall abort the non-emergency call procedure.&quot; as specified in TS 33.401, clause 9.2.2.</Description>
+              <ThreatReference>TR 33.926 [9], A.2.5.3 GSM SIM access via SRVCC</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.5.3	No access with GSM SIM via SRVCC" level="5">
+            <Requirement>
+              <Name>SRVCC into E-UTRAN forbidden for GSM subscribers</Name>
+              <Reference>TS 33.401[5], clause 14.3.1</Reference>
+              <Description>&quot;If the MME receives a GPRS Kc' from the source MSC server enhanced for SRVCC in the CS to PS HO request, the MME shall reject the request.&quot; as specified in TS 33.401, clause 14.3.1.</Description>
+              <ThreatReference>TR 33.926 [9], A.2.6	Threats related to release of non-emergency bearer</ThreatReference>
+            </Requirement>
+          </Section>
+        </Section>
+        <Section title="4.2.2.6	Security Aspects of IMS Emergency Session Handling" level="4">
+          <Section title="4.2.2.6.1	Authentication failure for emergency bearers" level="5">
+            <Requirement>
+              <Name>Emergency bearer establishment when authentication fails</Name>
+              <Reference>TS 33.401 [5], clause 15.1.</Reference>
+              <Description>&quot;The MME or UE shall always release any established non-emergency bearers, when the authentication fails in the UE or in the MME.&quot; as specified in TS 33.401, clause 15.1.</Description>
+              <ThreatReference>TBA</ThreatReference>
+            </Requirement>
+          </Section>
+        </Section>
+      </Section>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+          <Section title="4.2.3.3	Protecting availability and integrity" level="5"/>
+        </Section>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating Systems" level="3"/>
+      <Section title="4.2.5	Web Servers" level="3"/>
+      <Section title="4.2.6	Network Devices" level="3"/>
+    </Section>
+    <Section title="4.3	MME-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical Baseline" level="3"/>
+      <Section title="4.3.3	Operating Systems" level="3"/>
+      <Section title="4.3.4	Web Servers" level="3"/>
+      <Section title="4.3.5	Network Devices" level="3"/>
+    </Section>
+    <Section title="4.4	MME-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="Annex A (informative):
+Change history" level="8"/>
+    </Section>
+  </Section>
+</Specification>

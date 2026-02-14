@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.521">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	NWDAF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	NWDAF-specific security functional requirements and related test cases" level="2">
+      <Section title="4.2.1	Technical baseline" level="3">
+        <Section title="4.2.1.1	General" level="4"/>
+        <Section title="4.2.1.2	Protecting data and information" level="4">
+          <Section title="4.2.1.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.1.2.2	Protecting data and information – Confidential System Internal Data" level="5"/>
+          <Section title="4.2.1.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.1.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.1.2.5	Logging access to personal data" level="5"/>
+          <Section title="4.2.1.2.6	Protecting data and information – Data masking on integration analysis" level="5">
+            <Requirement>
+              <Name>Data masking on integration analysis about personal data</Name>
+              <Reference>TBA.</Reference>
+              <Description>NWDAF can collect data from UE, NF, OAM, etc. used for analytics. Personal data of the UE's user are involved also. When NWDAF uses such personal data in analytics with other information together, such data correlation operation could bind more personal information with the user's identity. Thus, privacy information about that specific user could be revealed to the person who is allowed to operate data correlation for analytics but not allowed to know the privacy information as the result of data correlation. Therefore, applicable measures (e.g. data masking) shall be applied to mitigate such privacy violation risk.</Description>
+              <ThreatReference>TR 33.926 [ 4], clause 5.3.6.7, Personal Identification Information Violation</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_DATA_MASKING</Name>
+              <Purpose>Verify that no privacy information of operators' users is revealed to the party who is not allowed to have.
+Pre-Condition:
+The vendor shall provide the documentation describing how to create an account for accessing the analytics results.
+Privacy information list (should be specified based on local policy, regulation and others).</Purpose>
+              <ExecutionSteps>1.	Review the documentation provided by the vendor describing how to create the account for accessing the analytics results provided by the NWDAF.
+2.	The tester creates the account, and retrieves the analytics results from the NWDAF using the account.</ExecutionSteps>
+              <ExpectedResults>The tester can create the account, and the account does not reveal subscriber permanent identifier.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g. screenshot containing the results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+      </Section>
+      <Section title="4.2.2	Void" level="3"/>
+    </Section>
+    <Section title="4.3	NWDAF-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical baseline" level="3"/>
+      <Section title="4.3.3	Operating systems" level="3"/>
+      <Section title="4.3.4	Web servers" level="3"/>
+      <Section title="4.3.5	Network devices" level="3"/>
+      <Section title="4.3.6	Network functions in service-based architecture" level="3"/>
+    </Section>
+    <Section title="4.4	NWDAF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative):
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>

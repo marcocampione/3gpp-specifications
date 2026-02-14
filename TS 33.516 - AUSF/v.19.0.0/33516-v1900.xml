@@ -1,0 +1,52 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.516">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	AUSF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	AUSF-specific adaptations of security functional requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the AUSF deriving from 3GPP specifications and related test cases" level="3"/>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating Systems" level="3"/>
+      <Section title="4.2.5	Web Servers" level="3"/>
+      <Section title="4.2.6	Network Devices" level="3"/>
+    </Section>
+    <Section title="4.3	AUSF-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical baseline" level="3"/>
+      <Section title="4.3.3	Operating systems" level="3"/>
+      <Section title="4.3.4	Web servers" level="3"/>
+      <Section title="4.3.5	Network devices" level="3"/>
+      <Section title="4.3.6	Network functions in service-based architecture" level="3"/>
+    </Section>
+    <Section title="4.4	AUSF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port Scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative):
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>

@@ -1,0 +1,308 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.523">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	gNB-CU-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	Security functional adaptations of requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Requirements and test cases deriving from 3GPP specifications" level="3">
+        <Section title="4.2.2.1	Security functional requirements on the gNB-CU deriving from 3GPP specifications – TS 33.501 [3]" level="4">
+          <Section title="4.2.2.1.1	Security functional requirements inherited from gNB" level="5"/>
+          <Section title="4.2.2.1.2	Control plane data confidentiality protection over N2/Xn/F1 interface" level="5">
+            <Requirement>
+              <Name>Control plane data confidentiality protection over N2/Xn/F1 interface.</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9, 9.2 and 9.4.</Reference>
+              <Description>F1-C interface supports confidentiality, integrity and replay protection, the transport of control plane data over N2 is integrity, confidentiality and replay-protected and the transport of control plane data and user data over Xn is integrity, confidentiality and replay-protected as specified in TS 33.501 [3], clauses 5.3.9, 9.2 and 9.4.</Description>
+              <ThreatReference>TR 33.926 [4], clause R.2.2.1 – Control plane data confidentiality protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.1.3	Control plane data integrity protection over N2/Xn/F1 interface" level="5">
+            <Requirement>
+              <Name>Control plane data integrity protection over N2/Xn/F1 interface</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9, 9.2 and 9.4.</Reference>
+              <Description>F1-C interface supports confidentiality, integrity and replay protection, the transport of control plane data over N2 is integrity, confidentiality and replay-protected and the transport of control plane data and user data over Xn shall be integrity, confidentiality and replay-protected as specified in TS 33.501 [3], clauses 5.3.9, 9.2 and 9.4.</Description>
+              <ThreatReference>TR 33.926 [4], clause R.2.2.2 – Control plane data integrity protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.1.4	User plane data confidentiality protection over N3/Xn/F1 interface" level="5">
+            <Requirement>
+              <Name>User plane data confidentiality protection over N3/Xn/F1 interface.</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9, 9.3 and 9.4.</Reference>
+              <Description>The gNB supports confidentiality, integrity and replay protection on the gNB DU-CU F1-U interface for user plane, the transport of user data over N3 is integrity, confidentiality and replay-protected, and the transport of control plane data and user data over Xn is integrity, confidentiality and replay-protected as specified in TS 33.501 [3], clauses 5.3.9, 9.3 and 9.4.</Description>
+              <ThreatReference>TR 33.926 [4], clause R.2.2.3 – User plane data confidentiality protection at gNB.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="4.2.2.1.5	User plane data integrity protection over N3/Xn/F1 interface" level="5">
+            <Requirement>
+              <Name>User plane data integrity protection over N3/Xn/F1 interface.</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9, 9.3 and 9.4.</Reference>
+              <Description>The gNB supports confidentiality, integrity and replay protection on the gNB DU-CU F1-U interface for user plane, the transport of user data over N3 is integrity, confidentiality and replay-protected, and the transport of control plane data and user data over Xn shall be integrity, confidentiality and replay-protected as specified in TS 33.501 [3], clauses 5.3.9, 9.3 and 9.4.</Description>
+              <ThreatReference>TR 33.926 [4], clause R.2.2.4 – User plane data integrity protection.</ThreatReference>
+            </Requirement>
+          </Section>
+        </Section>
+      </Section>
+      <Section title="4.2.3	Technical Baseline" level="3"/>
+      <Section title="4.2.4	Operating systems" level="3"/>
+      <Section title="4.2.5	Web servers" level="3"/>
+      <Section title="4.2.6	Network devices" level="3"/>
+    </Section>
+    <Section title="4.3	Adaptations of hardening requirements and related test cases" level="2"/>
+    <Section title="4.4	Adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port Scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3"/>
+    </Section>
+  </Section>
+  <Section title="5	gNB-CU-CP-specific security requirements and related test cases" level="1">
+    <Section title="5.1	Introduction" level="2"/>
+    <Section title="5.2	Security functional adaptations of requirements and related test cases" level="2">
+      <Section title="5.2.1	Introduction" level="3"/>
+      <Section title="5.2.2	Requirements and test cases deriving from 3GPP specifications" level="3">
+        <Section title="5.2.2.1	Security functional requirements on the gNB-CU-CP deriving from 3GPP specifications – TS 33.501 [3]" level="4">
+          <Section title="5.2.2.1.1	Security functional requirements inherited from gNB" level="5"/>
+          <Section title="5.2.2.1.2	Control plane data confidentiality protection over N2/Xn/F1/E1 interface" level="5">
+            <Requirement>
+              <Name>Control plane data confidentiality protection over N2/Xn/F1/E1 interface.</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9, 5.3.10, 9.2 and 9.4</Reference>
+              <Description>F1-C interface supports confidentiality, integrity and replay protection, the E1 interface between CU-CP and CU-UP is confidentiality, integrity and replay protected, the transport of control plane data over N2 is integrity, confidentiality and replay-protected and the transport of control plane data and user data over Xn is integrity, confidentiality and replay-protected as specified in TS 33.501 [3], clauses 5.3.9, 5.3.10, 9.2 and 9.4.</Description>
+              <ThreatReference>TR 33.926 [4], clause S.2.2.1 – Control plane data confidentiality protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="5.2.2.1.3	Control plane data integrity protection over N2/Xn/F1/E1 interface" level="5">
+            <Requirement>
+              <Name>Control plane data integrity protection over N2/Xn/F1/E1 interface.</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9, 5.3.10, 9.2 and 9.4.</Reference>
+              <Description>F1-C interface supports confidentiality, integrity and replay protection, the E1 interface between CU-CP and CU-UP is confidentiality, integrity and replay protected, the transport of control plane data over N2 is integrity, confidentiality and replay-protected and the transport of control plane data and user data over Xn is integrity, confidentiality and replay-protected as specified in TS 33.501 [3], clauses 5.3.9, 5.3.10, 9.2 and 9.4.</Description>
+              <ThreatReference>TR 33.926 [4], clause S.2.2.2 – Control plane data integrity protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="5.2.2.1.4	Ciphering of user data based on the security policy sent by the SMF" level="5">
+            <Requirement>
+              <Name>Ciphering of user data based on the security policy sent by the SMF.</Name>
+              <Reference>TS 33.501 [3], clause 5.3.2.</Reference>
+              <Description>The gNB activates ciphering of user data based on the security policy sent by the SMF as specified in TS 33.501 [3], clause 5.3.2.</Description>
+              <ThreatReference>TR 33.926 [4], clause S.2.2.6 – Security Policy Enforcement.</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC-UP-DATA-CIP-SMF_gNB-CU-CP</Name>
+              <Purpose>To verify that activation of confidentiality protectionfor user data at the gNB is based on the security policy sent by the SMF via AMF.
+Pre-Condition:
+-	The gNB-CU-CP network product shall be connected in emulated/real network environments. The UE and the 5GC may be simulated.
+-	The tester shall have access to the NG RAN air interface.
+-	The tester shall have knowledge of the RRC and UP ciphering algorithm and protection keys and of the security keys, etc., needed to decrypt the messages on the E1 interface.
+-	RRC ciphering is already activated at the gNB-CU-CP.</Purpose>
+              <ExecutionSteps>All execution steps are to be performed two times. Once with the UP security policies’ ciphering protection in step 2 set to &quot;required&quot; and the second time set to &quot;not needed&quot;.
+1.	The tester triggers PDU session establishment procedure by sending PDU session establishment request message.
+2.	Tester shall trigger the SMF to send the UP security policy with ciphering protection &quot;required&quot; or &quot;not needed&quot; to the gNB-CU-CP.
+3. 	The tester shall capture the Bearer Context Setup Request message sent to the gNB-CU-UP over the E1 interface.
+4.	The tester shall capture the RRC Reconfiguration message sent by gNB-CU-CP to UE over NG RAN air interface.
+5.	The tester shall retrieve the UP ciphering protection indication present in the captured messages.
+6.	The tester shall verify if the UP ciphering policy received at gNB-CU-CP is same as the UP ciphering protection indication notified by the gNB-CU-CP to the UE in the RRC Reconfiguration message and the gNB-CU-UP in the Bearer Context Setup Request message.</ExecutionSteps>
+              <ExpectedResults>Both the  RRC connection Reconfiguration message and Bearer Context Setup Request message indicate that ciphering is to be used in line with the policy received from the SMF.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g. Screenshot containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="5.2.2.1.5	Integrity of user data based on the security policy sent by the SMF" level="5">
+            <Requirement>
+              <Name>Integrity of user data based on the security policy sent by the SMF.</Name>
+              <Reference>TS 33.501 [3], clause 5.3.2.</Reference>
+              <Description>The gNB activates integrity protection of user data based on the security policy sent by the SMF as specified in TS 33.501 [3], clause 5.3.2.</Description>
+              <ThreatReference>TR 33.926 [4], clause S.2.2.6 – Security Policy Enforcement.</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC-UP-DATA-INT-SMF_gNB-CU-CP</Name>
+              <Purpose>To verify that activation of integrity protection for user data packets is based on the security policy sent by the SMF.
+Pre-Condition:
+-	 The gNB-CU-CP network product shall be connected in emulated/real network environments. The UE and the 5GC may be simulated.
+-	The tester shall have access to the NG RAN air interface.
+-	The tester shall have knowledge of the integrity algorithm and protection keys and of the security keys, etc., needed to decrypt the messages on the E1 interface.
+-	RRC integrity is activated at the gNB-CU-CP.</Purpose>
+              <ExecutionSteps>All execution steps are to be performed two times. Once with the UP security policies’ ciphering protection in step 2 set to &quot;required&quot; and the second time set to &quot;not needed&quot;.
+1.	The tester triggers PDU session establishment procedure by sending PDU session establishment request message.
+2.	Tester shall trigger the SMF to send the UP security policy with integrity protection is &quot;required&quot; or &quot;not needed&quot; to the gNB.
+3. 	The tester shall capture the Bearer Context Setup Request message sent to the gNB-CU-UP over the E1 interface.
+4.	The tester shall capture the RRC Reconfiguration message sent by gNB-CU-CP to UE over NG RAN air interface.
+5.	The tester shall retrieve the UP integrity protection indication present in the captured messages.
+6.	Tester shall check whether UP integrity policy received at gNB-CU-CP is same as the UP integrity protection indication notified by the gNB-CU-CP to the UE in the RRC Reconfiguration message and the gNB-CU-UP in the Bearer Context Setup Request message.</ExecutionSteps>
+              <ExpectedResults>Both the  the RRC Reconfiguration message and Bearer Context Setup Request message indicate that integrity is to be used inline with the policy received from the SMF.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g. Screenshot containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+      </Section>
+      <Section title="5.2.3	Technical Baseline" level="3"/>
+      <Section title="5.2.4	Operating systems" level="3"/>
+      <Section title="5.2.5	Web servers" level="3"/>
+      <Section title="5.2.6	Network devices" level="3"/>
+    </Section>
+    <Section title="5.3	Adaptations of hardening requirements and related test cases" level="2"/>
+    <Section title="5.4	Adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="5.4.1	Introduction" level="3"/>
+      <Section title="5.4.2	Port Scanning" level="3"/>
+      <Section title="5.4.3	Vulnerability scanning" level="3"/>
+      <Section title="5.4.4	Robustness and fuzz testing" level="3"/>
+    </Section>
+  </Section>
+  <Section title="6	gNB-CU-UP-specific security requirements and related test cases" level="1">
+    <Section title="6.1	Introduction" level="2"/>
+    <Section title="6.2	Security functional adaptations of requirements and related test cases" level="2">
+      <Section title="6.2.1	Introduction" level="3"/>
+      <Section title="6.2.2	Requirements and test cases deriving from 3GPP specifications" level="3">
+        <Section title="6.2.2.1	Security functional requirements on the gNB-CU-UP deriving from 3GPP specifications – TS 33.501 [3]" level="4">
+          <Section title="6.2.2.1.1	Security functional requirements inherited from gNB" level="5"/>
+          <Section title="6.2.2.1.2	Control plane data confidentiality protection over E1 interface" level="5">
+            <Requirement>
+              <Name>Control plane data confidentiality protection over E1 interface</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.10.</Reference>
+              <Description>The E1 interface between CU-CP and CU-UP is confidentiality, integrity and replay protected as specified in TS 33.501 [3], clauses 5.3.10.</Description>
+              <ThreatReference>TR 33.926 [4], clause T.2.2.1 – Control plane data confidentiality protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="6.2.2.1.3	Control plane data integrity protection over E1 interface" level="5">
+            <Requirement>
+              <Name>Control plane data integrity protection over E1 interface</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.10.</Reference>
+              <Description>The E1 interface between CU-CP and CU-UP is confidentiality, integrity and replay protected as specified in TS 33.501 [3], clauses 5.3.10.</Description>
+              <ThreatReference>TR 33.926 [4], clause T.2.2.2 – Control plane data integrity protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="6.2.2.1.4	User plane data confidentiality protection over N3/Xn/F1 interface" level="5">
+            <Requirement>
+              <Name>User plane data confidentiality protection over N3/Xn/F1 interface.</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9, 9.3 and 9.4.</Reference>
+              <Description>The gNB supports confidentiality, integrity and replay protection on the gNB DU-CU F1-U interface for user plane, the transport of user data over N3 is integrity, confidentiality and replay-protected, and the transport of control plane data and user data over Xn is integrity, confidentiality and replay-protected as specified in TS 33.501 [3], clauses 5.3.9, 9.3 and 9.4.</Description>
+              <ThreatReference>TR 33.926 [4], clause T.2.2.3 – User plane data confidentiality protection at gNB.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="6.2.2.1.5	User plane data integrity protection over N3/Xn/F1 interface" level="5">
+            <Requirement>
+              <Name>User plane data integrity protection over N3/Xn/F1 interface.</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9, 9.3 and 9.4.</Reference>
+              <Description>The gNB supports confidentiality, integrity and replay protection on the gNB DU-CU F1-U interface for user plane, the transport of user data over N3 is integrity, confidentiality and replay-protected, and the transport of control plane data and user data over Xn is integrity, confidentiality and replay-protected as specified in TS 33.501 [3], clauses 5.3.9, 9.3 and 9.4.</Description>
+              <ThreatReference>TR 33.926 [4], clause T.2.2.4 – User plane data integrity protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="6.2.2.1.6	Integrity protection of user data between the UE and the gNB-CU-UP" level="5">
+            <Requirement>
+              <Name>Integrity protection of user data between the UE and the gNB-CU-UP.</Name>
+              <Reference>TS 33.501 [3], clause 5.3.3</Reference>
+              <Description>The gNB supports integrity protection and replay protection of user data between the UE and the gNB as specified in TS 33.501 [3], clause 5.3.3.
+NOTE 2: 	This requirement does not apply to the gNB that is used as a secondary node connecting to the EPC.</Description>
+              <ThreatReference>TR 33.926 [4], clause T.2.2.4 – User plane data integrity protection.</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC-UP-DATA-INT_gNB-CU-UP</Name>
+              <Purpose>To verify that the user data packets are integrity protected over the NG RAN air interface.
+Pre-Condition:
+-	The gNB-CU-UP network product shall be connected in emulated/real network environments. UE may be simulated.
+-	The tester shall enable user plane integrity protection and ensure NIA0 is not used at the gNB-CU-UP network product.
+-	The tester shall have knowledge of integrity algorithm and integrity protection keys.
+-	The tester can capture the message via the NG RAN air interface, or can capture the message at the UE.</Purpose>
+              <ExecutionSteps>1.	The tester triggers the gNB-CU-CP to send a Bearer Context Setup Request message with integrity protection indication &quot;on&quot; to the gNB-CU-UP.
+2.	The tester checks that any user data sent by gNB-CU-UP after receiving the Bearer Context Setup Request message and before UE enters CM-Idle state is integrity protected.</ExecutionSteps>
+              <ExpectedResults>Any user plane packets sent between UE and gNB-CU-UP over the NG RAN air interface after gNB-CU-UP receives the Bearer Context Setup Request is integrity protected.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface e.g. Screenshot containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="6.2.2.1.7	Ciphering of user data between the UE and the gNB-CU-UP" level="5">
+            <Requirement>
+              <Name>Ciphering of user data between the UE and the gNB-CU-UP</Name>
+              <Reference>TS 33.501 [3], clause 5.3.2</Reference>
+              <Description>The gNB supports ciphering of user data between the UE and the gNB as specified in TS 33.501 [3], clause 5.3.2.</Description>
+              <ThreatReference>TR 33.926 [4], clause T.2.2.3 – User plane data confidentiality protection at gNB</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC-UP-DATA-CIP_gNB</Name>
+              <Purpose>To verify that the user data packets are confidentiality protected over the NG RAN air interface.
+Pre-Condition:
+-	The gNB-CU-UP network product shall be connected in emulated/real network environments. The UE may be simulated.
+-	The tester shall have access to the NG RAN air interface or can capture the message at the UE.
+-	The tester shall enable user plane confidentiality protection and ensure NEA0 is not used at the gNB-CU-UP network product.</Purpose>
+              <ExecutionSteps>1.	The tester triggers the gNB-CU-CP to send a Bearer Context Setup Request message with ciphering protection indication &quot;on&quot; to the gNB-CU-UP.
+2.	The tester checks that any user data sent by the gNB-CU-UP after receiving the Bearer Context Setup Request message and before the UE enters into CM-Idle state is confidentiality protected.</ExecutionSteps>
+              <ExpectedResults>The user plane packets sent to the UE after the gNB-CU-UP receives the Bearer Context Setup Request is confidentiality protected.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface e.g. Screenshot containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+      </Section>
+      <Section title="6.2.3	Technical Baseline" level="3"/>
+      <Section title="6.2.4	Operating systems" level="3"/>
+      <Section title="6.2.5	Web servers" level="3"/>
+      <Section title="6.2.6	Network devices" level="3"/>
+    </Section>
+    <Section title="6.3	Adaptations of hardening requirements and related test cases" level="2"/>
+    <Section title="6.4	Adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="6.4.1	Introduction" level="3"/>
+      <Section title="6.4.2	Port Scanning" level="3"/>
+      <Section title="6.4.3	Vulnerability scanning" level="3"/>
+      <Section title="6.4.4	Robustness and fuzz testing" level="3"/>
+    </Section>
+  </Section>
+  <Section title="7	gNB-DU-specific security requirements and related test cases" level="1">
+    <Section title="7.1	Introduction" level="2"/>
+    <Section title="7.2	Security functional adaptations of requirements and related test cases" level="2">
+      <Section title="7.2.1	Introduction" level="3"/>
+      <Section title="7.2.2	Requirements and test cases deriving from 3GPP specifications" level="3">
+        <Section title="7.2.2.1	Security functional requirements on the gNB-DU deriving from 3GPP specifications – TS 33.501 [3]" level="4">
+          <Section title="7.2.2.1.1	Control plane data confidentiality protection over F1 interface" level="5">
+            <Requirement>
+              <Name>Control plane data confidentiality protection over F1 interface</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9.</Reference>
+              <Description>F1-C interface supports confidentiality, integrity and replay protection as specified in TS 33.501 [3], clauses 5.3.9.</Description>
+              <ThreatReference>TR 33.926 [4], clause U.2.2.1 – Control plane data confidentiality protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="7.2.2.1.2	Control plane data integrity protection over F1 interface" level="5">
+            <Requirement>
+              <Name>Control plane data integrity protection over F1 interface</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9.</Reference>
+              <Description>F1-C interface supports confidentiality, integrity and replay protection as specified in TS 33.501 [3], clauses 5.3.9.</Description>
+              <ThreatReference>TR 33.926 [4], clause U.2.2.2 – Control plane data integrity protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="7.2.2.1.3	User plane data confidentiality protection over F1 interface" level="5">
+            <Requirement>
+              <Name>User plane data confidentiality protection over F1 interface.</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9.</Reference>
+              <Description>The gNB supports confidentiality, integrity and replay protection on the gNB DU-CU F1-U interface for user plane as specified in TS 33.501 [3], clauses 5.3.9.</Description>
+              <ThreatReference>TR 33.926 [4], clause U.2.2.3 – User plane data confidentiality protection at gNB.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="7.2.2.1.4	User plane data integrity protection over F1 interface" level="5">
+            <Requirement>
+              <Name>User plane data integrity protection over F1 interface.</Name>
+              <Reference>TS 33.501 [3], clauses 5.3.9.</Reference>
+              <Description>The gNB supports confidentiality, integrity and replay protection on the gNB DU-CU F1-U interface for user plane as specified in TS 33.501 [3], clauses 5.3.9.</Description>
+              <ThreatReference>TR 33.926 [4], clause U.2.2.4 – User plane data integrity protection.</ThreatReference>
+            </Requirement>
+          </Section>
+          <Section title="7.2.2.1.5	Security functional requirements inherited from gNB" level="5"/>
+        </Section>
+      </Section>
+      <Section title="7.2.3	Technical Baseline" level="3"/>
+      <Section title="7.2.4	Operating systems" level="3"/>
+      <Section title="7.2.5	Web servers" level="3"/>
+      <Section title="7.2.6	Network devices" level="3"/>
+    </Section>
+    <Section title="7.3	Adaptations of hardening requirements and related test cases" level="2"/>
+    <Section title="7.4	Adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="7.4.1	Introduction" level="3"/>
+      <Section title="7.4.2	Port Scanning" level="3"/>
+      <Section title="7.4.3	Vulnerability scanning" level="3"/>
+      <Section title="7.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative):
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>

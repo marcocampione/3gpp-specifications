@@ -1,0 +1,485 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.512">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	AMF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	AMF-specific adaptations of security functional requirements and related test cases." level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the AMF deriving from 3GPP specifications and related test cases" level="3">
+        <Section title="4.2.2.0	General" level="4"/>
+        <Section title="4.2.2.1	Authentication and key agreement procedure" level="4">
+          <Section title="4.2.2.1.1	Synchronization failure handling" level="5">
+            <Requirement>
+              <Name>Synchronization failure handling</Name>
+              <Reference>TS 33.501 [2], clause 6.1.3.3.2</Reference>
+              <Description>As specified in TS 33.501 [2] clause 6.1.3.3.2, upon receiving an authentication failure message with synchronisation failure (AUTS) from the UE, the SEAF sends an Nausf_UEAuthentication_Authenticate Request message with a synchronisation failure indication to the AUSF and the AUSF sends an Nudm_UEAuthentication_Get Request message to the UDM/ARPF, together with the following parameters:
+-	RAND sent to the UE in the preceding Authentication Request, and
+-	AUTS received by the SEAF in the response from the UE to that request, as described in clause 6.1.3.2.0 and 6.1.3.3.1 of TS 33.501 [2].
+An SEAF will not react to unsolicited &quot;synchronisation failure indication&quot; messages from the UE.
+The SEAF does not send new authentication requests to the UE before having received the response to its Nausf_UEAuthentication_Authenticate Request message with a &quot;synchronisation failure indication&quot; from the AUSF (or before it is timed out)..</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.2.1, Resynchronization</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_SYNC_FAIL_SEAF_AMF</Name>
+              <Purpose>Verify that synchronization failure is correctly handled by the SEAF/AMF.</Purpose>
+              <PreConditions>-	Test environment with UE and AUSF. The UE and the AUSF may be simulated.
+-	AMF network product is connected in emulated/real network environment.</PreConditions>
+              <ExecutionSteps>Test A:
+1)	The tester configures the UE to send an authentication failure message to the SEAF/AMF with synchronisation failure (AUTS), after receiving the NAS authentication request message as part of a registration procedure.
+2)	The SEAF/AMF sends a Nausf_UEAuthentication_Authenticate Request message with a &quot;synchronisation failure indication&quot; to the AUSF.
+3)	The AUSF sends a Nausf_UEAuthentication_Authenticate Response message to the SEAF/AMF immediately after receiving the request from the SEAF/AMF, to make sure the SEAF/AMF will receive the response before timeout.
+NOTE: The timeout timer in Test A is the NAS timer T3520.
+Test B:
+1)	The tester configures the UE to send an authentication failure message to the SEAF/AMF with synchronisation failure (AUTS), after receiving the NAS authentication request message as part of a registration procedure.
+2)	The SEAF/AMF sends a Nausf_UEAuthentication_Authenticate Request message with a &quot;synchronisation failure indication&quot; to the AUSF.
+3) The tester configures the AUSF in a way, that it does not send a Nausf_UEAuthentication_Authenticate Response message to the SEAF/AMF before timeout.
+Test C:
+1)	The tester triggers a UE to perform a Registration Procedure.
+2)	While the UE is registered, the tester sends an unsolicited &quot;synchronisation failure indication&quot; message to the SEAF/AMF.</ExecutionSteps>
+              <ExpectedResults>Test A and Test B: Before receiving Nausf_UEAuthentication_Authenticate Response message from the AUSF and before the timer for receiving Nausf_UEAuthentication_Authenticate Response message runs out,
+-	For Test A, the SEAF/AMF may initiate new authentication towards the UE.
+-	For Test B, the SEAF/AMF does not send any new authentication request to the UE.
+Test C: The SEAF/AMF does not process the unsolicited &quot;synchronisation failure indication&quot; messages.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet capture or application logs containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.1.2	RES* verification failure handling" level="5">
+            <Requirement>
+              <Name>RES* verification failure handling</Name>
+              <Reference>TS 33.501 [2], clause 6.1.3.2.2</Reference>
+              <Description>As specified in TS 33.501 [2], clause 6.1.3.2.2, the SEAF proceeds with step 10 in Figure 6.1.3.2-1 of TS 33.501 [2] and after receiving the Nausf_UEAuthentication_Authenticate Response message from the AUSF in step 12 in Figure 6.1.3.2-1, proceed as described below:
+-	If the AUSF has indicated in the Nausf_UEAuthentication_Authenticate Response message to the SEAF that the verification of the RES* was not successful in the AUSF, or
+-	if the verification of the RES* was not successful in the SEAF,
+then the SEAF either rejects the authentication by sending an Authentication Reject to the UE if the SUCI was used by the UE in the initial NAS message or the SEAF/AMF initiates an Identification procedure with the UE if the 5G-GUTI was used by the UE in the initial NAS message to retrieve the SUCI and an additional authentication attempt may be initiated.
+Also, if the SEAF does not receive any Nausf_UEAuthentication_Authenticate Response message from the AUSF as expected, then the SEAF either rejects the authentication to the UE or initiate an Identification procedure with the UE.</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.2.3, RES* verification failure</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_RES_STAR_VERIFICATION_FAILURE</Name>
+              <Purpose>1)	Verify that the SEAF/AMF correctly handles RES* verification failure detected in the SEAF/AMF or/and in the AUSF, when the SUCI is included in the initial NAS message.
+2)	Verify that the SEAF/AMF correctly handles RES* verification failure detected in the SEAF/AMF or/and in the AUSF, when the 5G-GUTI is included in the initial NAS message.
+3)	Verify that the SEAF/AMF correctly handles a missing Nausf_UEAuthentication_Authenticate Response message from the AUSF.
+Procedure and execution steps:</Purpose>
+              <PreConditions>Test environment with UE and AUSF. The UE and the AUSF may be simulated.</PreConditions>
+              <ExecutionSteps>Test Case A:
+1)	The tester triggers the UE to send a Registration Request with SUCI to the SEAF/AMF under test, to trigger the SEAF/AMF under test to initiate the authentication, i.e. to send Nausf_UEAuthentication_Authenticate Request to the AUSF.
+2)	The AUSF, after receiving the request from the SEAF/AMF under test, responds with a Nausf_UEAuthentication_Authenticate Response message with an authentication vector to the SEAF/AMF under test.
+3)	The UE, after receiving the Authentication Request message from the SEAF/AMF under test, returns an incorrect RES* (prepared by the tester) to the SEAF/AMF under test in the NAS Authentication Response message, which will trigger the AMF to compute HRES*, compare HRES* with HXRES* and send an authentication request to the AUSF. The tester captures the value of RES* in the request.
+4)	The AUSF returns the indication of RES* verification failure to the AMF under test.
+Test Case B:
+1)	The tester triggers the UE to send a Registration Request with a 5G-GUTI to the SEAF/AMF under test, to trigger the SEAF/AMF under test to initiate the authentication, i.e. to send Nausf_UEAuthentication_Authenticate Request to the AUSF.
+2)	The AUSF, after receiving the request from the SEAF/AMF under test, responds with a Nausf_UEAuthentication_Authenticate Response message with an authentication vector to the SEAF/AMF under test.
+3)	The UE, after receiving the Authentication Request message from the SEAF/AMF under test, returns an incorrect RES* (prepared by the tester) to the SEAF/AMF in the NAS Authentication Response message, which will trigger the AMF to compute HRES* and compare HRES* with HXRES*, and send an authentication request to the AUSF. The tester captures the value of RES* in the request.
+4)	The AUSF returns an indication of RES* verification failure to the AMF under test.
+Test Case C:
+1)	The tester triggers the UE to send a Registration Request with SUCI to the SEAF/AMF under test, to trigger the SEAF/AMF under test to initiate the authentication, i.e. to send Nausf_UEAuthentication_Authenticate Request to the AUSF.
+2)	The AUSF, after receiving the request from the SEAF/AMF under test, responds with a Nausf_UEAuthentication_Authenticate Response message with an authentication vector to the SEAF/AMF under test.
+3)	The UE returns RES* to the SEAF/AMF under test in the NAS Authentication Response message, which will trigger the AMF to compute HRES*, compare HRES* with HXRES*, and send to the received RES* to the AUSF.
+4)		The tester prepares the AUSF or intercepts and modifies its Nausf_UEAuthentication_Authenticate Response message to the SEAF/AMF to indicate that the RES* verification was not successful in the AUSF.
+Test Case D:
+1)	The tester triggers the UE to send a Registration Request with 5G-GUTI to the SEAF/AMF under test, to trigger the SEAF/AMF under test to initiate the authentication, i.e. to send Nausf_UEAuthentication_Authenticate Request to the AUSF.
+2)	The AUSF, after receiving the request from the SEAF/AMF under test, responds with a Nausf_UEAuthentication_Authenticate Response message with an authentication vector to the SEAF/AMF under test.
+3)	The UE returns RES* to the SEAF/AMF under test in the NAS Authentication Response message, which will trigger the AMF to compute HRES*, compare HRES* with HXRES*, and send to the received RES* to the AUSF.
+4)	The tester prepares the AUSF or intercepts and modifies its Nausf_UEAuthentication_Authenticate Response message to the SEAF/AMF to indicate that the RES* verification was not successful in the AUSF.
+Test Case E:
+1)	The tester triggers the UE to send a Registration Request with SUCI to the SEAF/AMF under test, to trigger the SEAF/AMF under test to initiate the authentication, i.e. to send Nausf_UEAuthentication_Authenticate Request to the AUSF.
+2)	The AUSF, after receiving the request from the SEAF/AMF under test, responds with a Nausf_UEAuthentication_Authenticate Response message with an authentication vector to the SEAF/AMF under test.
+3)	The UE returns RES* to the SEAF/AMF under test in the NAS Authentication Response message, which will trigger the AMF to compute HRES*, compare HRES* with HXRES*, and send the received RES* to the AUSF.
+4)	The tester prepares the AUSF to not return the Nausf_UEAuthentication_Authenticate Response message and therefore trigger a timeout at the SEAF/AMF.
+Test Case F:
+1)	The tester triggers the UE to send a Registration Request with 5G-GUTI to the SEAF/AMF under test, to trigger the SEAF/AMF under test to initiate the authentication, i.e. to send Nausf_UEAuthentication_Authenticate Request to the AUSF.
+2)	The AUSF, after receiving the request from the SEAF/AMF under test, responds with a Nausf_UEAuthentication_Authenticate Response message with an authentication vector to the SEAF/AMF under test.
+3)	The UE returns RES* to the SEAF/AMF under test in the NAS Authentication Response message, which will trigger the AMF to compute HRES*, compare HRES* with HXRES*, and send the received RES* to the AUSF.
+4) 	The tester prepares the AUSF to not return the Nausf_UEAuthentication_Authenticate Response message and therefore trigger a timeout at the SEAF/AMF.
+NOTE:	The timeout timer is the NAS timer T3520.</ExecutionSteps>
+              <ExpectedResults>For test case A and C, the SEAF/AMF rejects the authentication by sending an Authentication Reject to the UE.
+For test case B and D, the SEAF/AMF initiates an Identification procedure with the UE to retrieve the SUCI.
+For test case E and F, the SEAF/AMF rejects the authentication to the UE or initiate an Identification procedure with the UE.
+For test case A and B, a null value RES* is in the Nausf_UEAuthentication_Authenticate Request message sent from the SEAF/AMF to the AUSF. (stated in TS 29.509 [10], clause 5.2.2.2.2).</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.1.3	NAS based redirection from 5GS to EPS" level="5">
+            <Requirement>
+              <Name>NAS based redirection from 5GS to EPS</Name>
+              <Reference>TS 33.501 [2], clause 6.16.4, TS 23.501 [8], clause 5.31.3.</Reference>
+              <Description>As specified in TS 33.501 [2], clause 6.16.4, when a UE initiates registration procedure with the AMF, the AMF may redirect the UE from 5GC to EPC by including a EMM cause indicating to the UE that it shall not use 5GC, as described in clause 5.31.3 in TS 23.501 [2]. The following requirements apply to Registration Reject message with an EMM cause which indicates to the UE that the UE shall not use 5GC:
+-	the AMF only sends such a Registration Reject message once NAS security has been established between the AMF and the UE; and
+-	the UE only acts upon such Registration Reject message if received integrity protected and if UE has verified the integrity of the Registration Reject message successfully.
+NOTE 1:	Void
+In addition, in networks that support CIoT features in both EPC and 5GC, the operator may steer UEs from a specific CN type due to operator policy, e.g. due to roaming agreements, Preferred and Supported Network Behaviour, load redistribution, etc. Operator policies in EPC and 5GC are assumed to avoid steering UEs back and forth between EPC and 5GC.
+Threat Reference:  TR 33.926 [6], clause K.2.8, NAS based redirection from 5GS to EPS in 5G CIoT</Description>
+            </Requirement>
+            <TestCase>
+              <Name>TC_AMF_REDIRECTION_5GS_EPS</Name>
+              <Purpose>Verify that AMF under test does not send a Registration Reject message containing an EMM cause indicating to the UE that the UE shall not use 5GC, if NAS security is not established.
+NOTE 2: Void</Purpose>
+              <PreConditions>-	AMF under test supports the security handling in CIoT.
+-	Test environment with a CIoT UE. The UE may be simulated.
+-	AMF under test is connected in emulated/real network environment.
+-	Tester configures the operator policy of the AMF that all the UEs sending initial registration request should be redirected from 5GS to EPS.</PreConditions>
+              <ExecutionSteps>1.	The tester triggers the UE to initiate an initial registration procedure with the AMF.
+2.	The AMF under test determines that the UE shall not use 5GC and needs to redirect the UE from 5GC to EPC.
+3.	The AMF under test sends a Registration Reject message with a 5GMM cause indicating to the UE that the UE shall not use 5GC.</ExecutionSteps>
+              <ExpectedResults>The NAS SMC is performed before sending the Registration Reject message.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.1.4	NAS integrity failure" level="5">
+            <Requirement>
+              <Name>NAS integrity failure</Name>
+              <Reference>TS 33.501 [2] clause 6.4.3.3.</Reference>
+              <Description>In case of failed integrity check (i.e. faulty or missing NAS-MAC) is detected after the start of NAS integrity protection, the concerned message shall be discarded except for some NAS messages specified in TS 24.501.
+Threat Reference:  TBD</Description>
+            </Requirement>
+            <TestCase>
+              <Name>TC_AMF_NAS_INTEGRITY_FAILURE</Name>
+              <Purpose>Verify that AMF under test drops messages in case the NAS integrity fails or is missing.</Purpose>
+              <PreConditions>-	Test environment with UE. The UE may be simulated.
+-	AMF under test is connected in emulated/real network environment.
+- 	NAS Integrity algorithm different than NIA0 is used.</PreConditions>
+              <ExecutionSteps>Test case 1 (wrong NAS-MAC):
+1. The tester triggers the UE to initiate an initial registration procedure with the AMF.
+2. The AMF sends the Security Mode Complete message to the UE.
+3. After the Security Mode Complete message, send a NAS message from the UE to the AMF with a wrong NAS-MAC. The message used must not be an exception in TS 24.501 [5].
+Test case 2 (missing NAS-MAC):
+1. The tester triggers the UE to initiate an initial registration procedure with the AMF.
+2. The AMF sends the Security Mode Complete message to the UE.
+3. After the Security Mode Complete message, send a NAS message from the UE to the AMF removing the NAS-MAC field. The message used must not be an exception in TS 24.501 [5].</ExecutionSteps>
+              <ExpectedResults>In both test cases, the AMF discards the NAS messages.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.2	Void" level="4"/>
+        <Section title="4.2.2.3	Security mode command procedure" level="4">
+          <Section title="4.2.2.3.1	Replay protection of NAS signalling messages" level="5">
+            <Requirement>
+              <Name>Replay protection of NAS signalling messages</Name>
+              <Reference>TS 33.501 [2], clause 5.5.2.</Reference>
+              <Description>The AMF supports integrity protection and replay protection of NAS-signalling as specified in TS 33.501 [2], clause 5.5.2.</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.3.1, Bidding Down</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_NAS_REPLAY_AMF</Name>
+              <Purpose>Verify that the NAS signalling messages are replay protected by AMF over N1 interface between UE and AMF.
+Procedure and execution steps:
+Pre-Condition:
+-	AMF network product is connected in emulated/real network environment.
+-	Tester shall have access to the NAS signalling packets sent between UE and AMF over N1 interface.
+-	Tester shall ensure that integrity protection algorithm other than NIA0 is used.</Purpose>
+              <ExecutionSteps>1.	The tester shall capture the NAS Security Mode Command procedure taking place between UE and AMF over N1 interface using any network analyser.
+2.	The tester shall filter the NAS Security Mode Complete message by using a filter.
+3.	The tester shall replay the captured NAS Security Mode Complete message.
+4.	The tester shall check whether the replayed NAS Security Mode Complete message was not processed by the AMF by capturing traffic over the N1 interface to see if no corresponding response message was sent by the AMF. If applicable, AMF application logs could be checked for the rejection of the replayed NAS Security Mode Complete message.</ExecutionSteps>
+              <ExpectedResults>The NAS signalling messages sent from the UE to the AMF over N1 interface are replay protected.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.3.2	NAS NULL integrity protection" level="5">
+            <Requirement>
+              <Name>NAS NULL integrity protection</Name>
+              <Reference>TS 33.501 [2], clause 5.5.2</Reference>
+              <Description>NIA0 is disabled in AMF in the deployments where support of unauthenticated emergency session is not a regulatory requirement as specified in TS 33.501 [2], clause 5.5.2</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.3.3, NAS NULL integrity protection</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_NAS_NULL_INT_AMF</Name>
+              <Purpose>Verify that NAS NULL integrity protection algorithm is used correctly.</Purpose>
+              <PreConditions>-	Test environment with a UE. The UE may be simulated.
+-	The AMF under test is configured to initiate authentication for both emergency and non-emergency registrations.</PreConditions>
+              <ExecutionSteps>Test case A:
+1.	The tester triggers the UE to initiate an emergency registration.
+2.	The AMF derives the KAMF and NAS signalling keys after successful authentication of the UE.
+3.	The AMF sends the NAS Security Mode Command message to the UE containing the selected NAS algorithms.
+Test case B:
+1.	The tester triggers the UE to initiate a non-emergency registration.
+2.	The AMF derives the KAMF and NAS signalling keys after successful authentication of the UE.
+3.	The AMF sends the NAS Security Mode Command message to the UE containing the selected NAS algorithms.</ExecutionSteps>
+              <ExpectedResults>In both emergency and non-emergency registrations, the UE was successfully authentication and the integrity algorithm selected by the AMF in the NAS SMC message is different from NIA0.
+The NAS Security Mode Command message is integrity protected by the AMF.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.3.3	NAS integrity algorithm selection and use" level="5">
+            <Requirement>
+              <Name>NAS integrity algorithm selection and use</Name>
+              <Reference>TS 33.501 [2], clause 6.7.1</Reference>
+              <Description>The AMF initiates a NAS security mode command procedure, and include the chosen algorithm and UE security capabilities (to detect modification of the UE security capabilities by an attacker) in the message to the UE (see sub-clause 6.7.2 of TS 33.501 [2]). The AMF selects the NAS algorithm which have the highest priority according to the ordered lists as specified in TS 33.501 [2], clause 5.5.2.</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.3.2, NAS integrity selection and use</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_NAS_INT_SELECTION_USE_AMF</Name>
+              <Purpose>Verify that the AMF selects the NAS integrity algorithm which has the highest priority according to the ordered list of supported integrity algorithms and is contained in the 5G security capabilities supported by the UE.
+Verify that the selected NAS security algorithm is being used.</Purpose>
+              <PreConditions>-	Test environment with a UE containing its 5G security capabilities, AUSF and UDM. The UE, AUSF and UDM may be simulated.
+-	The list of ordered NAS integrity algorithms is configured on the AMF under test.
+-	The tester is able to configure the list of ordered NAS integrity algorithms on the AMF under test.</PreConditions>
+              <ExecutionSteps>1)	The tester triggers the UE to send a Registration Request with Initial Registration type to the AMF under test.
+2)	The tester filters the Security Mode Command and Security Mode Complete messages.
+3)	The tester examines the selected integrity algorithm in the SMC against the list of ordered NAS integrity algorithm and the 5G security capabilities supported by the UE. The tester examines the MAC verification of the Security Mode Complete at the AMF under test.
+4)	The tester changes the default order of the list of ordered NAS integrity algorithms on the AMF to one other valid configuration and repeats step 1-3 once.</ExecutionSteps>
+              <ExpectedResults>The selected integrity algorithm has the highest priority according to the list of ordered NAS integrity algorithm and is contained in the UE 5G security capabilities.
+The MAC verification of the Security Mode Complete message is successful.</ExpectedResults>
+              <EvidenceFormat>Logs and communication flow saved in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.4	Security in intra-RAT mobility" level="4">
+          <Section title="4.2.2.4.1	Bidding down prevention in Xn-handover" level="5">
+            <Requirement>
+              <Name>Bidding down prevention in Xn-handovers</Name>
+              <Reference>TS 33.501 [2], clause 6.7.3.1</Reference>
+              <Description>In the Path-Switch message, the target gNB/ng-eNB sends the UE's 5G security capabilities received from the source gNB/ng-eNB to the AMF. The AMF verifies that the UE's 5G security capabilities received from the target gNB/ng-eNB are the same as the UE's 5G security capabilities that the AMF has locally stored. If there is a mismatch, the AMF sends its locally stored 5G security capabilities of the UE to the target gNB/ng-eNB in the Path-Switch Acknowledge message. The AMF supports logging capabilities for this event and may take additional measures, such as raising an alarm; as specified in TS 33.501 [2], clause 6.7.3.1.</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.4.1, Bidding down on Xn-Handover</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_BIDDING_DOWN_XN_AMF</Name>
+              <Purpose>Verify that bidding down is prevented by the AMF under test in Xn handovers.</Purpose>
+              <PreConditions>-	Test environment with (source and target) gNBs may be simulated.
+-	The AMF under test is configured with the UE’s security context for the UE.
+-	The AMF under test is configured to log UE security capability mismatch.</PreConditions>
+              <ExecutionSteps>1)	The tester sends 5G security capabilities for the UE, different from the ones stored in the AMF, to the AMF under test using a Path-Switch message.
+2)	The tester captures the Path-Switch Acknowledge message sent by AMF under test to the target gNB.
+3)	The tester examines the AMF log regarding the capability mismatch.</ExecutionSteps>
+              <ExpectedResults>The Path-Switch Acknowledge message sent by AMF under test to the target gNB, which includes the locally stored 5G security capabilities in the AMF under test for that UE.
+The log entry shows that the capability mismatch is logged.
+Expected format of evidence
+Evidence suitable for the interface, e.g., Screenshot, packet captures and application log file containing the operational results.</ExpectedResults>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.4.2	NAS protection algorithm selection in AMF change" level="5">
+            <Requirement>
+              <Name>NAS protection algorithm selection in AMF change</Name>
+              <Reference>TS 33.501 [2], clause 6.7.1.2</Reference>
+              <Description>If the change of the AMF at N2-Handover or mobility registration update results in the change of algorithm to be used for establishing NAS security, the target AMF indicates the selected algorithm to the UE as defined in Clause 6.9.2.3.3 of TS 33.501 [2] for N2-Handover (i.e., using NAS Container) and Clause 6.9.3 of the same document for mobility registration update (i.e., using NAS SMC). The AMF shall select the NAS algorithm which has the highest priority according to the ordered lists (see sub-clause 6.7.1.1 of TS 33.501 [2]) as specified in TS 33.501 [2], clause 6.7.1.2.</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.4.2, NAS integrity protection algorithm selection in AMF change</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_NAS_ALG_AMF_CHANGE_AMF</Name>
+              <Purpose>Verify that NAS protection algorithms are selected correctly.</Purpose>
+              <PreConditions>-	Test environment with source gNB, target gNB and source AMF. Source and target gNBs and source AMF may be simulated.
+-	The ordered lists of NAS algorithms are configured such that the algorithms selected by the AMF under test are different from the ones received from the source AMF.</PreConditions>
+              <ExecutionSteps>Test case 1: N2-Handover
+1)	The AMF under test receives the UE security capabilities and the NAS algorithms used by the source AMF from the source AMF. The AMF under test selects the NAS algorithms which have the highest priority according to the ordered lists.
+2)	The tester captures the NGAP HANDOVER REQUEST message containing the NASC IE (NAS Container) sent by the AMF under test to the gNB.
+Test case 2: Mobility registration update
+1)	The AMF under test receives the UE security capabilities and the NAS algorithms used by the source AMF from the source AMF.
+2)	The AMF under test selects the NAS algorithms which have the highest priority according to the ordered lists.</ExecutionSteps>
+              <ExpectedResults>For Test case 1, the NASC IE of the captured NGAP HANDOVER REQUEST message sent by the AMF under test to the gNB includes the chosen algorithm.
+For Test case 2, the AMF under test initiates a NAS security mode command procedure and includes the chosen algorithms.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.5	5G-GUTI allocation" level="4">
+          <Section title="4.2.2.5.1	5G-GUTI allocation" level="5">
+            <Requirement>
+              <Name>5G-GUTI allocation</Name>
+              <Reference>TS 33.501 [2], clause 6.12.3</Reference>
+              <Description>As specified in TS 33.501 [2], clause 6.12.3, a new 5G-GUTI is sent to a UE only after a successful activation of NAS security. The 5G-GUTI is defined in TS 23.003 [19].
+Upon receiving Registration Request message of type &quot;initial registration&quot; or &quot;mobility registration update&quot; from a UE, the AMF shall send a new 5G-GUTI to the UE during the registration procedure.
+Upon receiving Registration Request message of type &quot;periodic registration update&quot; from a UE, the AMF should send a new 5G-GUTI to the UE during the registration procedure.
+Upon receiving Service Request message sent by the UE in response to a Paging message, the AMF sends a new 5G-GUTI to the UE. This new 5G-GUTI is sent before the current NAS signalling connection is released or the N1 NAS signalling connection is suspended.
+Upon receiving an indication from the lower layers that the RRC connection has been resumed for a UE in 5GMM-IDLE mode with suspend indication in response to a Paging message, the AMF shall send a new 5G-GUTI to the UE. This new 5G-GUTI shall be sent before the current NAS signalling connection is released or the suspension of the N1 NAS signalling connection.
+NOTE 1:	It is left to implementation to re-assign 5G-GUTI more frequently than in cases mentioned above, for example after a Service Request message from the UE not triggered by the network..
+NOTE 2:	Void</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.7.1, Failure to allocate new 5G-GUTI</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_5G_GUTI_ALLOCATION_AMF</Name>
+              <Purpose>Verify that a new 5G-GUTI is allocated by the AMF under test in these scenarios accordingly.</Purpose>
+              <PreConditions>For the following test case 1, 2, and 3, the following pre-conditions apply.
+-	Test environment with a UE. The UE may be simulated.
+-	Tester has access to the NAS signalling packets sent over N1 interface.
+-	Tester has the knowledge of the UE’s security context used for protecting the Registration Request of type &quot;mobility registration update&quot; and Service Request, including the old 5G-GUTI, ngKSI, UE NR security capability, NAS security context. And the tester shall configure the UE’s security context on the AMF under test or perform a new Registration Procedure with the UE for each corresponding test case..
+For the following test case 4, more pre-conditions are required.
+-	Both the UE and the AMF under test support UP CIoT 5GS Optimization.
+-	The UE has requested the use of UP CIoT 5GS Optimization during the registration procedure, and afterwards the UE has gone to CM Idle with Suspend Indicator.</PreConditions>
+              <ExecutionSteps>Test case 1:
+Upon receiving Registration Request message of type &quot;initial registration&quot; from a UE (triggered by the tester), the AMF sends a new 5G-GUTI to the UE during the registration procedure.
+Test case 2:
+Upon receiving Registration Request message of type &quot;mobility registration update&quot; from a UE (triggered by the tester), the AMF sends a new 5G-GUTI to the UE during the registration procedure.
+Test case 3:
+Upon receiving Service Request message sent by the UE in response to a Paging message (triggered by the tester), the AMF sends a new 5G-GUTI to the UE.
+Test case 4:
+The AMF under test is triggered by the tester to page the UE in CM Idle with Suspend Indicator. After paging the UE in CM-Idle with Suspend indicator, the AMF shall send a new 5G-GUTI to the UE.
+NOTE 1:	Test case 4 is only applicable to AMF supporting UP CIoT 5GS Optimization.</ExecutionSteps>
+              <ExpectedResults>For Test case 1, 2, 3 and 4, the tester retrieves a new 5G-GUTI by accessing the NAS signalling packets sent by the AMF under test over N1 interface during registration procedure.
+For Test case 1, 2, 3 and 4, the NAS message encapsulating the new 5G-GUTI is confidentiality and integrity protected by the AMF under test using the NAS security context, which is same as the UE’s NAS security context.
+The new 5G-GUTI is different from the old 5G-GUTI.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.6	Security in registration procedure" level="4">
+          <Section title="4.2.2.6.1	Invalid or unacceptable UE security capabilities handling" level="5">
+            <Requirement>
+              <Name>Invalid or unacceptable UE security capabilities handling</Name>
+              <Reference>TS 24.501 [5], clause 5.5.1.2.8</Reference>
+              <Description>For the case where UE security capabilities invalid or unacceptable: if the REGISTRATION REQUEST message is received with invalid or unacceptable UE security capabilities (e.g. no 5GS encryption algorithms (all bits zero), no 5GS integrity algorithms (all bits zero), mandatory 5GS encryption algorithms not supported or mandatory 5GS integrity algorithms not supported, etc.), the AMF returns a REGISTRATION REJECT message, as specified in TS 24.501 [5], clause 5.5.1.2.8.</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.6.1, Invalid or unacceptable UE security capabilities</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_UE_SEC_CAP_HANDLING_AMF</Name>
+              <Purpose>Verify that UE security capabilities invalid or unacceptable are not accepted by the AMF under test in registration procedure.</Purpose>
+              <PreConditions>Test environment with (target) UE, which may be simulated.
+The tester configures invalid/unacceptable UE security capabilities (no 5GS encryption algorithms (all bits zero), no 5GS integrity algorithms (all bits zero), mandatory 5GS encryption algorithms not supported or mandatory 5GS integrity algorithms not supported) on the UE.</PreConditions>
+              <ExecutionSteps>The tester triggers the UE to send the following sets of UE security capabilities to the AMF under test using registration request messages:
+1)	no 5GS encryption algorithms (all bits zero)
+2)	no 5GS integrity algorithms (all bits zero)
+3)	mandatory 5GS encryption algorithms not supported
+4)	mandatory 5GS integrity algorithms not supported</ExecutionSteps>
+              <ExpectedResults>The tester captures the Registration reject messages sent by AMF under test to the UE.
+Expected format of evidence
+Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.</ExpectedResults>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.6.2	Correct transfer of UE security capabilities in AS security establishment" level="5">
+            <Requirement>
+              <Name>Correct transfer of UE security capabilities in AS security establishment</Name>
+              <Reference>TS 33.501 [2], clause 6.7.3.0.</Reference>
+              <Description>As specified in TS33.501 [2], clause 6.7.3.0, when AS security context is to be established in the gNB/ng-eNB, the AMF sends the UE 5G security capabilities to the gNB/ng-eNB.</Description>
+              <ThreatReference>TR 33.926 [4], clause K.2.6.2 Invalid encoding of UE security capabilities on the NG interface</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_UE_SEC_CAPS_AS_CONTEXT_SETUP</Name>
+              <Purpose>Verify that the UE security capabilities sent by the UE in the initial NAS registration request are the same UE security capabilities sent in the NGAP Context Setup Request message to establish AS security.</Purpose>
+              <PreConditions>-	Test environment with UE, gNodeB, AUSF and UDM. All of them may be simulated.
+-	The tester configures valid UE 5G security capabilities.
+-	The tester captures the NGAP traffic between the gNodeB and AMF on the N2 interface.</PreConditions>
+              <ExecutionSteps>The tester triggers the initial NAS registration procedure with valid UE security capabilities.</ExecutionSteps>
+              <ExpectedResults>The NGAP Context Setup Request contains the same UE 5G security capabilities as sent in the initial NAS registration request.</ExpectedResults>
+              <EvidenceFormat>-	List of configured UE 5G security capabilities
+-	Network trace (*.pcap file) containing the captured messages.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.7	RRCRestablishment in Control Plane CIoT 5GS Optimization" level="4">
+          <Requirement>
+            <Name>RRCRestablishment in Control Plane CIoT 5GS Optimization</Name>
+            <Reference>TS 38.413 [9], clause 8.3.8.2</Reference>
+            <Description>&quot;Upon receiving the RAN CP RELOCATION INDICATION message, the AMF shall authenticate the request using the NAS-level security information received in the UL CP Security Information IE and if the authentication is successful initiate the Connection Establishment Indication procedure including NAS-level security information in the DL CP Security Information IE.
+In case the AMF cannot authenticate the UE's request, the CONNECTION ESTABLISHMENT INDICATION message does not contain security information, and the NG-RAN node fails the RRC Re-establishment.
+In case of authentication failure, the NG-RAN node and the AMF should locally release the allocated NG resources, if any.&quot; as specified in TS 38.413 [9], clause 8.3.8.2.</Description>
+            <ThreatReference>TR 33.926 [5], clause K.2.9.1 –Failed Verification of UE Identity during RRC Reestablishment Procedure for CP CIoT 5GS Optimization.</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_AMF_REEST_CP_CIOT</Name>
+            <Purpose>To verify that the verification of RRC Reestablishment is applied correctly.
+Pre-Condition:
+-	AMF under test is able to support the CIoT scenario.
+-	Test environment with UE and ng-eNB, which may be simulated. The UE is using Control Plane CIoT 5GS Optimization.
+-AMF
+Capability:
+Ability to support the CIoT senario.</Purpose>
+            <ExecutionSteps>Test Case A
+1)	The tester triggers the UE to send the RRC Connection Reestablishment Request message to the ng-eNB.
+2)	The ng-eNB sends RAN CP RELOCATION INDICATION message to the AMF.
+Test Case B
+1)	The tester triggers the UE to send the RRC Connection Reestablishment Request message to the ng-eNB.
+2)	The ng-eNB sends RAN CP RELOCATION INDICATION message to the AMF. The ng-eNB modifies UL NAS MAC in UL CP Security Information</ExecutionSteps>
+            <ExpectedResults>For test case A, the AMF sends CONNECTION ESTABLISHMENT INDICATION to the ng-eNB, and DL CP Security Information is included.
+For test case B, the AMF sends CONNECTION ESTABLISHMENT INDICATION to the ng-eNB, and DL CP Security Information is not included.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.</EvidenceFormat>
+          </TestCase>
+        </Section>
+        <Section title="4.2.2.8	Security in PDU session establishment procedure" level="4">
+          <Section title="4.2.2.8.1	Validation of S-NSSAIs in PDU session establishment request" level="5">
+            <Requirement>
+              <Name>validation of S-NSSAIs in PDU session establishment request</Name>
+              <Reference>TS 24.501 [5], clause 5.4.5.2.5</Reference>
+              <Description>As specified in TS 24.501 [5], clause 5.4.5.2.5, if the Request type IE is set to &quot;initial request&quot; and the S-NSSAI IE contains an S-NSSAI that is not allowed by the network, then the AMF sends back to the UE the 5GSM message which was not forwarded as specified in subclause 5.4.5.3.1 case e) or case f); of TS 24.501 [5].</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.X, Incorrect Validation of S-NSSAIs</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_VALIDTATION_SNSSAI_IN_PDU_REQUEST</Name>
+              <Purpose>Verify that S-NSSAIs which are not within Allowed NSSAI list are not accepted by the AMF under test in PDU session establishment procedure.</Purpose>
+              <PreConditions>-	AMF under test supports the Network Slice Specific Authentication and Authorization scenario.
+-	Test environment with UE, UDM, SMF and NSSAAF, which may be simulated.
+-	The tester configures UDM with an S-NSSAI that require Network Slice-Specific Authentication and Authorizationin in UE’s subscription information.
+-AMF Capability: Ability to support Network Slice Specific Authentication and Authorization scenario.</PreConditions>
+              <ExecutionSteps>Test Case A
+1)	The tester triggers the UE to send the S-NSSAI that require NSSAA to the AMF under test using registration request message.
+2)	After receiving the NSSAA request from the AMF, the NSSAAF sends EAP success to AMF.
+3)	The UE sends PDU session establishment request to the AMF with the S-NSSAI.
+Test Case B
+1)	The tester triggers the UE to send the S-NSSAI that require NSSAA to the AMF under test using registration request message.
+2)	After receiving the NSSAA request from the AMF, the NSSAAF sends EAP failure to AMF.
+3)	The UE sends PDU session establishment request to the AMF with the S-NSSAI.</ExecutionSteps>
+              <ExpectedResults>For test case A, the AMF continues the PDU session establishment procedure by sending a Nsmf_PDUSession_CreateSMContext Request to the SMF.
+For test case B, the AMF aborts the PDU session establishment procedure by sending back the 5GSM message to the UE.
+Expected format of evidence
+Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.
+List of allowed S-NSSAIs.</ExpectedResults>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.9	Network Slice Specific Authentication and Authorization" level="4">
+          <Section title="4.2.2.9.1	NSSAA revocation" level="5">
+            <Requirement>
+              <Name>NSSAA revocation</Name>
+              <Reference>TS 33.501 [2], clause 16.5</Reference>
+              <Description>If no S-NSSAI is left in Allowed NSSAI for an access after the revocation, and no Default NSSAI can be provided to the UE in the Allowed NSSAI or a previous NSSAA failed for the Default NSSAI over this access, then the AMF executes the Network-initiated Deregistration procedure for the access as described in subclause 4.2.2.3.3 in TS 23.502 [8], and it includes in the explicit De-Registration Request message the list of Rejected S-NSSAIs, each of them with the appropriate rejection cause value; as specified in TS 33.501[2], clause 16.5.</Description>
+              <ThreatReference>TR 33.926, clause K.2.X</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_NSSAA_REVOCATION</Name>
+              <Purpose>Verify that AMF deregisters UE when, after slice specific authorization revocation, there is no allowed NSSAI or Default NSSAI that can be used by UE.</Purpose>
+              <PreConditions>-	AMF under test supports Network Slice Specific Authentication and Authorization.
+-	Test environment with UE. The UE may be simulated.
+-	The AMF under test is configured with one specific S-NSSAI in the Allowed NSSAI and no default S-NSSAI.
+-	The UE is registered at the AMF using the specific S-NSSAI configured in the AMF.</PreConditions>
+              <ExecutionSteps>A message requesting the AMF under test to revoke the authorization of the S-NSSAI in the Allowed NSSAI is created simulated and sent to the AMF under test by the tester.</ExecutionSteps>
+              <ExpectedResults>The Deregistration Request message is sent by the AMF under test to the UE.
+The Deregistration Request message includes the list of rejected S-NSSAIs, each of them with the appropriate rejection cause value.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet captures or application log files containing the operational results.
+NOTE 1:	Void</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+      </Section>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating Systems" level="3"/>
+      <Section title="4.2.5	Web Servers" level="3"/>
+      <Section title="4.2.6	Network Devices" level="3"/>
+    </Section>
+    <Section title="4.3	AMF-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical baseline" level="3"/>
+      <Section title="4.3.3	Operating systems" level="3"/>
+      <Section title="4.3.4	Web servers" level="3"/>
+      <Section title="4.3.5	Network devices" level="3"/>
+      <Section title="4.3.6	Network functions in service-based architecture" level="3"/>
+    </Section>
+    <Section title="4.4	AMF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port Scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative):
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>

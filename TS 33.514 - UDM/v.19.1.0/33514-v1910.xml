@@ -1,0 +1,225 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.514">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	UDM-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	Security functional requirements on the UDM derived from 3GPP specifications and related test cases" level="2">
+      <Section title="4.2.0	General" level="3"/>
+      <Section title="4.2.1	User Privacy Procedure" level="3">
+        <Section title="4.2.1.1	De-concealment of SUPI from the SUCI based on the protection scheme used to generate the SUCI" level="4">
+          <Requirement>
+            <Name>De-concealment of SUPI from the SUCI based on the protection scheme used to generate the SUCI.</Name>
+            <Reference>TS 33.501 [2], clause 5.8.2.</Reference>
+            <Description>The SIDF resolves the SUPI from the SUCI based on the protection scheme used to generate the SUCI as specified in TS 33.501 [2], clause 5.8.2.</Description>
+            <ThreatReference>TR 33.926 [4], clause E.2.2.1, Incorrect SUCI de-concealment.</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_DE-CONCEAL_SUPI_from_SUCI_UDM</Name>
+            <Purpose>Verify that the SIDF De-conceals the SUPI from the SUCI based on the protection scheme used to generate the SUCI.
+Procedure and execution steps:
+Pre-Condition:
+-	UDM network product is connected in simulated/real network environment including an AUSF and AMF.
+-	Tester shall have access to the subscription data stored in UDR.
+-	Tester shall record the SUPI from the UE.</Purpose>
+            <ExecutionSteps>Tester shall capture the entire authentication procedure between UE and AMF over N1, N12 and N13 interface using any network analyser.
+1.	Tester shall filter the Nudm_UEAuthentication_Get Response message sent from UDM to AUSF over N13 interface containing the SUPI.
+2.	Tester shall compare the SUPI gotten from UE and the SUPI retrieved from Nudm_UEAuthentication_Get Response message.
+NOTE:	The tester may filter the Nausf_UEAutentication_Authenticate Response message sent from the UDM/AUSF to the AMF over N12 interface containing the SUPI, if the UDM and AUSF network products are collocated without an open N13 interface.</ExecutionSteps>
+            <ExpectedResults>SIDF resolves the SUPI from the SUCI based on the protection scheme used to generate the SUCI.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of screenshot/screen-capture.</EvidenceFormat>
+          </TestCase>
+        </Section>
+        <Section title="4.2.1.2	Rejection of SUCIs using an ECIES protection scheme with an invalid public key." level="4">
+          <Requirement>
+            <Name>Rejection of SUCIs using an ECIES protection scheme with an invalid public key.</Name>
+            <Reference>TS 33.501 [2], clause C.3.3 with reference to SECG SEC 1 [8] clause 2.3.4.</Reference>
+            <Description>Output: An elliptic curve point P, or &quot;invalid&quot; as specified [8], clause 2.3.4.</Description>
+            <ThreatReference>TR 33.926 [4], clause E.2.2.6, Invalid public key.</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_REJECT_SUCI_PROFILE_B_INVALID_PUBKEY_UDM</Name>
+            <Purpose>Verify that the SIDF rejects the SUCI if it uses an ECIES protection scheme and contains an invalid point as the UE’s public key for Profile B.
+Procedure and execution steps:
+Pre-Condition:
+-	The tester has access to the public information of the SUCI profile (e.g., profile type, public key …) of the UDM/SIDF under test.
+-	The tester has configured the UDM to use Profile B.
+-	The tester has access to a SUPI of provisioned subscriber.</Purpose>
+            <ExecutionSteps>1.	The tester selects an invalid point (NOTE 1) and uses the point as a public key to encrypt the SUPI based on the encryption defined in Annex C of 33.501 [2] and SECG SEC 1 [8] (NOTE 2).
+2.	The tester sends the SUCI to the Nudm_UEAuthentication_Get service of the UDM/ SIDF under test.
+NOTE 1: 	An example invalid point for Profile B (of order 47) is: 0x049af0190d4e237c462c94c447052c770f6d348866f1dbbe29a0ee889f18835d6a973457a6730323716ef2c8a3723793be64b54cec40eb86ab194057c95baf8cfe.
+NOTE 2: 	An example SUCI encrypted with the invalid point (above) for the MCC|MNC (274012) and MSIN (001002086) for Profile B (Annex C of 33.501 [2]) is:  suci-0-274-012-0-2-2-049af0190d4e237c462c94c447052c770f6d348866f1dbbe29a0ee889f18835d6a973457a6730323716ef2c8a3723793be64b54cec40eb86ab194057c95baf8cfe8cf9a0959454b74e31a331018b.</ExecutionSteps>
+            <ExpectedResults>The UDM/SIDF rejects the SUCI, and the UDM sends a Nudm_UEAuthentication_Get Response message with an HTTP status code &quot;403 Forbidden&quot; and may include additional error information in the response body (in &quot;ProblemDetails&quot; element) as specified in TS 29.503 [9], clause 5.4.2.2.2, 2b.
+NOTE 3:  	Values for &quot;ProblemDetails&quot; may be AUTHENTICATION_REJECTED or INVALID_SCHEME_OUTPUT as specified in TS 29.503 [9], clause 6.3.3.2.4.2.2-2.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of packet trace (e.g., pcap file).</EvidenceFormat>
+          </TestCase>
+        </Section>
+        <Section title="4.2.1.3	Rejection of SUCIs using an uncompressed point with Profile B." level="4">
+          <Requirement>
+            <Name>Rejection of SUCIs using an uncompressed point with Profile B.</Name>
+            <Reference>TS 33.501 [2], clause C.3.4.0.</Reference>
+            <Description>Profile B shall use point compression to save overhead as specified in TS 33.501 [2], clause C.3.4.0.</Description>
+            <ThreatReference>TR 33.926 [4], clause E.2.2.6, Invalid public key.</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_REJECT_SUCI_PROFILE_B_NO_COMPRESSION_UDM</Name>
+            <Purpose>Verify that the SIDF rejects the SUCI if it uses the ECIES Profile B protection scheme and contains an uncompressed point as the UE's public key.
+Procedure and execution steps:
+Pre-Condition:
+Tester shall have access to the HN’s public key for SUCI decryption with Profile B.</Purpose>
+            <ExecutionSteps>1.	The tester shall generate a SUCI for a registered SUPI with the protection scheme output for Profile B. Theephemeral public key of the UE should be in the uncompressed point format specified in [x] clause 2.3.3. The remaining parts of the protection scheme output retain their format [x].
+NOTE 1: 	The uncompressed point format shall have a size of 65 bytes, and the most significant byte shall be 0x04. The compressed point format shall have a size of 33 bytes, with 0x02 or 0x03 as the most significant byte. Test data in TS 33.501 [2], clause C.4.4.1.
+2.	The tester shall send the SUCI to the Nudm_UEAuthentication_Get service of the UDM/ SIDF under test.</ExecutionSteps>
+            <ExpectedResults>The SIDF rejects the SUCI, and the UDM sends a Nudm_UEAuthentication_Get Response message with an HTTP status code &quot;403 Forbidden&quot; and may include additional error information in the response body (in &quot;ProblemDetails&quot; element) as specified in TS 29.503 [9], clause 5.4.2.2.2, 2b.
+NOTE 2:  Values for &quot;ProblemDetails&quot; may be AUTHENTICATION_REJECTED or INVALID_SCHEME_OUTPUT as specified in TS 29.503 [9], clause 6.3.3.2.4.2.2-2.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of packet trace (e.g., pcap file).</EvidenceFormat>
+          </TestCase>
+        </Section>
+      </Section>
+      <Section title="4.2.2	Authentication and key agreement procedure" level="3">
+        <Section title="4.2.2.1	Synchronization failure handling" level="4">
+          <Requirement>
+            <Name>Synchronization failure handling</Name>
+            <Reference>TS 33.501 [2], clause 6.1.3.3.2.</Reference>
+            <Description>When the UDM/ARPF receives an Nudm_UEAuthentication_Get Request message with a &quot;synchronisation failure indication&quot; it acts as described in TS 33.102 [7], clause 6.3.5 where ARPF is mapped to HE/AuC. The UDM/ARPF sends an Nudm_UEAuthentication_Get Response message with a new authentication vector for either EAP-AKA' or 5G-AKA depending on the authentication method applicable for the user to the AUSF as specified in TS 33.501 [2], clause 6.1.3.3.2.</Description>
+            <ThreatReference>TR 33.926 [4], clause E.2.2.2, Synchronization failure.</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_SYNC_FAILURE_HANDLING_UDM</Name>
+            <Purpose>Verify that synchronization failure is recovered correctly in the home network.</Purpose>
+            <PreConditions>Test environment with an AUSF. The AUSF or AMF may be simulated.</PreConditions>
+            <ExecutionSteps>1.	The AUSF sends an Nudm_UEAuthentication_Get Request message to the UDM with a &quot;synchronisation failure indication&quot; and parameters RAND and AUTS.
+2.	The UDM/ARPF performs steps 1-5 as described in TS 33.102, clause 6.3.5.</ExecutionSteps>
+            <ExpectedResults>The UDM sends an Nudm_UEAuthentication_Get Response message with a new authentication vector to the AUSF.
+NOTE:	The expected results would be that the UDM/AUSF sends an Nausf_UEAuthentication_Authenticate Response message with EAP Request/AKA’-Challenge for EAP AKA’, or 5G SE AV for 5G AKA to the AMF, if the UDM and AUSF network products are collocated without an open N13 interface.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot, packet capture or application log containing the operational results.</EvidenceFormat>
+          </TestCase>
+        </Section>
+        <Section title="4.2.2.2	Storing of authentication status of UE by UDM" level="4">
+          <Requirement>
+            <Name>Storing of authentication status of UE by UDM.</Name>
+            <Reference>TS 33.501 [2], clause 6.1.4.1a</Reference>
+            <Description>The UDM stores the authentication status of the UE (SUPI, authentication result, time stamp, and the serving network name) after authentication as specified in TS 33.501 [2], clause 6.1.4.1a.</Description>
+            <ThreatReference>TR 33.926 [4], clause E.2.2.3, Failure to store of authentication status.</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_AUTH_STATUS_STORE_UDM</Name>
+            <Purpose>Verify that the UDM under test stores the authentication status of UE.
+Procedure and execution steps:
+Pre-Condition:
+-	UDM network product is connected with an AUSF in simulated/real network environment.
+-	The tester shall have access to the UDM under test.</Purpose>
+            <ExecutionSteps>1.	The tester shall send an Nudm_UEAuthentication_Get Request message to the UDM with the UE credentials and a selected serving network name.
+2. 	The tester shall receive a successful Nudm_UEAuthentication_Get Response from the UDM.
+3. 	The tester shall simulate the successful authentication by sending the Nudm_UEAuthentication_ResultConfirmation Request message with a selected timestamp to the UDM.
+4.	The tester shall receive a successful Nudm_UEAuthentication_ResultConfirmation Response message from the UDM.
+5.	The tester shall compare the serving network name stored in the UDM against the serving network name retrieved from the Nudm_UEAuthentication_Get Request message and the serving network name retrieved from the Nudm_UEAuthentication_ResultConfirmation Request message.
+6.	The tester shall compare the SUPI stored in the UDM (retrieved from the Nudm_UEAuthentication_ResultConfirmation Response message) against the SUPI retrieved from the Nudm_UEAuthentication_Get Response message.
+7.	The tester shall compare the timestamp stored in the UDM against the time of authentication procedure retrieved from the Nudm_UEAuthentication_ResultConfirmation Request message.</ExecutionSteps>
+            <ExpectedResults>The storing of authentication status (SUPI,  timestamp, and the serving network name) of UE at the UDM is verified.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of packet capture or screenshot/screen-capture.
+NOTE:	Void</EvidenceFormat>
+          </TestCase>
+        </Section>
+      </Section>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating Systems" level="3"/>
+      <Section title="4.2.5	Web Servers" level="3"/>
+      <Section title="4.2.6	Network Devices" level="3"/>
+      <Section title="4.2.7	User plane security procedures" level="3">
+        <Section title="4.2.7.1	UP Security enforcement configuration for TSC service" level="4">
+          <Requirement>
+            <Name>UP security enforcement configuration</Name>
+            <Reference>TS 33.501 [2], clause L.3, TS 23.501 [5], clause 5.10.3.</Reference>
+            <Description>&quot;After the 5GS TSC-enabled UE is authenticated and data connection is set up, any data received from a TSC bridge or another 5GS TSC-enabled UE shall be transported between DS-TT (in the UE) and NW-TT (in the UPF) in a protected way using the mechanisms for UP security as described in clause 6.6.
+The UP security enforcement information shall be set to &quot;required&quot; for data transferred from gNB to a 5GS TSC-enabled UE. This is also applicable to the gPTP messages sent in the user plane.&quot;
+as specified in TS 33.501 [2], clause L.3.
+&quot;The SMF determines at PDU session establishment a User Plane Security Enforcement information for the user plane of a PDU session based on:
+-	subscribed User Plane Security Policy which is part of SM subscription information received from UDM; and
+-	User Plane Security Policy locally configured per (DNN, S-NSSAI) in the SMF that is used when the UDM does not provide User Plane Security Policy information.
+-	The maximum supported data rate per UE for integrity protection for the DRBs, provided by the UE in the Integrity protection maximum data rate IE during PDU Session Establishment. The UE supporting NR as primary RAT, i.e. NG-RAN access via Standalone NR, shall set the Integrity protection maximum data rate IE for Uplink and Downlink to full rate at PDU Session Establishment as defined in TS 24.501 [47].&quot;
+as specified in TS 23.501 [5], clause 5.10.3.</Description>
+            <ThreatReference>TR 33.926 [4].</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_UP_SECURITY_ENFORCEMENT_CONFIGURATION</Name>
+            <Purpose>Verify that UP security enforcement information is set to &quot;required&quot; for dedicated TSC service.</Purpose>
+            <PreConditions>Test environment with SMF. The SMF may be simulated.
+A dedicated DNN/S-NSSAI combination is defined to identify the TSC service.
+The security policy is configured in the UDM.</PreConditions>
+            <ExecutionSteps>1.	During the PDU session establishment procedure, the SMF sends a Nudm_SDM_Get Request message to the UDM under test with a dedicated DNN/S-NSSAI combination.
+2.	The UDM under test sends the Nudm_SDM_Get Response back to the SMF with UP security enforcement information.</ExecutionSteps>
+            <ExpectedResults>The confidentiality and integrity protection requirements of the UP security enforcement information are set to &quot;required&quot;.</ExpectedResults>
+            <EvidenceFormat>Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+          </TestCase>
+        </Section>
+      </Section>
+      <Section title="4.2.8	User plane security procedures" level="3">
+        <Section title="4.2.8.1	UP security policy configuration for 5G LAN service" level="4">
+          <Requirement>
+            <Name>UP security enforcement configuration</Name>
+            <Reference>TS 33.501 [2], clause K.3, TS 23.501 [5], clause 5.10.3.</Reference>
+            <Description>&quot;To reduce incremental complexity added by security, all PDU sessions associated with a specific 5G LAN group should have the same UP security policy. When generating the policy enforcement information, and to avoid the redundant double protection, the SMF may consider information by a DN-AAA about DN protection mechanisms already applied.&quot;
+as specified in TS 33.501 [2], clause K.3.
+&quot;The SMF determines at PDU session establishment a User Plane Security Enforcement information for the user plane of a PDU session based on:
+-	subscribed User Plane Security Policy which is part of SM subscription information received from UDM; and
+-	User Plane Security Policy locally configured per (DNN, S-NSSAI) in the SMF that is used when the UDM does not provide User Plane Security Policy information.
+-	The maximum supported data rate per UE for integrity protection for the DRBs, provided by the UE in the Integrity protection maximum data rate IE during PDU Session Establishment. The UE supporting NR as primary RAT, i.e. NG-RAN access via Standalone NR, shall set the Integrity protection maximum data rate IE for Uplink and Downlink to full rate at PDU Session Establishment as defined in TS 24.501 [47].&quot;
+as specified in TS 23.501 [5], clause 5.10.3.</Description>
+            <ThreatReference>TR 33.926 [4].</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_UP_SECURITY_ENFORCEMENT_CONFIGURATION_FOR_5G_LAN</Name>
+            <Purpose>Verify that UP security policy is set to the same for all the 5G LAN UEs.</Purpose>
+            <PreConditions>Test environment with SMF. The SMF may be simulated.
+A dedicated DNN/S-NSSAI combination is defined to identify the 5G LAN service.
+The security policy of the 5G LAN service is configured in the UDM.</PreConditions>
+            <ExecutionSteps>1.	During the PDU session establishment procedure initiated by the UE1, the SMF1 sends a Nudm_SDM_Get Request message to the UDM under test with a dedicated DNN/S-NSSAI combination, and SUPI1.
+2.	The UDM under test sends the Nudm_SDM_Get Response back to the SMF1 with UP security policy1.
+3.	During the PDU session establishment procedure initiated by the UE2, the SMF2 sends a Nudm_SDM_Get Request message to the UDM under test with a dedicated DNN/S-NSSAI combination, and SUPI2.
+4.	The UDM under test sends the Nudm_SDM_Get Response back to the SMF2 with UP security policy2.
+NOTE 2:	SMF1 and SMF2 could be the same network function.</ExecutionSteps>
+            <ExpectedResults>The confidentiality and integrity protection requirements of the UP security policy1 and UP security policy2 are the same.</ExpectedResults>
+            <EvidenceFormat>Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+          </TestCase>
+        </Section>
+      </Section>
+    </Section>
+    <Section title="4.3	UDM-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical baseline" level="3"/>
+      <Section title="4.3.3	Operating systems" level="3"/>
+      <Section title="4.3.4	Web servers" level="3"/>
+      <Section title="4.3.5	Network devices" level="3"/>
+      <Section title="4.3.6	Network functions in service-based architecture" level="3"/>
+    </Section>
+    <Section title="4.4	UDM-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative):
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>

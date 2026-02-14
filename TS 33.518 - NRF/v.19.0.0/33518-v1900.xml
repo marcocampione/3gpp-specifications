@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.518">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	NRF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	NRF-specific adaptations of security functional requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the NRF deriving from 3GPP specifications and related test cases" level="3">
+        <Section title="4.2.2.1	Security functional requirements on the NRF deriving from 3GPP specifications – general approach" level="4"/>
+        <Section title="4.2.2.2	NF discovery procedure" level="4">
+          <Section title="4.2.2.2.1	NF discovery authorization based on expected NF profile" level="5">
+            <Requirement>
+              <Name>NF discovery authorization for specific scopes</Name>
+              <Reference>TS 33.501 [3], clause 13.3.1.3, TS 23.502 [4], clause 4.17.4, and TS 29.510 [5], clause 6.2.3.2.3.1.</Reference>
+              <Description>NRF is expected to be able to ensure that NF Discovery and registration requests are authorized as specified in TS 33.501 [3], clause 5.9.2.1.
+The NRF checks that the values of the authorization parameters in the NF (Service) Profile of an NF Service Producer allows an NF Service Consumer to discover the NF Service Producer. In the response message, the NRF only returns information of those NF Service Producer instances that the NF Service Consumer is authorized to discover, as specified in the TS 33.501 [3], clause 13.3.1.3.
+The NRF authorizes the Nnrf_NFDiscovery_Request. Based on the profile of the expected NF/NF service and the type of the NF service consumer, the NRF determines whether the NF service consumer is allowed to discover the expected NF instance(s). If the expected NF instance(s) or NF service instance(s) are deployed in a certain network slice, NRF authorizes the discovery request according to the discovery configuration of the Network Slice, e.g. the expected NF instance(s) are only discoverable by the NF in the same network slice as specified in TS 23.502 [4], clause 4.17.4.
+Based on operator's policies, a discovery request not including the requester's information necessary to validate the authorization parameters in NF Profiles can be rejected or accepted but with only returning in the discovery response NF Instances whose authorization parameters allow any NF Service Consumer to access their services. The authorization parameters in NF Profile are those used by NRF to determine whether a given NF Instance / NF Service Instance can be discovered by an NF Service Consumer in order to consume its offered services (e.g. &quot;allowedNfTypes&quot;, &quot;allowedNfDomains&quot;, etc.), as specified in TS 29.510 [5], clause 6.2.3.2.3.1, Note 12.
+If included, the requester-snssais IE is expected to contain the list of S-NSSAI of the requester NF. The NRF is expected to use this to return only those NF profiles of NF Instances allowing to be discovered from the slice(s) identified by this IE, according to the &quot;allowedNssais&quot; list in the NF Profile and NF Service as specified in TS 29.510 [5], clause 6.2.3.2.3.1.</Description>
+              <ThreatReference>TR 33.926 [6], clause H.2.2.1, No Authorization of NF discovery based on Authorization Parameters</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_DISC_AUTHORIZATION_ALLOWED_PARAMETER</Name>
+              <Purpose>Ensure that the NRF being tested does not authorize a discovery request from an NF service consumer instance that lacks the correct authorization provided in the request, based on the parameters prefixed with “allowed” (e.g., allowedNfTypes, allowedNfDomains, allowedNssais…) provided by the NF service producer profile.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	Test environment with the NF1 and NF2, which may be simulated. The NF2 will attempt to discover NF1.
+-	The NRF documentation provides information on whether unauthorized requests are rejected or accepted, but only returns NF Instances in the discovery response whose service the NF service consumer is authorized to access. If this is configurable, the tester is required to test both options.
+-	If the NRF under test does not support parameters from the allowedList in the table below, the test steps regarding these parameters are not applicable.</PreConditions>
+              <ExecutionSteps>For all Test Case specific parameters defined in the table 4.2.2.2.1-1, the tester shall repeat the following execution steps.
+Table 4.2.2.2.1-1 Test Case Specific Parameter Sets
+1.	The tester configures NF1 with parameter NF1 and NF2 with parameter NF2, where the two parameter values are different. The tester should select the mandatory and optional profile parameters for NF1 and NF2 such that they do not conflict with other authorization test cases in this section.
+2.	The tester configures NF1 to ensure that it is not accessible by NF2 by disallowing parameter NF2 via the allowedList parameter in the profile NF1.
+3.	The tester triggers NF1 to register as a new NF instance via the NFManagement API at the NRF under test.
+4.	The tester triggers NF2 to send an Nnrf_NFDiscovery_Request message to the NRF under test with target-nf-type set to NfType NF1 and requester-type parameter set to the corresponding parameter NF2.</ExecutionSteps>
+              <ExpectedResults>If the NRF under test is configured to reject unauthorized requests, the NRF responds with a &quot;403 Forbidden&quot; status code, as specified in clause 5.3.2.2.2 of TS 29.510 [5].
+If the NRF under test is configured to accept unauthorised requests, but only returns NF instances whose authorisation is accepted in the discovery response, the discovery response will not contain any information about the NF1.</ExpectedResults>
+              <EvidenceFormat/>
+            </TestCase>
+          </Section>
+        </Section>
+      </Section>
+      <Section title="Evidence suitable for the interface, e.g., evidence can be presented in the form of packet trace (pcap-file). 4.2.3	Technical baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating Systems" level="3"/>
+      <Section title="4.2.5	Web Servers" level="3"/>
+      <Section title="4.2.6	Network Devices" level="3"/>
+    </Section>
+    <Section title="4.3	NRF-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical baseline" level="3"/>
+      <Section title="4.3.3	Operating systems" level="3"/>
+      <Section title="4.3.4	Web servers" level="3"/>
+      <Section title="4.3.5	Network devices" level="3"/>
+      <Section title="4.3.6	Network functions in service-based architecture" level="3"/>
+    </Section>
+    <Section title="4.4	NRF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port Scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative):
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>

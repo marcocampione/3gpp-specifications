@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.528">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	PCF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	PCF-specific adaptations of security functional requirements and related test cases" level="2"/>
+    <Section title="4.3 	PCF-specific adaptations of hardening requirements and related test cases." level="2"/>
+    <Section title="4.4	PCF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port Scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative): 
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>

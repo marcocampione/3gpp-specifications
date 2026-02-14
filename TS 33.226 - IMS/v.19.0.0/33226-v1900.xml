@@ -1,0 +1,431 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.226">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	IMS-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	IMS-specific adaptations of security functional requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the IMS product classes deriving from 3GPP specifications and related test cases" level="3">
+        <Section title="4.2.2.1	Introduction" level="4"/>
+        <Section title="4.2.2.2	Security functional requirements on the S-CSCF deriving from 3GPP specifications and related test cases" level="4">
+          <Section title="4.2.2.2.1	No de-registration during the authentication" level="5">
+            <Requirement>
+              <Name>No de-registration during the authentication</Name>
+              <Reference>TS 33.203 [3], clause 6.1.1</Reference>
+              <Description>&quot;It should be noted that the UE initiated re-registration opens up a potential denial-of-service attack. That is, an attacker could try to register an already registered IMPU and respond with an incorrect authentication response in order to make the HN de-register the IMPU. For this reason a subscriber, when registered, shall not be de-registered if it fails an authentication.&quot;
+as specified in TS 33.203 [3], clause 6.1.1.</Description>
+              <ThreatReference>O.3.2	Threats related to de-registration during the authentication</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_ NO_DE-REGISTRATION_AUTH_FAIL</Name>
+              <Purpose>Verify the S-CSCF shall not de-register the registered UE when it fails an authentication during re-registration.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	S-CSCF under test is connected in simulated/real network environment including P-CSCF and HSS.
+-	The UE supporting IMS AKA has already been registered into the IMS network.
+-	The tester shall have access to the Mw interface between the P-CSCF and S-CSCF.
+-	The tester shall have access to the Cx interface between the HSS and S-CSCF.</PreConditions>
+              <ExecutionSteps>1)	During a new IMS AKA procedure, the UE initiates the re-registration scenario, the tester sends a SM7 register message including the IMPI, and an incorrect authentication response.
+2)	The S-CSCF under test retrieves the active XRES for that user and uses this to check the received authentication response</ExecutionSteps>
+              <ExpectedResults>The S-CSCF sends a 4xx Auth_Failure towards the UE indicating that authentication has failed.
+The S-CSCF does not initiate de-registration procedure within the Registration expiration interval defined in TS 24.229 [6], i.e. send either Cx-Put (Public User Identity, Private User Identity, clear S-CSCF name) or Cx-Put (Public User Identity, Private User Identity, keep S-CSCF name) to the HSS. Or, the IMPU status in the HSS is registered within the Registration expiration interval defined in TS 24.229 [6].</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text.
+Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.2.2	Unprotected register message" level="5">
+            <Requirement>
+              <Name>Unprotected register message</Name>
+              <Reference>TS 33.203 [3], clause 7.4.0</Reference>
+              <Description>&quot;If the UE has an already active pair of security associations, then it shall use this to protect the REGISTER message. If the S-CSCF is notified by the P-CSCF that the REGISTER message from the UE was integrity-protected it may decide not to authenticate the user by means of the AKA protocol. However, the UE may send unprotected REGISTER messages at any time. In this case, the S-CSCF shall authenticate the user by means of the AKA protocol.&quot;
+as specified in TS 33.203 [3], clause 7.4.0.</Description>
+              <ThreatReference>O.3.3.1	Unprotected register message</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_UNPROTECTED_REGISTER_MESSAGE</Name>
+              <Purpose>Verify whether the S-CSCF authenticates the user by means of the AKA protocol, if the UE sends unprotected REGISTER messages, regardless whether the UE is already registered or not.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	S-CSCF network product are connected in simulated/real network environment.
+-	The list of ordered integrity and encryption algorithms are configured on the P-CSCF under test.
+-	The UE and the P-CSCF are simulated.
+-	The UE supports a list of ordered integrity and encryption algorithms.
+-	The tester has access to the Gm interface between the UE and P-CSCF.
+-	The tester has access to the Mw interface between the P-CSCF and S-CSCF.
+-	The UE has an already active pair of security associations.</PreConditions>
+              <ExecutionSteps>This test is performed in the Authenticated re-registration procedure, the UE has an already active pair of security associations.
+1)	The UE sends unprotected REGISTER messages (SM1) to the P-CSCF.
+2)	The P-CSCF sends unprotected REGISTER messages (SM2) to the S-CSCF under test.
+3)	The S-CSCF under test receives the SM2 from the P-CSCF.
+4)	The tester examines whether the S-CSCF under test sends SM4: Auth_Challenge to the P-CSCF to authenticate the user by means of the AKA protocol.</ExecutionSteps>
+              <ExpectedResults>The S-CSCF under test authenticates the user by means of the AKA protocol after.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text. Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.2.3	Synchronization failure handling" level="5">
+            <Requirement>
+              <Name>Synchronization failure handling</Name>
+              <Reference>TS 33.203 [3], clause 6.1.3</Reference>
+              <Description>&quot;The HSS checks the AUTS as in clause 6.3.5 of TS 33.102 [1]. After potentially updating the SQN, the HSS sends new AVs to the S-CSCF in CM4.
+When the S-CSCF receives the new batch of authentication vectors from the HSS it deletes the old ones for that user in the S-CSCF.
+The rest of the messages i.e. SM10-SM18 including the Cx messages are exactly the same as SM4-SM12 and the corresponding Cx messages in 6.1.1.&quot;
+as specified in TS 33.203[2], clause 6.1.3.</Description>
+              <ThreatReference>O.3.3.2		No resynchronization</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_SYNC_FAIL_S-CSCF</Name>
+              <Purpose>Verify that in synchronization failure scenario, a new authentication will be triggered by the S-CSCF.</Purpose>
+              <PreConditions>-	Test environment with UE, P-CSCF and HSS. The UE, P-CSCF and HSS may be simulated.
+-	S-CSCF network product is connected in emulated/real network environment.</PreConditions>
+              <ExecutionSteps>1)	The UE sends an SM7 to the S-CSCF under test with REGISTER(Failure = Synchronization Failure, AUTS, IMPI).
+2)	The S-CSCF under test sends a CM3 message to the HSS with Cx-AV-Req(IMPI, RAND,AUTS, m).
+3)	The HSS sends a CM4 message to the S-CSCF under test with Cx-AV-Req-Resp(IMPI, n, RAND1||AUTN1||XRES1||CK1||IK1,….,RANDn||AUTNn||XRESn||CKn||IKn).</ExecutionSteps>
+              <ExpectedResults>After receiving CM4 from the HSS, the S-CSCF initiates a new authentication towards the UE, and sends the RANDi and AUTNi to the UE, where RANDi and AUTNi belong to one of the authentication vectors received in CM4 message.</ExpectedResults>
+              <EvidenceFormat>Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.3	Security functional requirements on the P-CSCF deriving from 3GPP specifications and related test cases" level="4">
+          <Section title="4.2.2.3.1	High-priority algorithm selection" level="5">
+            <Requirement>
+              <Name>High-priority algorithm selection</Name>
+              <Reference>TS 33.203 [3], clause 7.2</Reference>
+              <Description>&quot;In order to determine the integrity and encryption algorithm the P-CSCF proceeds as follows: the P-CSCF has a list of integrity and encryption algorithms it supports, ordered by priority. The P-CSCF selects the first algorithm combination on its own list which is also supported by the UE. If the UE did not include any confidentiality algorithm in SM1 then the P-CSCF shall either select the NULL encryption algorithm or abort the procedure, according to its policy on confidentiality. &quot;
+as specified in TS 33.203 [3], clause 7.2.</Description>
+              <ThreatReference>O.2.2.1	High-priority algorithm selection</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_HIGH_PRIORITY_ALGORITHM_SELECTION</Name>
+              <Purpose>Verify the P-CSCF selects the highest priority algorithm combination on its own list which is also supported by the UE.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	P-CSCF under test is connected in simulated/real network environment.
+-	The list of ordered integrity and encryption algorithms are configured on the P-CSCF under test by the tester.
+-	The UE supporting IMS AKA may be simulated.
+-	The UE supports a list of integrity and encryption algorithms.
+-	The tester has access to the Gm interface between the UE and P-CSCF.</PreConditions>
+              <ExecutionSteps>This test is performed in the registration procedure, the UE sends a Register message towards the S-CSCF through the P-CSCF to register the location of the UE and to set-up the security mode.
+1)	The UE sends SM1 with integrity and encryption algorithms list to the P-CSCF under test.
+2)	The P-CSCF under test receives the SM1 with integrity and encryption algorithms list. The P-CSCF under test selects algorithms.
+3)	The tester examines the selected algorithm combination in the SM6 sent from the P-CSCF under test to the UE via the Gm interface.</ExecutionSteps>
+              <ExpectedResults>The selected algorithms are the first algorithm combination on its own list which is also supported by the UE.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text. Save the logs and the communication flow in a .pcap file</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.3.2	Bidding down on security association set-up" level="5">
+            <Requirement>
+              <Name>Bidding down on security association set-up</Name>
+              <Reference>TS 33.203 [3], clause 7.2</Reference>
+              <Description>&quot;After receiving SM7 from the UE, the P-CSCF shall check whether the integrity and encryption algorithms list, SPI_P and Port_P received in SM7 is identical with the corresponding parameters sent in SM6. It further checks whether SPI_U and Port_U received in SM7 are identical with those received in SM1. If these checks are not successful the registration procedure is aborted. The P-CSCF shall include in SM8 information to the S-CSCF that the received message from the UE was integrity protected as indicated in clause 6.1.5. The P-CSCF shall add this information to all subsequent REGISTER messages received from the UE that have successfully passed the integrity check in the P-CSCF.&quot;
+as specified in TS 33.203 [3], clause 7.2.</Description>
+              <ThreatReference>O.2.2.2	Bidding down on security association set-up</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_BIDDING_DOWN_ON_SECURITY_ASSOCIATION_SET UP</Name>
+              <Purpose>Verify the P-CSCF checks whether the integrity and encryption algorithms list, SPI_P and Port_P received in SM7 is identical with the corresponding parameters sent in SM6.
+Verify the P-CSCF checks whether SPI_U and Port_U received in SM7 are identical with those received in SM1.
+Verify whether the P-CSCF abort the registration procedure, if the above checks are not successful.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	The P-CSCF under test is connected in simulated/real network environment.
+-	The list of ordered integrity and encryption algorithms are configured on the P-CSCF under test.
+-	The UE and the S-CSCF are simulated.
+-	The UE supports a list of ordered integrity and encryption algorithms. The list contains at least one encryption algorithm other than NULL algorithm.
+-	The tester has access to the Gm interface between the UE and P-CSCF.
+-	The tester has access to the Mw interface between the P-CSCF and S-CSCF.</PreConditions>
+              <ExecutionSteps>This test is performed in the registration procedure, the UE sends a Register message towards the S-CSCF through the P-CSCF to register the location of the UE and to set-up the security mode.
+Test cases 1-4 are performed as follows:
+1)	The UE sends SM1 with the Security Parameter Index values (SPI_U) and the protected ports selected by the UE (Port_U) to the P-CSCF under test.
+2)	The P-CSCF under test receives the SM1 with the Security Parameter Index values (SPI_U) and the protected ports selected by the UE (Port_U). The P-CSCF under test store the SPI_U and the Port_U received in the SM1.
+3)	The P-CSCF under test contains the SPI_P, the ports assigned by the P CSCF (Port_P) and a list of integrity and encryption algorithms supported by the P-CSCF under test. The P-CSCF under test sends SM6 to the UE.
+4)	The UE receives the SM6 from the P-CSCF under test.
+Test case 1:
+The UE contains the incorrect SPI_U and Port_U, which are different from SPI_U and Port_U sent in SM1, and SPI_P and Port_P received in SM6, and a list of integrity and encryption algorithms received in SM6 supported by the P-CSCF under test in the SM7. The UE sends SM7 to the P-CSCF under test.
+Test case 2:
+The UE contains the incorrect SPI_U and Port_U, which are different from SPI_U and Port_U sent in SM1, and incorrect SPI_P and Port_P, which are different from SPI_U and Port_U received in SM6, and a list of integrity and encryption algorithms received in SM6 supported by the P-CSCF under test in the SM7. The UE sends SM7 to the P-CSCF under test.
+Test case 3:
+The UE contains the SPI_U and Port_U sent in SM1, and incorrect SPI_P and Port_P, which are different from SPI_U and Port_U received in SM6, and a list of integrity and encryption algorithms supported by the P-CSCF under test in the SM7. The UE sends SM7 to the P-CSCF under test.
+Test case 4:
+The UE contains the SPI_U and Port_U sent in SM1, and SPI_P and Port_P received in SM6, and a list of integrity and encryption algorithms in the SM7 which are different from those sent by the P-CSCF under test in the SM6. The UE sends SM7 to the P-CSCF under test.</ExecutionSteps>
+              <ExpectedResults>For text 2-5, the P-CSCF under test aborts the registration procedure, and sends a suitable 4xx response message to the UE.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text. Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.3.3	Protection of IMS signalling in transfer" level="5">
+            <Requirement>
+              <Name>Protection of IMS signalling transported between UE and P-CSCF</Name>
+              <Reference>TS 33.203 [3], clause 7.1</Reference>
+              <Description>&quot;For protecting IMS signalling between the UE and the P-CSCF it is necessary to agree on shared keys that are provided by IMS AKA, and a set of parameters specific to a protection method. The security mode setup (cf. clause 7.2) is used to negotiate the SA parameters required for IPsec ESP with authentication and confidentiality, in accordance with the provisions in clauses 5.1.3, 5.1.4, 6.2, and 6.3.
+The SA parameters that shall be negotiated between UE and P-CSCF in the security mode set-up procedure are:
+-	Encryption algorithm
+Both the UE and the P-CSCF shall adhere to the profiling given in clause 5.3.3 of 33.210 [5] with the addition that only algorithms that can be signalled according to Annex H needs to be supported.
+-	Integrity algorithm
+Both the UE and the P-CSCF shall adhere to the profiling given in clause 5.3.4 of 33.210 [5] with the addition that only algorithms that can be signalled according to Annex H needs to be supported. &quot;
+as specified in TS 33.203 [3], clause 7.1.</Description>
+              <ThreatReference>O.2.3	Threats related to IMS signalling transport</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_PROTECT_IMS_SIGNALLING_TRANSFER</Name>
+              <Purpose>Verify the IMS signalling protection mechanisms implemented in P-CSCF adherer to profiling given in clause 5.3.4 of TS 33.210 [5] with the addition that only algorithms that can be signalled according to Annex H of TS 33.203 [3] needs to be supported.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	P-CSCF network products are connected in simulated/real network environment.
+-	The UE supporting IMS AKA may be simulated.
+-	Tester shall have the knowledge of the security profiles for the IPSec ESP protection.
+-	Tester shall have the keys derived from the IMS AKA to negotiate the SA parameters required for IPSec ESP.</PreConditions>
+              <ExecutionSteps>The requirement mentioned in this clause is tested in accordance with the procedure mentioned in clause 4.2.3.2.4 of TS 33.117 [3].</ExecutionSteps>
+              <ExpectedResults>-	The P-CSCF under test and the UE established TLS if the TLS profiles used by the UE are compliant with the profile requirements in TS 33.203[3] Annex H.
+-	The P-CSCF under test and the UE failed to establish TLS if the TLS profiles used by the UE are forbidden in TS 33.203 [3] Annex H.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text. Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.3.4	Bidding down on security association set-up in case the P-CSCF policy requiring confidentiality" level="5">
+            <Requirement>
+              <Name>Bidding down on security association set-up</Name>
+              <Reference>TS 33.203 [3], clause 7.2</Reference>
+              <Description>&quot;NOTE 4:	It should be noted that, if the P-CSCF policy requires confidentiality, then all UEs with no encryption support would be denied access to the IMS network. This would apply in particular to UEs, which support only a Release 5-version of this specification or only GIBA according to Annex T of this specification.&quot;
+as specified in TS 33.203 [3], clause 7.2.</Description>
+              <ThreatReference>O.2.2.2	Bidding down on security association set-up</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_BIDDING_DOWN_ON_SECURITY_ASSOCIATION_SET UP</Name>
+              <Purpose>Verify that the P-CSCF policy requires confidentiality, then all UEs with no encryption support would be denied access to the IMS network.
+NOTE1:	The test case below is optional, which only applies to the P- policy requires confidentiality.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	The P-CSCF policy requires confidentiality.
+-	The UE and the S-CSCF are simulated.
+-	The tester has access to the Gm interface between the UE and P-CSCF.</PreConditions>
+              <ExecutionSteps>This test is performed in the registration procedure, the UE sends a Register message towards the S-CSCF through the P-CSCF to register the location of the UE and to set-up the security mode.
+Test case 1:
+1)	The UE includes only UE integrity algorithms list in SM1 to the P-CSCF under test.
+2)	The P-CSCF under test receives SM1 and sends SM2 to the S-CSCF.
+Test case 2:
+1)	The UE includes UE integrity and encryption algorithms list in SM1 to the P-CSCF under test, where the encryption algorithms are NULL.
+2)	The P-CSCF under test receives SM1.</ExecutionSteps>
+              <ExpectedResults>For test case, the P-CSCF sends a suitable error message to the UE.
+NOTE 2:	The suitable error message could be used to identity that the procedure is aborted.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text.
+Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.3.5	Different SPIs" level="5">
+            <Requirement>
+              <Name>Different SPIs</Name>
+              <Reference>TS 33.203 [3], clause 7.1</Reference>
+              <Description>&quot;The SPI is allocated locally for inbound SAs. The triple uniquely identifies an SA at the IP layer. The UE shall select the SPIs uniquely, and different from any SPIs that might be used in any existing SAs (i.e. inbound and outbound SAs). The SPIs selected by the P-CSCF shall be different than the SPIs sent by the UE, cf. clause 7.2. In an authenticated registration, the UE and the P-CSCF each select two SPIs, not yet associated with existing inbound SAs, for the new inbound security associations at the UE 's client and server ports and the P-CSCF 's client and server ports respectively.
+NOTE 3:	This allocation of SPIs ensures that protected messages in the uplink always differ from protected messages in the downlink in, at least, the SPI field. This thwarts reflection attacks. When several applications use IPsec on the same physical interface the SIP application should be allocated a separate range of SPIs.&quot;
+as specified in TS 33.203 [3], clause 7.1.</Description>
+              <ThreatReference>O.2.4	Threats related to SPI allocation</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_DIFFERENT_SPIS</Name>
+              <Purpose>Verify the P-CSCF selects SPIs that are different than the SPIs sent by the UE.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	P-CSCF under test is connected in simulated/real network environment.
+-	The UE supporting IMS AKA may be simulated.
+-	The tester has access to the Gm interface between the UE and P-CSCF.</PreConditions>
+              <ExecutionSteps>This test is performed in the registration procedure, the UE sends a Register message towards the S-CSCF through the P-CSCF to register the location of the UE and to set-up the security mode.
+1)	The UE sends SM1 with spi_uc (the SPI of the inbound SA at UE's the protected client port) and spi_us (the SPI of the inbound SA at the UE's protected server port) to the P-CSCF under test.
+2)	The P-CSCF under test receives the SM1 with spi_uc and spi_us. The P-CSCF under test selects spi_pc (the SPI of the inbound SA at the P-CSCF's protected client port) and spi_ps (the SPI of the inbound SA at the P-CSCF's protected server port).
+3)	The tester examines the spi_pc and spi_ps in the SM6 sent from the P-CSCF under test to the UE via the Gm interface.</ExecutionSteps>
+              <ExpectedResults>The spi_pc and spi_ps are different than spi_uc and spi_us.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text. Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.4	Security functional requirements on the I-CSCF deriving from 3GPP specifications and related test cases" level="4">
+          <Section title="4.2.2.4.1	Encryption in network hiding" level="5">
+            <Requirement>
+              <Name>Encryption in network hiding</Name>
+              <Reference>TS 33.203 [3], clause 6.4</Reference>
+              <Description>&quot;The Hiding Mechanism is optional for implementation. All I-CSCFs/IBCFs in the HN shall share the same encryption and decryption key Kv. If the mechanism is used and the operator policy states that the topology shall be hidden the I-CSCF/IBCF shall encrypt the hiding information elements when the I-CSCF/IBCF forwards SIP Request or Response messages outside the hiding network's domain. The hiding information elements are entries in SIP headers, such as Via, Record-Route, Route and Path, which contain addresses of SIP proxies in hiding network. When I-CSCF/IBCF receives a SIP Request or Response message from outside the hiding network's domain, the I-CSCF/IBCF shall decrypt those information elements that were encrypted by I-CSCF/IBCF in this hiding network domain.&quot;
+as specified in TS 33.203 [3], clause 6.4.</Description>
+              <ThreatReference>O.4.2.1	encryption in network hiding</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_ENCRYPTION IN NETWORK HIDING</Name>
+              <Purpose>Verify the I-CSCF encrypts the hiding information elements when the I-CSCF forwards SIP Request or Response messages to the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
+Verify the I-CSCF decrypts those information elements that were encrypted by the I-CSCF in this hiding network domain when the I-CSCF receives a SIP Request or Response message from the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	I-CSCF network products are connected in simulated/real network environment.
+-	The network hiding mechanism is configured to be used and the operator policy is configured that the topology shall be hidden.
+-	The same encryption and decryption key Kv is configured on the I-CSCFs under test by the tester.
+-	The encryption algorithm is configured on the I-CSCF under test by the tester.
+-	The network element in the hiding network's domain may be simulated.
+-	The network element outside the hiding network's domain may be simulated.
+-	The tester has access to the interface between the element in the hiding network's domain and I-CSCF.
+-	The tester has access to the interface between the element outside the hiding network's domain and I-CSCF.</PreConditions>
+              <ExecutionSteps>NOTE:	This test is performed in case the network hiding mechanism and the encryption of the hiding information elements in the I-CSCF are implemented.
+Test case 1: The I-CSCF forwards SIP messages to the outside of the hiding network's domain
+1)	The network element in the hiding network's domain sends a SIP message which contains hiding information elements (e.g. addresses of SIP proxies) to the I-CSCF under test.
+2)	The I-CSCF under test forwards the SIP message to the network element outside the hiding network's domain.
+3)	The tester examines the SIP message forwarded to the network element outside the hiding network's domain.
+Test case 2: The I-CSCF forwards SIP messages to the hiding network's domain
+1)	The network element outside the hiding network's domain sends a SIP message which contains information elements that were encrypted by the I-CSCF in this hiding network domain to the I-CSCF under test.
+2)	The I-CSCF under test forwards the SIP message to the network element in the hiding network's domain.
+3)	The tester examines the SIP message forwarded to the network element in the hiding network's domain.</ExecutionSteps>
+              <ExpectedResults>For Test case 1, the I-CSCF under test encrypts the hiding information elements when the I-CSCF under test forwards the SIP message to the network element outside the hiding network's domain.
+For Test case 2, the I-CSCF under test decrypts those information elements that were encrypted by the I-CSCF in this hiding network domain when the I-CSCF under test forwards the SIP message to the network element in the hiding network's domain.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text. Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.5	Security functional requirements on the IBCF deriving from 3GPP specifications and related test cases" level="4">
+          <Section title="4.2.2.5.1	Encryption in network hiding" level="5">
+            <Requirement>
+              <Name>Encryption in network hiding</Name>
+              <Reference>TS 33.203 [3], clause 6.4</Reference>
+              <Description>&quot;The Hiding Mechanism is optional for implementation. All I-CSCFs/IBCFs in the HN shall share the same encryption and decryption key Kv. If the mechanism is used and the operator policy states that the topology shall be hidden the I-CSCF/IBCF shall encrypt the hiding information elements when the I-CSCF/IBCF forwards SIP Request or Response messages outside the hiding network's domain. The hiding information elements are entries in SIP headers, such as Via, Record-Route, Route and Path, which contain addresses of SIP proxies in hiding network. When I-CSCF/IBCF receives a SIP Request or Response message from outside the hiding network's domain, the I-CSCF/IBCF shall decrypt those information elements that were encrypted by I-CSCF/IBCF in this hiding network domain.&quot;
+as specified in TS 33.203 [3], clause 6.4.</Description>
+              <ThreatReference>O.5.2.1	encryption in network hiding</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_ENCRYPTION IN NETWORK HIDING</Name>
+              <Purpose>Verify the IBCF encrypts the hiding information elements when the IBCF forwards SIP Request or Response messages to the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
+Verify the IBCF decrypts those information elements that were encrypted by the IBCF in this hiding network domain when the IBCF receives a SIP Request or Response message from the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	IBCF network products are connected in simulated/real network environment.
+-	The encryption of the hiding information as the network hiding mechanism is configured to be used and the operator policy is configured that the topology shall be hidden.
+-	The same encryption and decryption key Kv is configured on the IBCFs under test by the tester.
+-	The encryption algorithm is configured on the IBCF under test by the tester.
+-	The network element in the hiding network's domain may be simulated.
+-	The network element outside the hiding network's domain may be simulated.
+-	The tester has access to the interface between the element in the hiding network's domain and IBCF.
+-	The tester has access to the interface between the element outside the hiding network's domain and IBCF.</PreConditions>
+              <ExecutionSteps>NOTE:	This test is performed in case the network hiding mechanism and the encryption of the hiding information elements in the IBCF are implemented.
+Test case 1: The IBCF forwards SIP messages to the outside of the hiding network's domain
+1)	The network element in the hiding network's domain sends a SIP message which contains hiding information elements (e.g. addresses of SIP proxies) to the IBCF under test.
+2)	The IBCF under test forwards the SIP message to the network element outside the hiding network's domain.
+3)	The tester examines the SIP message forwarded to the network element outside the hiding network's domain.
+Test case 2: The IBCF forwards SIP messages to the hiding network's domain
+1)	The network element outside the hiding network's domain sends a SIP message which contains information elements that were encrypted by the IBCF in this hiding network domain to the IBCF under test.
+2)	The IBCF under test forwards the SIP message to the network element in the hiding network's domain.
+3)	The tester examines the SIP message forwarded to the network element in the hiding network's domain.</ExecutionSteps>
+              <ExpectedResults>For Test case 1, the IBCF under test encrypts the hiding information elements when the IBCF under test forwards the SIP message to the network element outside the hiding network's domain.
+For Test case 2, the IBCF under test decrypts those information elements that were encrypted by the IBCF in this hiding network domain when the IBCF under test forwards the SIP message to the network element in the hiding network's domain.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text. Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.5.2	Replacement in network hiding" level="5">
+            <Requirement>
+              <Name>Replacement in network hiding</Name>
+              <Reference>TS 24.229 [6], clause 5.10.4.1</Reference>
+              <Description>&quot;The IBCF shall apply network topology hiding to all header fields which reveal topology information, such as Via, Route, Record-Route, Service-Route, and Path.&quot;
+as specified in TS 24.229 [6], clause 5.10.4.1.</Description>
+              <ThreatReference>O.5.2.2	replacement in network hiding</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_REPLACEMENT IN NETWORK HIDING</Name>
+              <Purpose>Verify the IBCF replaces the hiding information elements to constant values when the IBCF forwards SIP Request or Response messages to the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
+Verify the IBCF replaces the constant values that were replaced by the IBCF in this hiding network domain to the hiding information elements when the IBCF receives a SIP Request or Response message from the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	IBCF network products are connected in simulated/real network environment.
+-	The replacement of the hiding information as network hiding mechanism is configured to be used and the operator policy is configured that the topology shall be hidden.
+-	The network element in the hiding network's domain may be simulated.
+-	The network element outside the hiding network's domain may be simulated.
+-	The tester has access to the interface between the element in the hiding network's domain and IBCF.
+-	The tester has access to the interface between the element outside the hiding network's domain and IBCF.</PreConditions>
+              <ExecutionSteps>NOTE:	This test is performed in case the network hiding mechanism and the replacement of the hiding information elements in the IBCF are implemented.
+Test case 1: The IBCF forwards SIP messages to the outside of the hiding network's domain
+1)	The network element in the hiding network's domain sends a SIP message which contains hiding information elements (e.g. addresses of SIP proxies) to the IBCF under test.
+2)	The IBCF under test forwards the SIP message to the network element outside the hiding network's domain.
+3)	The tester examines the SIP message forwarded to the network element outside the hiding network's domain.
+Test case 2: The IBCF forwards SIP messages to the hiding network's domain
+1)	The network element outside the hiding network's domain sends a SIP message which contains information elements that were encrypted by the IBCF in this hiding network domain to the IBCF under test.
+2)	The IBCF under test forwards the SIP message to the network element in the hiding network's domain.
+3)	The tester examines the SIP message forwarded to the network element in the hiding network's domain.</ExecutionSteps>
+              <ExpectedResults>For Test case 1, the IBCF under test replaces the hiding information elements to constant values when the IBCF under test forwards the SIP message to the network element outside the hiding network's domain.
+For Test case 2, the IBCF under test replaces the constant values that were replaced by the IBCF in this hiding network domain to the hiding information elements when the IBCF under test forwards the SIP message to the network element in the hiding network's domain.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text. Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.6	Security functional requirements on the AS deriving from 3GPP specifications and related test cases" level="4">
+          <Section title="4.2.2.6.1	User authorization" level="5">
+            <Requirement>
+              <Name>User authorization</Name>
+              <Reference>TS 24.229 [6], clause 5.7.1.5</Reference>
+              <Description>&quot;If the user is considered anonymous, the AS shall check whether the authorization policy defined for this request allows anonymous requests. If anonymous requests are allowed, then the AS can proceed with the requested functionality, otherwise, the AS shall not proceed with the requested functionality.
+…
+If the request is not authorized, the AS shall either:
+-	reject the request according to the procedures defined for that request e.g., by issuing a 403 (Forbidden) response; or
+-	send a 2xx final response if the authorization policy requires to deny the requested functionality, whilst appearing to the user as if the request has been granted. &quot;</Description>
+              <ThreatReference>O.6.2.1	No user authorization</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_USER_AUTHORIZATION</Name>
+              <Purpose>Verify that the AS would reject the anonymous request if anonymous request is not allowed.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	The authorization policy of the AS does not allow anonymous request.
+-	The UE is simulated.
+-	The tester has access to the interface between the UE and AS.</PreConditions>
+              <ExecutionSteps>The UE sends the anonymous request message towards the AS, in which the P-Asserted-Identity is set to &quot;Anonymous&quot;.</ExecutionSteps>
+              <ExpectedResults>For test case, the AS either:
+-	reject the request according to the procedures defined for that request e.g., by issuing a 403 (Forbidden) response; or
+-	send a 2xx final response if the authorization policy requires to deny the requested functionality, whilst appearing to the user as if the request has been granted.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text.
+Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.6.2	ID privacy" level="5">
+            <Requirement>
+              <Name>ID privacy</Name>
+              <Reference>TS 24.229 [6], clause 5.7.3</Reference>
+              <Description>&quot;5.7.3	Application Server (AS) acting as originating UA
+The AS can indicate privacy of the P-Asserted-Identity in accordance with RFC 3323 [33], and the additional requirements contained within RFC 3325 [34].
+Where privacy is required, in any initial request for a dialog or request for a standalone transaction, the AS shall set a display-name of the From header field to &quot;Anonymous&quot; as specified in RFC 3261 [26] and set an addr-spec of the From header field to Anonymous User Identity as specified in TS 23.003 [3]. &quot;</Description>
+              <ThreatReference>O.6.2.1	No ID privacy</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_USER_AUTHORIZATION</Name>
+              <Purpose>Verify that the AS acting as originating UA should send the anonymous identity if privacy is required.
+Procedure and execution steps:</Purpose>
+              <PreConditions>-	The privacy of the P-Asserted-Identity is required in AS.
+-	The UE is simulated.</PreConditions>
+              <ExecutionSteps>The AS under test sends the initial request for a dialog or request for a standalone transaction.</ExecutionSteps>
+              <ExpectedResults>The display-name of the From header field of the initial request is set to &quot;Anonymous&quot;.
+The addr-spec of the From header field of the initial request is set to Anonymous User Identity.</ExpectedResults>
+              <EvidenceFormat>Provide evidence of the check of the product documentation in plain text.
+Save the logs and the communication flow in a .pcap file.</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+        <Section title="4.2.2.7	Security functional requirements on the MRFP deriving from 3GPP specifications and related test cases" level="4"/>
+        <Section title="4.2.2.8	Security functional requirements on the IMS MGW deriving from 3GPP specifications and related test cases" level="4"/>
+        <Section title="4.2.2.9	Security functional requirements on the MGCF deriving from 3GPP specifications and related test cases" level="4"/>
+        <Section title="4.2.2.10	Security functional requirements on the IMS-AGW deriving from 3GPP specifications and related test cases" level="4"/>
+        <Section title="4.2.2.11	Security functional requirements on the TrGW deriving from 3GPP specifications and related test cases" level="4"/>
+      </Section>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating Systems" level="3"/>
+      <Section title="4.2.5	Web Servers" level="3"/>
+      <Section title="4.2.6	Network Devices" level="3"/>
+    </Section>
+    <Section title="4.3	IMS-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical baseline" level="3"/>
+      <Section title="4.3.3	Operating systems" level="3"/>
+      <Section title="4.3.4	Web servers" level="3"/>
+      <Section title="4.3.5	Network devices" level="3"/>
+    </Section>
+    <Section title="4.4	IMS-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="Annex A (informative):
+Change history" level="8"/>
+    </Section>
+  </Section>
+</Specification>

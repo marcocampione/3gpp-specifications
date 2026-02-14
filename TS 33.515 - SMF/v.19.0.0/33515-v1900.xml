@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.515">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	SMF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	SMF-specific adaptations of security functional requirements and related test cases" level="2">
+      <Section title="4.2.1	Introduction" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the SMF deriving from 3GPP specifications and related test cases" level="3">
+        <Section title="4.2.2.1	Security functional requirements on the SMF deriving from 3GPP specifications" level="4"/>
+        <Section title="4.2.2.1.0	General" level="4">
+          <Section title="4.2.2.1.1	Priority of UP security policy" level="5">
+            <Requirement>
+              <Name>Priority of UP security policy</Name>
+              <Reference>TS 23.501 [1], clause 5.10.3</Reference>
+              <Description>User Plane Security Policy from UDM takes precedence over locally configured User Plane Security Policy as specified in TS 23.501 [1], clause 5.10.3</Description>
+              <ThreatReference>TR 33.926 [4], clause J.2.2.1 Non-compliant UP security policy handling</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_UP_POLICY_PRECEDENCE_SMF</Name>
+              <Purpose>Verify that the user plane security policy from the UDM takes precedence at the SMF under test over locally configured user plane security policy.</Purpose>
+              <PreConditions>Test environment with AMF and UDM may be simulated.
+Both UDM and SMF under test are configured with UP security policy, and the UP security policies are different.
+There is no Session Management Subscription data in SMF.</PreConditions>
+              <ExecutionSteps>1)	The tester triggers PDU session establishment procedure by sending Nsmf_PDUSession_CreateSMContext Request message to the SMF.
+2)	The SMF under test retrieves the Session Management Subscription data using Nudm_SDM_Get service from UDM, where the Session Management Subscription data includes the user plane security policy stored in UDM.
+3)	The tester captures the Namf_Communication_N1N2MessageTransfer message sent from the SMF under test to the AMF.</ExecutionSteps>
+              <ExpectedResults>There is a Security Indication IE in the N2 SM information contained in the Namf_Communication_N1N2MessageTransfer message, which is the same with the UP security policy configured in the UDM.</ExpectedResults>
+              <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot containing the operational results.</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.1.2	Void" level="5"/>
+          <Section title="4.2.2.1.3	Security functional requirements on the SMF checking UP security policy" level="5">
+            <Requirement>
+              <Name>UP security policy check.</Name>
+              <Reference>TS 33.501 [8], clause 6.6.1</Reference>
+              <Description>According to TS 33.501 [8], clause 6.6.1, the SMF verifies that the UE's UP security policy received from the target ng-eNB/gNB is the same as the UE's UP security policy that the SMF has locally stored. If there is a mismatch, the SMF sends its locally stored UE's UP security policy of the corresponding PDU sessions to the target gNB. This UP security policy information, if included by the SMF, is delivered to the target ng-eNB/gNB in the Path-Switch Acknowledge message. The SMF logs capabilities for this event and may take additional measures, such as raising an alarm.</Description>
+              <ThreatReference>TR 33.926 [4], clause J.2.2.4, Unchecked UP security policy.</ThreatReference>
+            </Requirement>
+            <TestCase>
+              <Name>TC_UP_SECURITY_POLICY_SMF</Name>
+              <Purpose>Verify that the SMF checks the UP security policy that is sent by the ng-eNB/gNB during handover.</Purpose>
+              <PreConditions>The SMF under test is preconfigured with a UE UP security policy.
+Execution
+1.	The tester sends the Nsmf_PDUSession_UpdateSMContext Request message to the SMF under test. A UE UP security policy different than the one preconfigured at the SMF under test is included in the Request message.
+2.	The tester captures the Nsmf_PDUSession_UpdateSMContext Response message sent from the SMF under test.</PreConditions>
+              <ExpectedResults>The preconfigured UE security policy is contained in the ‘n2SmInfo’ IE in the captured Response message.</ExpectedResults>
+              <EvidenceFormat>Files containing the triggered HTTP messages (e.g. pcap trace).</EvidenceFormat>
+            </TestCase>
+          </Section>
+          <Section title="4.2.2.1.4	Charging ID Uniqueness" level="5">
+            <Requirement>
+              <Name>Charging ID uniqueness.</Name>
+              <Reference>TS 32.255 [6], clause 5.1.2</Reference>
+              <Description>According to TS 32.255 [6], clause 5.1.2:
+-	The SMF supports PDU session charging using service based interface.
+-	The SMF collects charging information per PDU session for UEs served under 3GPP access and non-3GPP access.
+-	Every PDU session is assigned a unique identity number for billing purposes per PLMN. (i.e. the Charging Id).
+Threat Reference: TR 33.926 [4], clause J.2.2.3, &quot;Failure to assign unique Charging ID for a session&quot;
+TEST CASE:</Description>
+            </Requirement>
+            <TestCase>
+              <Name>TC_CHARGING_ID_UNIQUENESS_SMF</Name>
+              <Purpose>Verify that the charging ID generated by the SMF for each PDU session is unique.</Purpose>
+              <PreConditions>Test environment is set up with a Charging Function (CHF), which may be real or simulated, and the SMF under test. The tester is able to capture the traffic between the SMF under test and the CHF.
+Execution Step
+1)	The tester intercepts the traffic between the SMF under test and the CHF.
+2)	The tester triggers the establishment of the maximum number of concurrent PDU sessions that the SMF under test can handle.
+3)	The tester captures each Charging Data Request [initial] sent from the SMF under test to the CHF, and verifies the charging ID contained in the ‘PDU Session Charging Information’ IE in each Charging Data Request [initial] is unique.</PreConditions>
+              <ExpectedResults>The charging ID in each Charging Data Request [initial] is unique.</ExpectedResults>
+              <EvidenceFormat>Files containing the Charging Data Request [initial] messages (e.g. pcap trace).</EvidenceFormat>
+            </TestCase>
+          </Section>
+        </Section>
+      </Section>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating Systems" level="3"/>
+      <Section title="4.2.5	Web Servers" level="3"/>
+      <Section title="4.2.6	Network Devices" level="3"/>
+      <Section title="4.2.7	Void" level="3"/>
+    </Section>
+    <Section title="4.3	SMF-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical baseline" level="3"/>
+      <Section title="4.3.3	Operating systems" level="3"/>
+      <Section title="4.3.4	Web servers" level="3"/>
+      <Section title="4.3.5	Network devices" level="3"/>
+      <Section title="4.3.6	Network functions in service-based architecture" level="3"/>
+    </Section>
+    <Section title="4.4	SMF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port Scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative):
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>
