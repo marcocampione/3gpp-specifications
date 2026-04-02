@@ -1,0 +1,107 @@
+<?xml version="1.0" ?>
+<Specification name="3GPP TS 33.519">
+  <Section title="Foreword" level="1"/>
+  <Section title="1	Scope" level="1"/>
+  <Section title="2	References" level="1"/>
+  <Section title="3	Definitions of terms, symbols and abbreviations" level="1">
+    <Section title="3.1	Terms" level="2"/>
+    <Section title="3.2	Symbols" level="2"/>
+    <Section title="3.3	Abbreviations" level="2"/>
+  </Section>
+  <Section title="4	NEF-specific security requirements and related test cases" level="1">
+    <Section title="4.1	Introduction" level="2"/>
+    <Section title="4.2	NEF-specific security functional adaptations of requirements and related test cases" level="2">
+      <Section title="4.2.0	Introduction" level="3"/>
+      <Section title="4.2.1	Void" level="3"/>
+      <Section title="4.2.2	Security functional requirements on the NEF deriving from 3GPP specifications and related test cases" level="3">
+        <Section title="4.2.2.0	General" level="4"/>
+        <Section title="4.2.2.1	Security functional requirements on the NEF deriving from 3GPP specifications – TS 33.501 [2]" level="4">
+          <Requirement>
+            <Name>Authentication on application function</Name>
+            <Reference>TS 33.501 [2], clause 5.9.2.3, and clause 12.2</Reference>
+            <Description>Mutual authentication between the NEF and Application Function is supported as specified in TS 33.501 [2], clause 5.9.2.3. For authentication between NEF and an Application Function that resides outside the 3GPP operator domain, mutual authentication based on client and server certificates is performed between the NEF and AF using TLS and Certificate based authentication  follows the profiles given in TS 33.210 [7], clause 6.2 as specified in TS 33.501 [2], clause 12.2.</Description>
+            <ThreatReference>TR 33.926 [5], clause I.2.2.1, No authentication on application function</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_CP_AUTH_AF_NEF</Name>
+            <Purpose>To verify that the NEF can authenticate application function and establish TLS connection towards the application server with certificate based authentication, and may authenticate application function and establish TLS connection towards the application server with pre-shared key based authentication.
+Pre-Condition:
+-	The NEF network product shall be connected in emulated/real network environments.
+-	In order to establish TLS connections to the NEF network product, the application function shall offer a feature that is supported by the NEF network product, including protocol version and combination of cryptographic algorithms.
+-	The application function and the NEF network product shall support certificate based authentication, and may support pre-shared key based authentication.
+-	If the NEF network product does not support CAPIF as specified in clause 6.2.5.1 in TS 23.501 [3], the certificates or the pre-shared key shall be provisioned in the NEF network product.
+-	If the NEF network product supports CAPIF, the certificates or the pre-shared key shall be provisioned in the CAPIF core function, the CAPIF core function shall be able to select appropriate authentication method as defined in the sub-clause 6.5.2 in TS 33.122 [4].</Purpose>
+            <ExecutionSteps>1.	If certificate based authentication is used, provision correct certificate on the application function, if pre-shared key based authentication is used, provision same pre-shared key on the application function.
+2.	The application function shall initiate establishment of TLS connection towards the NEF network product, and check whether a TLS connection is established successfully.
+3.	If certificate based authentication is used, provision incorrect certificate on the application function, if pre-shared key based authentication is used, provision different pre-shared key on the application function.
+4.	The application function shall initiate establishment of TLS connection towards the NEF network product, and check whether no new TLS connection is established.</ExecutionSteps>
+            <ExpectedResults>Only one TLS connection is established at step 2.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot containing the operational results.
+4.2.2.1.2	Authorization on northbound APIs</EvidenceFormat>
+          </TestCase>
+          <Requirement>
+            <Name>Authorization on application function</Name>
+            <Reference>TS 33.501 [2], clause 12.4</Reference>
+            <Description>The NEF authorizes the requests from Application Function using OAuth-based authorization mechanism, the specific authorization mechanisms follow the provisions given in RFC 6749 [8]&quot; as specified in TS 33.501 [2], clause 12.4.</Description>
+            <ThreatReference>TR 33.926 [5], clause I.2.2.2, No authorization on northbound APIs</ThreatReference>
+          </Requirement>
+          <TestCase>
+            <Name>TC_CP_AUTHOR_AF_NEF</Name>
+            <Purpose>To verify that the NEF can authorize application function.
+Pre-Condition:
+-	The NEF network product shall be connected in emulated/real network environments.
+-	The application function and the NEF network product shall support OAuth-based authorization mechanism.
+-	An authorization server (e.g. NRF, or CAPIF core function) that supports OAuth2 protocol to authorize NEF northbound APIs using the &quot;Client Credentials&quot; authorization grant has been deployed.
+-	The TLS connection between the NEF network product and the application function has been established.
+-	The authorization server is configured to grant the application function to access a northbound API of the NEF network product, called NEF northbound API A.</Purpose>
+            <ExecutionSteps>Test 1: without token:
+1.	The application function invokes Obtain_Authorization service towards the authorization server to get a token from the authorization server for accessing the NEF northbound API A.
+2.	The application function invokes NEF northbound API A.
+3.	The tester triggers the application function to invoke another northbound API of the NEF network product, called NEF northbound API B, without token.
+Test 2: With incorrect token:
+1.	The application function invokes Obtain_Authorization service towards the authorization server to get a token from the authorization server for accessing the NEF northbound API A.
+2.	The application function invokes NEF northbound API A.
+3.	The tester triggers the application function to invoke the NEF northbound API B with a fake token.</ExecutionSteps>
+            <ExpectedResults>The invoking of NEF northbound API A succeeds, while the invoking of NEF northbound API B fails.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g., Screenshot containing the operational results.</EvidenceFormat>
+          </TestCase>
+        </Section>
+      </Section>
+      <Section title="4.2.3	Technical Baseline" level="3">
+        <Section title="4.2.3.1	Introduction" level="4"/>
+        <Section title="4.2.3.2	Protecting data and information" level="4">
+          <Section title="4.2.3.2.1	Protecting data and information – general" level="5"/>
+          <Section title="4.2.3.2.2	Protecting data and information – unauthorized viewing" level="5"/>
+          <Section title="4.2.3.2.3	Protecting data and information in storage" level="5"/>
+          <Section title="4.2.3.2.4	Protecting data and information in transfer" level="5"/>
+          <Section title="4.2.3.2.5	Logging access to personal data" level="5"/>
+        </Section>
+        <Section title="4.2.3.3	Protecting availability and integrity" level="4"/>
+        <Section title="4.2.3.4	Authentication and authorization" level="4"/>
+        <Section title="4.2.3.5	Protecting sessions" level="4"/>
+        <Section title="4.2.3.6	Logging" level="4"/>
+      </Section>
+      <Section title="4.2.4	Operating Systems" level="3"/>
+      <Section title="4.2.5	Web Servers" level="3"/>
+      <Section title="4.2.6	Network Devices" level="3"/>
+      <Section title="4.2.7	Void" level="3"/>
+    </Section>
+    <Section title="4.3	NEF-specific adaptations of hardening requirements and related test cases" level="2">
+      <Section title="4.3.1	Introduction" level="3"/>
+      <Section title="4.3.2	Technical baseline" level="3"/>
+      <Section title="4.3.3	Operating systems" level="3"/>
+      <Section title="4.3.4	Web servers" level="3"/>
+      <Section title="4.3.5	Network devices" level="3"/>
+      <Section title="4.3.6	Network functions in service-based architecture" level="3"/>
+    </Section>
+    <Section title="4.4	NEF-specific adaptations of basic vulnerability testing requirements and related test cases" level="2">
+      <Section title="4.4.1	Introduction" level="3"/>
+      <Section title="4.4.2	Port Scanning" level="3"/>
+      <Section title="4.4.3	Vulnerability scanning" level="3"/>
+      <Section title="4.4.4	Robustness and fuzz testing" level="3">
+        <Section title="Annex A (informative):
+Change history" level="8"/>
+      </Section>
+    </Section>
+  </Section>
+</Specification>
