@@ -20,6 +20,19 @@
             <Description>This requirement is identical to per-user based packet filtering (by e.g. deep packet inspection) as specified in TS 23.401, clause 4.4.3.3.</Description>
             <ThreatReference>TR 33.926 [10], clause B.2.3.1 Failure to assign unique TEID or Charging ID for a session.</ThreatReference>
           </Requirement>
+          <TestCase>
+            <Purpose>Verify that PGW supports a Per-user based packet filtering.</Purpose>
+            <PreConditions>-	The tester has a privilege to configure the filtering policy on the PGW to make the PGW can filter the packets per-user
+-	 Some UE (e.g. UE1 and UE2) are registered on the PGW.
+-	The PGW can receive the packets from the UE1 and UE2.
+-	A network traffic analyser on the PGW (e.g. tcpdump) is available.</PreConditions>
+            <ExecutionSteps>1)	The tester configures the different filtering policy for the UE1and the UE2 on the PGW, e.g. the PGW forwards the packets from the UE1 to SGi and drops the packets from the UE2.
+2)	The tester sends the packets from the UE1 to the PGW.
+3)	The tester sends the packets from the UE2 to the PGW.
+4)	The tester checks the filtered packets using the network traffic analyser.</ExecutionSteps>
+            <ExpectedResults>The PGW can filter the packets per- user according the configured filtering policy, e.g. the PGW forwards the packets from the UE1 to SGi in the step 2 and drops the packets from the UE2 in the step 3.</ExpectedResults>
+            <EvidenceFormat>Evidence suitable for the interface, e.g. screenshot contains the operation results, pcap file demonstrating that the UE2’s packets are correctly received but unavailable on the SGi interface while the UE1’s packets are correctly sent to SGi.</EvidenceFormat>
+          </TestCase>
         </Section>
         <Section title="4.2.2.3	Charging ID Uniqueness" level="4">
           <Requirement>
@@ -29,6 +42,22 @@
 Note: A charging ID is not assigned to more than one active IP-CAN bearers at the same time. The reuse of Charging ID is possible after an IP-CAN session has been terminated and the Charging ID related to this IP-CAN session has been released.</Description>
             <ThreatReference>TR 33.926 [10], clause B.2.5.1 Failure to assign unique TEID or Charging ID for a session</ThreatReference>
           </Requirement>
+          <TestCase>
+            <Purpose>Verify that the Charging ID value set in the Information Element Bearer Context within a CreateSessionResponse is unique.</Purpose>
+            <PreConditions>Test environment with P-GW and S-GW, PCRF. PCRF and S-GW may be real nodes or simulated.
+The tester is able to trace traffic between the P-GW and the S-GW (real or simulated)
+Execution Step
+1)	The tester intercepts the traffic between the P-GW and the S-GW.
+2)	The tester trigger more than one (e.g. at least 10000) consecutive CreateSessionRequest for an Initial UE Attach towards the P-GW (using a real or a simulated S-GW) in order to setup a new IP-CAN bearer.
+3)	The P-GW creates a UE/S-GW context and communicates with the PCRF (real or simulated) for QOS and APN resolve. That procedures shall be successfully in order to permit to the P-GW to send back to the S-GW a CreateSessionResponse containing at least :
+a)	A Success cause.
+b)	The P-GW’s F-TEID for control plane
+c)	The PDN Address Allocation (PAA)
+d)	A Bearer Contexts Created.
+4)	The tester verifies that the Charging ID within Bearer Contexts Created in each generated CreateSessionResponse are different.</PreConditions>
+            <ExpectedResults>The Charging ID assigned to every IP-CAN bearer requested by different CreateSessionRequest is unique.</ExpectedResults>
+            <EvidenceFormat>Files containing the triggered GTP messages (e.g. pcap trace).</EvidenceFormat>
+          </TestCase>
         </Section>
         <Section title="4.2.2.4	TEID UNIQUENESS" level="4">
           <Requirement>
@@ -38,6 +67,22 @@ Note: A charging ID is not assigned to more than one active IP-CAN bearers at th
 Note: A TEID is not assigned to more than one active GTP tunnel at the same time.The reuse of TEID is possible after a GTP tunnel has been terminated and the TEID related to this GTP tunnel has been released.</Description>
             <ThreatReference>TR 33.926 [10], clause B.2.5.1 Failure to assign unique TEID or Charging ID for a session</ThreatReference>
           </Requirement>
+          <TestCase>
+            <Purpose>Verify that the TEID generated for each new GTP tunnel is unique for both control and user plane.</Purpose>
+            <PreConditions>Test environment with P-GW and S-GW, PCRF. PCRF and S-GW may be real nodes or simulated.
+The tester is able to trace traffic between the P-GW and the S-GW (real or simulated)
+Execution Step
+1)	The tester intercepts the traffic between the P-GW and the S-GW.
+2)	The tester triggers more than one (e.g. at least 10000) consecutives CreateSessionRequest e.g. for an Initial UE Attach towards the P-GW (using a real or a simulated S-GW) with GTP header TEID set to 0 and F-TEID set to different values.
+3)	The P-GW creates a UE/S-GW context and communicates with the PCRF (real or simulated) for QOS and APN resolve. That procedures shall be successfully in order to permit to the P-GW to send back to the S-GW a CreateSessionResponse containing at least :
+a)	A Success cause.
+b)	The P-GW’s F-TEID for control plane
+c)	The PDN Address Allocation (PAA).
+d)	A Bearer Contexts Created.
+4)	The tester verifies that the F-TEID created for each generated CreateSessionResponse is unique.</PreConditions>
+            <ExpectedResults>The F-TEID  set into each different CreateSessionResponse  is unique.</ExpectedResults>
+            <EvidenceFormat>Files containing the triggered GTP messages (e.g. pcap trace).</EvidenceFormat>
+          </TestCase>
         </Section>
         <Section title="4.2.2.5	Mobility binding" level="4">
           <Requirement>
@@ -48,11 +93,10 @@ Note: A TEID is not assigned to more than one active GTP tunnel at the same time
           </Requirement>
           <TestCase>
             <Name>TC_PGW_MIP-AUTH_Non-3GPP</Name>
-            <Purpose>To test whether the PGW validates the MN-HA authentication extension correctly.
-Pre-Condition:
-The UE and PGW are connected in the test environment. UE is simulated.
+            <Purpose>To test whether the PGW validates the MN-HA authentication extension correctly.</Purpose>
+            <PreConditions>The UE and PGW are connected in the test environment. UE is simulated.
 The tester has access to the S6b interface between the 3GPP AAA Server and the PDN GW.
-The tester has access to the MIPv4 FACoA based S2a interface between the PGW and UE.</Purpose>
+The tester has access to the MIPv4 FACoA based S2a interface between the PGW and UE.</PreConditions>
             <ExecutionSteps>The PGW (home agent for the UE) is active in a 3GPP access network.
 The tester captures packets over S6b and S2a interfaces using any packet analyser.
 The tester filters the MN-HA Key transported in the authentication and authorization information from the 3GPP AAA server to PGW over S6b interface.
@@ -74,12 +118,11 @@ The tester also checks the Reply Code in the Registration Reply message to verif
           </Requirement>
           <TestCase>
             <Name>TC_PGW_EMRGENCY_CONNECTION-RELEASE</Name>
-            <Purpose>To verify whether the PGW releases all emergency PDN connections which are inactive for a configured inactive time to prevent resource exhaustion.
-Pre-Condition:
-The UE, PGW and S-GW network products are connected in the test environment.
+            <Purpose>To verify whether the PGW releases all emergency PDN connections which are inactive for a configured inactive time to prevent resource exhaustion.</Purpose>
+            <PreConditions>The UE, PGW and S-GW network products are connected in the test environment.
 UE and S-GW may be simulated.
 The tester has access to the PGW configuration file.
-The tester has access to the GTP-based S5/S8 interface.</Purpose>
+The tester has access to the GTP-based S5/S8 interface.</PreConditions>
             <ExecutionSteps>1)	The tester checks the PGW configuration file to find the PDN connection’s inactive timeout value.
 2)	The tester initiates an emergency attach procedure.
 3)	The tester captures the packet over S5/S8 interface between PGW and S-GW using any packet analyser.
@@ -113,8 +156,7 @@ The tester has access to the GTP-based S5/S8 interface.</Purpose>
             </Requirement>
             <TestCase>
               <Name>UNPRED_GTP_TEID</Name>
-              <Purpose>To verify that the GTP TEID is unpredictable
-Procedure and execution steps:</Purpose>
+              <Purpose>To verify that the GTP TEID is unpredictable</Purpose>
               <PreConditions>Test environment with P-GW and S-GW, PCRF. PCRF and S-GW may be real nodes or simulated.
 The tester is able to trace traffic between the P-GW and the S-GW (real or simulated).</PreConditions>
               <ExecutionSteps>The tester intercepts the traffic between the P-GW and the S-GW.
@@ -142,15 +184,12 @@ The tester tries to predict the F-TEID created for the final CreateSessionRespon
           <Requirement>
             <Name>IP Address Reallocation Interval</Name>
             <Description>The PGW shall support a mechanism to set an interval between an IP address reallocation.
-Security Objective references: tba.
-Test case:</Description>
+Security Objective references: tba.</Description>
           </Requirement>
           <TestCase>
             <Name>TC_ IP-ADDRESS_REALLOCATION_INTERVAL</Name>
-            <Purpose>Verify that the PGW supports an IP address reallocation interval technique.
-Procedure and execution steps:
-Pre-Condition:
--	Documentation describing how to configure an IP address reallocation interval.</Purpose>
+            <Purpose>Verify that the PGW supports an IP address reallocation interval technique.</Purpose>
+            <PreConditions>-	Documentation describing how to configure an IP address reallocation interval.</PreConditions>
             <ExecutionSteps>Configure the IP address reallocation interval to T according to the product documentation.
 Allocate an IP address IP1 to UE1.
 Make UE1 release the IP address IP1.
@@ -165,18 +204,15 @@ Attempt the step 4 in more time than T after the release of IP1.</ExecutionSteps
           <Requirement>
             <Name>MS/UE-Mutual Access Prevention</Name>
             <Description>The PGW shall support a mechanism to prevent MS/UE-mutual access attacks (e.g. configure a filtering rule to drop all mutual access packets).
-Security Objective references: tba.
-Test case:</Description>
+Security Objective references: tba.</Description>
           </Requirement>
           <TestCase>
             <Name>TC_ MS/UE-MUTUAL_ACCESS_PREVENTION</Name>
-            <Purpose>Verify that the Network Product supports a MS/UE-Mutual Access Prevention technique.
-Procedure and execution steps:
-Pre-Condition:
--	The PGW has configured two (or more) IP address segments for UEs named IPSeg 1 and IPSeg 2 (e.g. 10.40.0.0/16、10.42.0.0/16).
+            <Purpose>Verify that the Network Product supports a MS/UE-Mutual Access Prevention technique.</Purpose>
+            <PreConditions>-	The PGW has configured two (or more) IP address segments for UEs named IPSeg 1 and IPSeg 2 (e.g. 10.40.0.0/16、10.42.0.0/16).
 -	The PGW has 2 different logical or physical Ethernet ports and each port is connected to a host.
 -	A PGW analyser on the network product (e.g. tcpdump) is available.
--	A packet analyzer on the UEs is available.</Purpose>
+-	A packet analyzer on the UEs is available.</PreConditions>
             <ExecutionSteps>1)	The tester configures the PGW to block direct UE to UE traffic according to product documentation.
 2)	The tester configures a filtering rule that UEs with IP address in IPSeg 1cannot access to servers with IP address in IPSeg 2 and vice versa.
 3)	The PGW allocate the IP1 within the IPSeg 1 to UE 1.
@@ -204,15 +240,12 @@ NOTE: 	The IP address segments allocated to UEs are separate from the IP address
             <Description>The PGW shall support physical or logical separation of O&amp;M and control plane traffic, O&amp;M and user plane traffic, control plane and user plane traffic respectively.
 Note1: The security requirement in clause 4.3.5.1 of TS 33.117 (i.e. the physical or logical separation of O&amp;M and control plane traffic) and related test case also applies to the PGW.
 Note2: The requirement that is different from TS 33.117[3], clause 4.3.5.1 is that the traffic separation of user plane from O&amp;M and control plane which is considered to be PGW-specific has been take into account in present document.
-Security Objective references: tba.
-Test case:</Description>
+Security Objective references: tba.</Description>
           </Requirement>
           <TestCase>
             <Name>TC_TRAFFIC_SEPARATION</Name>
-            <Purpose>To test whether O&amp;M traffic is separated from user plane traffic, control plane traffic is separated from user plane traffic.
-Procedure and execution steps:
-Pre-Condition:
-The PGW has at least one separate (logical) interface dedicated to O&amp;M traffic and at least two (logical) interfaces for control plane traffic and user plane traffic respectively. The PGW for which the test applies and that fail to meet this precondition fail the test by definition.</Purpose>
+            <Purpose>To test whether O&amp;M traffic is separated from user plane traffic, control plane traffic is separated from user plane traffic.</Purpose>
+            <PreConditions>The PGW has at least one separate (logical) interface dedicated to O&amp;M traffic and at least two (logical) interfaces for control plane traffic and user plane traffic respectively. The PGW for which the test applies and that fail to meet this precondition fail the test by definition.</PreConditions>
             <ExecutionSteps>Execute the following steps:
 1.	The tester checks whether the PGW refuses O&amp;M traffic on all interfaces meant for user plane traffic.
 2.	The tester checks whether the PGW refuses user plane traffic on all O&amp;M interfaces.
@@ -226,17 +259,14 @@ The PGW has at least one separate (logical) interface dedicated to O&amp;M traff
           <Requirement>
             <Name>User Plane Traffic Differentiation</Name>
             <Description>“The EPS shall support simultaneous exchange of IP traffic to multiple PDNs through the use of separate PDN GWs or single PDN GW” as specified in 3GPP TS 23.401 [6], clause 5.10.1. According to this, the PGW shall support the user plane traffic differentiation (e.g. enterprise, internet, etc) by setting the specific APNs, and shall support the traffic isolation based on the APNs (e.g. using VPN).
-Security Objective references: tba
-Test case:</Description>
+Security Objective references: tba</Description>
           </Requirement>
           <TestCase>
             <Name>TC_USER PLANE TRAFFIC_DIFFERENTIATION</Name>
             <Purpose>1. To test whether the user plane traffics is differentiated by setting the specific APNs.
-2. To test whether the traffic is isolated based on the APNs.
-Procedure and execution steps:
-Pre-Condition:
-The PGW has configured several APNs for the testing, and every APN is configured to associate with specific VPN (e.g. the VPN can be GRE) for user plane traffic. For example, APN1’s traffic is sent and received by VPN1, and APN2’s traffic is sent and received by VPN2.
-The PGW for which the test applies and that fail to meet this precondition fail the test by definition.</Purpose>
+2. To test whether the traffic is isolated based on the APNs.</Purpose>
+            <PreConditions>The PGW has configured several APNs for the testing, and every APN is configured to associate with specific VPN (e.g. the VPN can be GRE) for user plane traffic. For example, APN1’s traffic is sent and received by VPN1, and APN2’s traffic is sent and received by VPN2.
+The PGW for which the test applies and that fail to meet this precondition fail the test by definition.</PreConditions>
             <ExecutionSteps>Execute the following steps:
 1. The tester intercepts the VPN packets between the P-GW and PDN, as well as the GTP-U packets between P-GW and S-GW/UE;
 2. The tester checks triggers APN1’s traffic with the P-GW, then the tester verifies that the tunnel id of the VPN packets sent by the P-GW indicates VPN1 as well as the TEID of the GTP-U packets sent by the P-GW indicates APN1;

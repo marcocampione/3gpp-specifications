@@ -49,27 +49,16 @@ def parse_version_from_filename(filename):
     Parse version from filename like '33117-j20.zip' or '33117-j20.xml'
     Returns tuple (major, minor, patch) or None if pattern not found
 
-    Formula:
-    - Letter position in alphabet + 9 = major version
-    - Number after letter / 10 = minor version
-    - Patch is always 0
+    3GPP encodes the version as three base-36 characters (0-9, a-z),
+    one each for major, minor and patch.
 
-    Example: j20 -> j=10, 10+9=19, 20/10=2 -> v.19.2.0
+    Example: j20 -> (19, 2, 0) -> v.19.2.0, k1b -> (20, 1, 11) -> v.20.1.11
     """
-    match = re.search(r"-([a-z])(\d+)", filename, re.IGNORECASE)
+    match = re.search(r"-([0-9a-z])([0-9a-z])([0-9a-z])(?:\.\w+)?$", filename, re.IGNORECASE)
     if not match:
         return None
 
-    letter = match.group(1).lower()
-    number = int(match.group(2))
-
-    # Calculate major version: letter position + 9
-    major = ord(letter) - ord("a") + 1 + 9
-
-    # Calculate minor version: number / 10
-    minor = number // 10
-    patch = 0
-
+    major, minor, patch = (int(c, 36) for c in match.groups())
     return (major, minor, patch)
 
 
@@ -148,13 +137,16 @@ def parse_docx_to_xml(docx_path, xml_output_path, spec_number):
     # Regex patterns based on the 3GPP document style
     patterns = {
         "req_name": re.compile(r"^Requirement Name:\s*(.*)", re.IGNORECASE),
-        "req_ref": re.compile(r"^Requirement Reference:\s*(.*)", re.IGNORECASE),
+        "req_ref": re.compile(r"^Requirement References?:\s*(.*)", re.IGNORECASE),
         "req_desc": re.compile(r"^Requirement Description:\s*(.*)", re.IGNORECASE),
-        "threat_ref": re.compile(r"^Threat References:\s*(.*)", re.IGNORECASE),
+        "threat_ref": re.compile(r"^Threat References?:\s*(.*)", re.IGNORECASE),
+        "test_case": re.compile(r"^Test Case:\s*(.*)", re.IGNORECASE),
         "test_name": re.compile(r"^Test Name:\s*(.*)", re.IGNORECASE),
         "purpose": re.compile(r"^Purpose:\s*(.*)", re.IGNORECASE),
-        "pre_cond": re.compile(r"^Pre-Conditions:\s*(.*)", re.IGNORECASE),
-        "steps": re.compile(r"^Execution Steps", re.IGNORECASE),
+        "pre_cond": re.compile(r"^Pre-?Conditions?:\s*(.*)", re.IGNORECASE),
+        "steps": re.compile(r"^Execution Steps:?\s*(.*)", re.IGNORECASE),
+        # Parent label over Pre-Conditions / Execution Steps in newer specs
+        "procedure": re.compile(r"^Procedure and execution steps:?\s*$", re.IGNORECASE),
         "expected": re.compile(r"^Expected Results:\s*(.*)", re.IGNORECASE),
         "evidence": re.compile(r"^Expected format of evidence:\s*(.*)", re.IGNORECASE),
     }
@@ -224,11 +216,41 @@ def parse_docx_to_xml(docx_path, xml_output_path, spec_number):
                 continue
 
         # --- Handle Test Cases ---
-        match = patterns["test_name"].match(text)
+        # "Test Case:" opens a test case. It is usually followed by
+        # "Test Name:", but older specs leave the test unnamed
+        # ("Test Case:" / "Test Case: Purpose: ...") or only point to
+        # another clause ("Test Case: The test case in clause ...").
+        match = patterns["test_case"].match(text)
         if match:
             capture_mode = None
             current_test = ET.SubElement(current_element, "TestCase")
-            tc_name = ET.SubElement(current_test, "Name")
+            rest = match.group(1).strip()
+            if not rest:
+                capture_mode = "TestRef"
+                continue
+            if not any(
+                patterns[k].match(rest)
+                for k in ("test_name", "purpose", "pre_cond", "steps")
+            ):
+                ref = ET.SubElement(current_test, "Reference")
+                ref.text = rest
+                capture_mode = "TestRef"
+                continue
+            text = rest
+
+        match = patterns["test_name"].match(text)
+        if match:
+            capture_mode = None
+            # Reuse the test case opened by "Test Case:" if it has no
+            # name or body yet (it may hold an introductory Reference/NOTE)
+            if (
+                current_test is None
+                or current_test.find("Name") is not None
+                or current_test.find("Purpose") is not None
+            ):
+                current_test = ET.SubElement(current_element, "TestCase")
+            tc_name = ET.Element("Name")
+            current_test.insert(0, tc_name)
             tc_name.text = match.group(1).strip()
             continue
 
@@ -247,9 +269,14 @@ def parse_docx_to_xml(docx_path, xml_output_path, spec_number):
                 capture_mode = "PreCond"
                 continue
 
+            if patterns["procedure"].match(text):
+                capture_mode = None
+                continue
+
             match = patterns["steps"].match(text)
             if match:
                 steps = ET.SubElement(current_test, "ExecutionSteps")
+                steps.text = match.group(1).strip() or None
                 capture_mode = "Steps"
                 continue
 
@@ -268,21 +295,28 @@ def parse_docx_to_xml(docx_path, xml_output_path, spec_number):
                 continue
 
         # --- Handle Multi-line Content (Capture Mode) ---
-        if capture_mode and (current_req or current_test):
+        # Note: Elements must be compared to None; their truth value is
+        # their number of children.
+        if capture_mode and (current_req is not None or current_test is not None):
+            # Append to the most recent element of that kind, so tests
+            # with several cases (Case 1, Case 2, ...) keep them apart
+            tags = {
+                "TestRef": "Reference",
+                "TestPurpose": "Purpose",
+                "PreCond": "PreConditions",
+                "Steps": "ExecutionSteps",
+                "Results": "ExpectedResults",
+                "Evidence": "EvidenceFormat",
+            }
             target_node = None
-            if capture_mode == "ReqDesc" and current_req:
-                target_node = current_req.find("Description")
-            elif current_test:
-                if capture_mode == "TestPurpose":
-                    target_node = current_test.find("Purpose")
-                elif capture_mode == "PreCond":
-                    target_node = current_test.find("PreConditions")
-                elif capture_mode == "Steps":
-                    target_node = current_test.find("ExecutionSteps")
-                elif capture_mode == "Results":
-                    target_node = current_test.find("ExpectedResults")
-                elif capture_mode == "Evidence":
-                    target_node = current_test.find("EvidenceFormat")
+            if capture_mode == "ReqDesc" and current_req is not None:
+                target_node = current_req.findall("Description")[-1]
+            elif current_test is not None and capture_mode in tags:
+                found = current_test.findall(tags[capture_mode])
+                if found:
+                    target_node = found[-1]
+                elif capture_mode == "TestRef":
+                    target_node = ET.SubElement(current_test, "Reference")
 
             if target_node is not None:
                 if target_node.text:
@@ -299,19 +333,6 @@ def parse_docx_to_xml(docx_path, xml_output_path, spec_number):
         print(f"  → Generated {os.path.basename(xml_output_path)}")
     except Exception as e:
         print(f"  ✗ Failed to write XML: {e}")
-
-
-def convert_docx_to_xml(base_folder, spec_number):
-    """Convert all .docx files in folder to XML"""
-    if Document is None:
-        return
-
-    docx_files = glob.glob(os.path.join(base_folder, "**", "*.docx"), recursive=True)
-
-    for docx_file in docx_files:
-        # Generate XML filename (same name but .xml extension)
-        xml_file = docx_file.rsplit(".", 1)[0] + ".xml"
-        parse_docx_to_xml(docx_file, xml_file, spec_number)
 
 
 def find_libreoffice():
@@ -429,31 +450,7 @@ def convert_docx_to_pdf(docx_path, pdf_path):
         return False
 
 
-def download_extract_cleanup(ts, name):
-    base_folder = f"TS {ts} - {name}"
-    os.makedirs(base_folder, exist_ok=True)
-
-    zip_url = get_latest_zip(ts)
-    zip_name = os.path.basename(zip_url)
-
-    # Parse version from ZIP filename
-    version_tuple = parse_version_from_filename(zip_name)
-    if not version_tuple:
-        print(f"  ⚠ Could not parse version from {zip_name}")
-        return
-
-    major, minor, patch = version_tuple
-    version_str = format_version(major, minor, patch)
-    version_filename = format_version_for_filename(major, minor, patch)
-
-    # Create version folder
-    version_folder = os.path.join(base_folder, version_str)
-    os.makedirs(version_folder, exist_ok=True)
-
-    # Temporary extraction folder
-    temp_folder = os.path.join(base_folder, "_temp")
-    os.makedirs(temp_folder, exist_ok=True)
-
+def process_zip(ts, zip_url, zip_name, temp_folder, version_folder, version_filename, version_str):
     zip_path = os.path.join(temp_folder, zip_name)
 
     print(f"↓ TS {ts} ({version_str})")
@@ -485,35 +482,70 @@ def download_extract_cleanup(ts, name):
     # Convert .doc files to .docx
     convert_doc_to_docx(temp_folder)
 
-    # Convert .docx files to XML
-    convert_docx_to_xml(temp_folder, ts)
-
-    # Find and process the DOCX and XML files
+    # Pick the specification document. Every output file gets the same
+    # name, so only one DOCX can be kept per version.
     spec_number = ts.replace(".", "")
-    docx_files = glob.glob(os.path.join(temp_folder, "**", "*.docx"), recursive=True)
-    xml_files = glob.glob(os.path.join(temp_folder, "**", "*.xml"), recursive=True)
+    docx_files = sorted(
+        glob.glob(os.path.join(temp_folder, "**", "*.docx"), recursive=True)
+    )
+    if not docx_files:
+        raise RuntimeError(f"No .doc/.docx found in {zip_name}")
+    if len(docx_files) > 1:
+        print(
+            f"  ⚠ {len(docx_files)} documents in {zip_name}, keeping the largest: "
+            + ", ".join(os.path.basename(f) for f in docx_files)
+        )
+    docx_file = max(docx_files, key=os.path.getsize)
 
-    # Process DOCX files
-    for docx_file in docx_files:
-        new_docx_name = f"{spec_number}-{version_filename}.docx"
-        new_docx_path = os.path.join(version_folder, new_docx_name)
-        shutil.copy2(docx_file, new_docx_path)
-        print(f"  → Saved {new_docx_name}")
+    new_docx_name = f"{spec_number}-{version_filename}.docx"
+    new_docx_path = os.path.join(version_folder, new_docx_name)
+    shutil.copy2(docx_file, new_docx_path)
+    print(f"  → Saved {new_docx_name}")
 
-        # Generate PDF from DOCX
-        new_pdf_name = f"{spec_number}-{version_filename}.pdf"
-        new_pdf_path = os.path.join(version_folder, new_pdf_name)
+    # Generate PDF from DOCX. LibreOffice embeds a timestamp, so a
+    # regenerated PDF always differs; keep the existing one if present.
+    new_pdf_name = f"{spec_number}-{version_filename}.pdf"
+    new_pdf_path = os.path.join(version_folder, new_pdf_name)
+    if os.path.exists(new_pdf_path):
+        print(f"  = {new_pdf_name} already exists, skipping PDF generation")
+    else:
         convert_docx_to_pdf(new_docx_path, new_pdf_path)
 
-    # Process XML files
-    for xml_file in xml_files:
-        new_xml_name = f"{spec_number}-{version_filename}.xml"
-        new_xml_path = os.path.join(version_folder, new_xml_name)
-        shutil.copy2(xml_file, new_xml_path)
-        print(f"  → Saved {new_xml_name}")
+    # Generate XML from DOCX
+    new_xml_name = f"{spec_number}-{version_filename}.xml"
+    parse_docx_to_xml(new_docx_path, os.path.join(version_folder, new_xml_name), ts)
 
-    # Clean up temp folder
-    shutil.rmtree(temp_folder)
+
+def download_extract_cleanup(ts, name):
+    base_folder = f"TS {ts} - {name}"
+    os.makedirs(base_folder, exist_ok=True)
+
+    zip_url = get_latest_zip(ts)
+    zip_name = os.path.basename(zip_url)
+
+    # Parse version from ZIP filename
+    version_tuple = parse_version_from_filename(zip_name)
+    if not version_tuple:
+        raise RuntimeError(f"Could not parse version from {zip_name}")
+
+    major, minor, patch = version_tuple
+    version_str = format_version(major, minor, patch)
+    version_filename = format_version_for_filename(major, minor, patch)
+
+    # Create version folder
+    version_folder = os.path.join(base_folder, version_str)
+    os.makedirs(version_folder, exist_ok=True)
+
+    # Temporary extraction folder (start clean: a previous failed run
+    # may have left stale files behind)
+    temp_folder = os.path.join(base_folder, "_temp")
+    shutil.rmtree(temp_folder, ignore_errors=True)
+    os.makedirs(temp_folder)
+
+    try:
+        process_zip(ts, zip_url, zip_name, temp_folder, version_folder, version_filename, version_str)
+    finally:
+        shutil.rmtree(temp_folder, ignore_errors=True)
 
     print(f"✓ TS {ts} ({version_str}) complete")
 

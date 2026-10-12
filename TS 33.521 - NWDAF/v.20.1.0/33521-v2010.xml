@@ -28,15 +28,14 @@
             </Requirement>
             <TestCase>
               <Name>TC_DATA_MASKING</Name>
-              <Purpose>Verify that no privacy-related information of the subscribers is disclosed to any entity who is not authorized to access such information.
-Pre-Condition:
-Privacy information list (contains e.g. PII, location data, network identifiers, session information; should be specified based on local policy, regulation and others).
+              <Purpose>Verify that no privacy-related information of the subscribers is disclosed to any entity who is not authorized to access such information.</Purpose>
+              <PreConditions>Privacy information list (contains e.g. PII, location data, network identifiers, session information; should be specified based on local policy, regulation and others).
 NOTE:	If user consent check is implemented, user consent for data collection is granted.
 The following entities are operational, integrated and simulated:
 -	NWDAF.
 -	‘data producer’ (NF- or OAM as source for data collection which generates user data containing privacy info, e.g. AMF).
 -	‘analytics consumer’ (NF- or OAM to which the NWDAF exposes analytics).
-The data producer is configured to receive and accept subscription requests from the NWDAF for events according to TS 29.552 [6], clause 5.5.1.1.</Purpose>
+The data producer is configured to receive and accept subscription requests from the NWDAF for events according to TS 29.552 [6], clause 5.5.1.1.</PreConditions>
               <ExecutionSteps>1.	Tester triggers behaviour so that the ‘data producer’ is required to handle privacy information (e.g. for AMF trigger registration request at UE).
 2.	The tester sends an Nnwdaf_AnalyticsInfo_Request request message from the ‘analytics consumer’ to NWDAF according to TS 29.552 [6], clause 5.2.3.1. The request message shall be crafted to capture information from step 1.
 3.	The tester retrieves the Nnwdaf_AnalyticsInfo_Request response message from the NWDAF.</ExecutionSteps>

@@ -18,22 +18,19 @@
           <Requirement>
             <Name>Confidentiality protection of user data transported over N3 interface.</Name>
             <Reference>TS 33.501 [2], Clause 9.3</Reference>
-            <Description>The transported user data between gNB and UPF is confidentiality protected as specified in TS 33.501 [2], clause 9.3.
-Threat Reference: TR 33.926 [7], Clause L.2.2, &quot;No protection or weak protection for user plane data &quot;.
-TEST CASE:
-NOTE 1:	Void</Description>
+            <Description>The transported user data between gNB and UPF is confidentiality protected as specified in TS 33.501 [2], clause 9.3.</Description>
+            <ThreatReference>TR 33.926 [7], Clause L.2.2, &quot;No protection or weak protection for user plane data &quot;.</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_UP_DATA_CONF_UPF</Name>
-            <Purpose>Verify that the transported user data between gNB and UPF are confidentiality protected over N3 interface.
-Procedure and execution steps:
-Pre-Condition:
--	UPF network product is connected in simulated/real network environment.
+            <Reference>NOTE 1:	Void</Reference>
+            <Purpose>Verify that the transported user data between gNB and UPF are confidentiality protected over N3 interface.</Purpose>
+            <PreConditions>-	UPF network product is connected in simulated/real network environment.
 -	The tunnel mode IPsec ESP and IKE certificate authentication is implemented.
 -	Tester shall have knowledge of the security parameters of tunnel for decrypting the ESP packets.
 -	Tester shall have access to the N3 interface between gNB and UPF.
 -	Tester shall have knowledge of the confidentiality algorithm and confidentiality protection keys used for encrypting the encapsulated payload.
-NOTE 2:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG.</Purpose>
+NOTE 2:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG.</PreConditions>
             <ExecutionSteps>The requirement mentioned in this clause is tested in accordance with the procedure mentioned in clause 4.2.3.2.4 of TS 33.117 [3].</ExecutionSteps>
             <ExpectedResults>The user data transported between gNB and UPF is confidentiality protected.</ExpectedResults>
             <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of screenshot/screen-capture.</EvidenceFormat>
@@ -43,20 +40,17 @@ NOTE 2:	This test case is only applicable to UPF supporting IPSec in N3 interfac
           <Requirement>
             <Name>Integrity protection of user data transported over N3 interface.</Name>
             <Reference>TS 33.501 [2], Clause 9.3</Reference>
-            <Description>The transported user data between gNB and UPF is integrity protected as specified in TS 33.501 [2], clause 9.3.
-Threat Reference: TR 33.926 [7], Clause L.2.2, &quot;No protection or weak protection for user plane data&quot;
-TEST CASE:
-NOTE 1:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG</Description>
+            <Description>The transported user data between gNB and UPF is integrity protected as specified in TS 33.501 [2], clause 9.3.</Description>
+            <ThreatReference>TR 33.926 [7], Clause L.2.2, &quot;No protection or weak protection for user plane data&quot;</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_UP_DATA_INT_UPF</Name>
-            <Purpose>Verify that the transported user data between gNB and UPF are integrity protected over N3 interface.
-Procedure and execution steps:
-Pre-Condition:
--	UPF network product is connected in simulated/real network environment.
+            <Reference>NOTE 1:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG</Reference>
+            <Purpose>Verify that the transported user data between gNB and UPF are integrity protected over N3 interface.</Purpose>
+            <PreConditions>-	UPF network product is connected in simulated/real network environment.
 -	The tunnel mode IPsec ESP and IKE certificate authentication is implemented.
 -	Tester shall have knowledge of the security parameters of tunnel for decrypting the Encapsulated Security Payload (ESP) packets.
--	Tester shall have knowledge of the authentication algorithm (Hash Message Authentication Code) and the protection keys.</Purpose>
+-	Tester shall have knowledge of the authentication algorithm (Hash Message Authentication Code) and the protection keys.</PreConditions>
             <ExecutionSteps>The requirement mentioned in this clause is tested in accordance to the procedure mentioned in clause 4.2.3.2.4 of TS 33.117 [3].</ExecutionSteps>
             <ExpectedResults>The user data transported between gNB and UPF is integrity protected.</ExpectedResults>
             <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of screenshot/screen-capture.</EvidenceFormat>
@@ -66,21 +60,17 @@ Pre-Condition:
           <Requirement>
             <Name>Replay protection of user data transported over N3 interface</Name>
             <Reference>TS 33.501 [2], Clause 9.3</Reference>
-            <Description>The transported user data between gNB and UPF is replay protected as specified in TS 33.501, clause 9.3.
-Threat Reference: TR 33.926 [7], Clause L.2.2, &quot;No protection or weak protection for user plane data&quot;
-TEST CASE:
-NOTE 1:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG.</Description>
+            <Description>The transported user data between gNB and UPF is replay protected as specified in TS 33.501, clause 9.3.</Description>
+            <ThreatReference>TR 33.926 [7], Clause L.2.2, &quot;No protection or weak protection for user plane data&quot;</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_UP_DATA_REPLAY_UPF</Name>
-            <Purpose>Verify that the transported user data between gNB and UPF are replay protected.
-Procedure and execution steps:
-The following procedure is executed if UPF supports IPsec.
-Pre-Condition:
--	UPF network product is connected in simulated/real network environment.
+            <Reference>NOTE 1:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG.</Reference>
+            <Purpose>Verify that the transported user data between gNB and UPF are replay protected.</Purpose>
+            <PreConditions>-	UPF network product is connected in simulated/real network environment.
 -	The tunnel mode IPsec ESP and IKE certificate authentication is implemented.
 -	Tester shall have knowledge of the security parameters of tunnel for decrypting the ESP packets.
--	Tester shall have access to the original user data transported via N3 reference point between gNB and UPF.</Purpose>
+-	Tester shall have access to the original user data transported via N3 reference point between gNB and UPF.</PreConditions>
             <ExecutionSteps>The requirement mentioned in this clause is tested in accordance with the procedure mentioned in clause 4.2.3.2.4 of TS 33.117 [3].</ExecutionSteps>
             <ExpectedResults>The user data transported between UE and UPF is replay protected.</ExpectedResults>
             <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of screenshot/screen-capture.</EvidenceFormat>
@@ -91,21 +81,18 @@ Pre-Condition:
             <Name>Protection of user data transported over N9 within a PLMN.</Name>
             <Reference>TS 33.501 [2], Clause 9.9</Reference>
             <Description>As specified in clause 9.9 in TS 33.501 [2], interfaces internal to the 5G Core can be used to transport signalling data as well as privacy sensitive material, such as user and subscription data, or other parameters, such as security keys. Therefore, confidentiality and integrity protection is required.
-For the protection of the non-SBA internal interfaces, such as N4 and N9, NDS/IP is used as specified in TS 33.501 [2], clause 9.9 .
-Threat Reference: TR 33.926 [7], Clause L.2.2, &quot;No protection or weak protection for user plane data &quot;
-TEST CASE:
-NOTE 1:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG.</Description>
+For the protection of the non-SBA internal interfaces, such as N4 and N9, NDS/IP is used as specified in TS 33.501 [2], clause 9.9 .</Description>
+            <ThreatReference>TR 33.926 [7], Clause L.2.2, &quot;No protection or weak protection for user plane data &quot;</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_UP_DATA_CONF_UPF_N9</Name>
-            <Purpose>Verify that the protection mechanism implemented for user data transport over N9 interface in a PLMN conforms to the selected security profile.
-Procedure and execution steps:
-Pre-Condition:
--	UPF network products are connected in simulated/real network environment.
+            <Reference>NOTE 1:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG.</Reference>
+            <Purpose>Verify that the protection mechanism implemented for user data transport over N9 interface in a PLMN conforms to the selected security profile.</Purpose>
+            <PreConditions>-	UPF network products are connected in simulated/real network environment.
 -	The tunnel mode IPsec ESP and IKE certificate authentication is implemented.
 -	Tester shall have knowledge of the security parameters of tunnel for decrypting the ESP packets.
 -	Tester shall have access to the N9 interface between two UPFs within a PLMN.
--	Tester shall have knowledge of the confidentiality algorithm and confidentiality protection keys used for encrypting the encapsulated payload.</Purpose>
+-	Tester shall have knowledge of the confidentiality algorithm and confidentiality protection keys used for encrypting the encapsulated payload.</PreConditions>
             <ExecutionSteps>The requirement mentioned in this clause is tested in accordance with the procedure mentioned in clause 4.2.3.2.4 of TS 33.117 [3].</ExecutionSteps>
             <ExpectedResults>The user data transported on N9 within a PLMN is protected.</ExpectedResults>
             <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of screenshot/screen-capture.</EvidenceFormat>
@@ -116,21 +103,18 @@ Pre-Condition:
             <Name>Protection of signalling data transported over N4 interface.</Name>
             <Reference>TS 33.501 [2], Clause 9.9</Reference>
             <Description>As specified in clause 9.9 in TS 33.501 [2], interfaces internal to the 5G Core can be used to transport signalling data as well as privacy sensitive material, such as user and subscription data, or other parameters, such as security keys. Therefore, confidentiality and integrity protection is required.
-For the protection of the non-SBA internal interfaces, such as N4 and N9, NDS/IP is used as specified in TS 33.501 [2], clause 9.9.
-Threat Reference: TR 33.926 [7], Clause L.2.3, &quot;No protection or weak protection for signalling data over N4 interface&quot;
-TEST CASE:
-NOTE 1:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG.</Description>
+For the protection of the non-SBA internal interfaces, such as N4 and N9, NDS/IP is used as specified in TS 33.501 [2], clause 9.9.</Description>
+            <ThreatReference>TR 33.926 [7], Clause L.2.3, &quot;No protection or weak protection for signalling data over N4 interface&quot;</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_CP_DATA_CONF_UPF_N4</Name>
-            <Purpose>Verify that the protection mechanism implemented for signalling data transmitted over N4 conforms to selected security profile.
-Procedure and execution steps:
-Pre-Condition:
--	UPF and SMF network products are connected in simulated/real network environment.
+            <Reference>NOTE 1:	This test case is only applicable to UPF supporting IPSec in N3 interface without the use of a SEG.</Reference>
+            <Purpose>Verify that the protection mechanism implemented for signalling data transmitted over N4 conforms to selected security profile.</Purpose>
+            <PreConditions>-	UPF and SMF network products are connected in simulated/real network environment.
 -	The tunnel mode IPsec ESP and IKE certificate authentication is implemented.
 -	Tester shall have knowledge of the security parameters of tunnel for decrypting the ESP packets.
 -	Tester shall have access to the N4 interface between SMF and UPF.
--	Tester shall have knowledge of the confidentiality algorithm and confidentiality protection keys used for encrypting the encapsulated payload.</Purpose>
+-	Tester shall have knowledge of the confidentiality algorithm and confidentiality protection keys used for encrypting the encapsulated payload.</PreConditions>
             <ExecutionSteps>The requirement mentioned in this clause is tested in accordance with the procedure mentioned in clause 4.2.3.2.4 of TS 33.117 [3].</ExecutionSteps>
             <ExpectedResults>The signalling data transported over N4 interface is protected.</ExpectedResults>
             <EvidenceFormat>Evidence suitable for the interface, e.g., evidence can be presented in the form of screenshot/screen-capture.</EvidenceFormat>
@@ -142,9 +126,8 @@ Pre-Condition:
             <Reference/>
             <Description>Allocation and release of CN Tunnel Info is performed when a new PDU Session is established or released. This functionality is supported either by SMF or UPF, based on operator’s configuration on the SMF as specified in TS 23.501[4], clause 5.8.2.3.1.
 Tunnel Endpoint Identifier (TEID): This field unambiguously identifies a tunnel endpoint in the receiving GTP U protocol entity. The receiving end side of a GTP tunnel locally assigns the TEID value the transmitting side has to use as specified in TS 29.281[5], clause 5.1.
-The TEID is a unique identifier within one IP address of a logical node as specified in TS 23.060 [6], clause 14.6.
-Threat Reference: TR 33.926 [7], Clause L.2.4, &quot;Failure to assign unique TEID for a session&quot;
-TEST CASE:</Description>
+The TEID is a unique identifier within one IP address of a logical node as specified in TS 23.060 [6], clause 14.6.</Description>
+            <ThreatReference>TR 33.926 [7], Clause L.2.4, &quot;Failure to assign unique TEID for a session&quot;</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_TEID_ID_UNIQUENESS_UPF</Name>
@@ -161,13 +144,12 @@ TEST CASE:</Description>
           <Requirement>
             <Name>IPUPS packeting handling</Name>
             <Reference>TS 33.501[2], clause 5.9.3.4</Reference>
-            <Description>The IPUPS  only forwards GTP-U packets that contain an F-TEID that belongs to an active PDU session and discard all others as specified in TS 33.501 [2], clause 5.9.3.4.
-Threat Reference: TR 33.926 [7], Clause L.2.5, &quot;invalid user plane data forwarding&quot;
-TEST CASE:
-NOTE 1:	This test case is only applicable to UPF supporting IPUPS.</Description>
+            <Description>The IPUPS  only forwards GTP-U packets that contain an F-TEID that belongs to an active PDU session and discard all others as specified in TS 33.501 [2], clause 5.9.3.4.</Description>
+            <ThreatReference>TR 33.926 [7], Clause L.2.5, &quot;invalid user plane data forwarding&quot;</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_IPUPS_PACKET_HANDLING</Name>
+            <Reference>NOTE 1:	This test case is only applicable to UPF supporting IPUPS.</Reference>
             <Purpose>Verify that the packets not belonging to an active PDU session are discarded.</Purpose>
             <PreConditions>Test environment is set up with a V-SMF, an H-SMF, and a gNB. The V-SMF, H-SMF and gNB may be simulated.</PreConditions>
             <ExecutionSteps>1)	The V-SMF requests the UPF with IPUPS functionality under test to establish an N4 session for a PDU session in home-routing roaming. The UPF with IPUPS functionality under test responds to the SMF with the F-TEID for the N9 tunnel towards the H-UPF, and the F-TEID for the N3 tunnel towards the gNB.
@@ -186,13 +168,12 @@ When the H-UPF is triggered to send GTP-U packets using an F-TEID different than
           <Requirement>
             <Name>Protection against malformed GTP-U messages</Name>
             <Reference>TS 33.501[2], clause 5.9.3.4</Reference>
-            <Description>The IPUPS discards malformed GTP-U messages as specified in TS 33.501[2], clause 5.9.3.4.
-Threat Reference: TR 33.926 [7], Clause L.2.6, &quot;Threats of malformed GTP-U messages&quot;
-TEST CASE:
-NOTE 1:	This test case is only applicable to UPF supporting IPUPS.</Description>
+            <Description>The IPUPS discards malformed GTP-U messages as specified in TS 33.501[2], clause 5.9.3.4.</Description>
+            <ThreatReference>TR 33.926 [7], Clause L.2.6, &quot;Threats of malformed GTP-U messages&quot;</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_IPUPS_MALFORED_MESSAGES</Name>
+            <Reference>NOTE 1:	This test case is only applicable to UPF supporting IPUPS.</Reference>
             <Purpose>Verify that malformed messages are discarded by UPF.</Purpose>
             <PreConditions>The pre-conditions in clause 4.4.4 of TS 33.117 [3] apply, except that fuzzing tools supporting GTP-U protocol is available.</PreConditions>
             <ExecutionSteps>The execution steps follow those in clause 4.4.4 of TS 33.117 [3], except that the protocol the fuzzing tool is executed against is GTP-U and the interface is N9.</ExecutionSteps>

@@ -15,8 +15,8 @@
         <Requirement>
           <Name>Routes the S-NSSAI to the right place</Name>
           <Reference>TS 33.501 [2], clause 6.8.1.2.3</Reference>
-          <Description>If the AAA-P is present (e.g. because the AAA-S belongs to a third party and the operator deploys a proxy towards third parties), the NSSAAF forwards the EAP ID Response message to the AAA-P, otherwise the NSSAAF forwards the message directly to the AAA-S. NSSAAF routes to the AAA-S based on the S-NSSAI, as specified in TS 33.501 [2], clause 6.13.
-Threat Reference: TR 33.926 [4], clause P.3.2 – Threats related to NSSAAF.</Description>
+          <Description>If the AAA-P is present (e.g. because the AAA-S belongs to a third party and the operator deploys a proxy towards third parties), the NSSAAF forwards the EAP ID Response message to the AAA-P, otherwise the NSSAAF forwards the message directly to the AAA-S. NSSAAF routes to the AAA-S based on the S-NSSAI, as specified in TS 33.501 [2], clause 6.13.</Description>
+          <ThreatReference>TR 33.926 [4], clause P.3.2 – Threats related to NSSAAF.</ThreatReference>
         </Requirement>
         <TestCase>
           <Name>TC_NSSAAF_CORRECT_ROUTING</Name>
@@ -35,8 +35,8 @@ Threat Reference: TR 33.926 [4], clause P.3.2 – Threats related to NSSAAF.</De
         <Requirement>
           <Name>AAA-S authorization in re-authentication and revocation scenarios</Name>
           <Reference>TS 33.501 [2], clause 16.4</Reference>
-          <Description>The NSSAAF checks whether the AAA-S is authorized to request the re-authentication and re-authorization by checking the local configuration of AAA-S address per S-NSSAI. If success, the NSSAAF requests UDM for the AMF serving the UE using the Nudm_UECM_Get (GPSI, AMF Registration) service operation. The UDM provides the NSSAAF with the AMF ID of the AMF serving the UE as specified in TS 33.501 [2], clause 6.13.
-Threat Reference: TR 33.926 [4], clause P.3.2 – Threats related to NSSAAF.</Description>
+          <Description>The NSSAAF checks whether the AAA-S is authorized to request the re-authentication and re-authorization by checking the local configuration of AAA-S address per S-NSSAI. If success, the NSSAAF requests UDM for the AMF serving the UE using the Nudm_UECM_Get (GPSI, AMF Registration) service operation. The UDM provides the NSSAAF with the AMF ID of the AMF serving the UE as specified in TS 33.501 [2], clause 6.13.</Description>
+          <ThreatReference>TR 33.926 [4], clause P.3.2 – Threats related to NSSAAF.</ThreatReference>
         </Requirement>
         <TestCase>
           <Name>TC_NSSAAF_AAAS_AUTHORIZATION_REAUTH_REVOCATION</Name>

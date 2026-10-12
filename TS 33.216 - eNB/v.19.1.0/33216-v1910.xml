@@ -20,6 +20,9 @@
               <Description>&quot;The eNB shall provide confidentiality protection for control plane packets on the S1/X2 reference points.&quot; as specified in TS 33.401 [3], clause 5.3.4a.</Description>
               <ThreatReference>TR 33.926 [4], clause C.2.2.1 – Control plane data confidentiality protection.</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Reference>The requirement mentioned in this clause is tested in accordance to the procedure mentioned in clause 4.2.3.2.4 of TS 33.117 [2].</Reference>
+            </TestCase>
           </Section>
           <Section title="4.2.2.1.2	Control plane data integrity protection" level="5">
             <Requirement>
@@ -28,6 +31,9 @@
               <Description>&quot;The eNB shall provide integrity protection for control plane packets on the S1/X2 reference points.&quot; as specified in TS 33.401 [3], clause 5.3.4a.</Description>
               <ThreatReference>TR 33.926 [4], clause C.2.2.2 – Control plane data integrity protection.</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Reference>The requirement mentioned in this clause is tested in accordance to the procedure mentioned in clause 4.2.3.2.4 of TS 33.117 [2].</Reference>
+            </TestCase>
           </Section>
           <Section title="4.2.2.1.3	User plane data ciphering and deciphering at the eNB" level="5">
             <Requirement>
@@ -38,11 +44,10 @@
             </Requirement>
             <TestCase>
               <Name>TC-DATA-CIP-eNB-Uu</Name>
-              <Purpose>To verify that the user data packets are confidentiality protected over the air interface.
-Pre-Condition:
--	The eNB network product is connected in emulated/real network environments. UE and the MME may be simulated,
+              <Purpose>To verify that the user data packets are confidentiality protected over the air interface.</Purpose>
+              <PreConditions>-	The eNB network product is connected in emulated/real network environments. UE and the MME may be simulated,
 -	The tester can capture the messages via the air interface.
--	The tester enables the user plane ciphering protection and ensure EEA0 is not used.</Purpose>
+-	The tester enables the user plane ciphering protection and ensure EEA0 is not used.</PreConditions>
               <ExecutionSteps>1. The UE sends an attach request to the MME.
 2. The MME sends a KeNB and the UE security capability to the eNB.
 3. eNB selects an algorithm and sends AS SMC to the UE,
@@ -61,6 +66,9 @@ Pre-Condition:
               <Description>&quot;The eNB shall handle integrity protection for user plane packets for the S1/X2 reference points.&quot; as specified in TS 33.401 [3], clause 5.3.4.</Description>
               <ThreatReference>TR 33.926 [4], clause C.2.2.4 – User plane data integrity protection.</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Reference>The requirement mentioned in this clause is tested in accordance to the procedure mentioned in clause 4.2.3.2.4 of TS 33.117 [2].</Reference>
+            </TestCase>
           </Section>
           <Section title="4.2.2.1.5	AS algorithms selection" level="5">
             <Requirement>
@@ -88,8 +96,7 @@ The MAC in the AS SECURITY MODE COMPLETE message is verified, and the AS protect
               <Name>The check of RRC integrity</Name>
               <Reference>TS 33.401 [3], clause 7.4.1</Reference>
               <Description>&quot; The supervision of failed RRC integrity checks shall be performed both in the ME and the eNB. In case of failed integrity check (i.e. faulty or missing MAC-I) is detected after the start of integrity protection, the concerned message shall be discarded. &quot; as specified in TS 33.401 [3], clause 7.4.1.
-Security Objective References: TBA
-Test Case:</Description>
+Security Objective References: TBA</Description>
             </Requirement>
             <TestCase>
               <Name>TC_ENB_RRC_INTEGRITY_PROTECTION</Name>
@@ -217,11 +224,10 @@ The above test cases assume that the algorithms selected by the target eNB are d
             </Requirement>
             <TestCase>
               <Name>TC_eNB_DL_Cipher</Name>
-              <Purpose>To verify that the eNB performs RRC and UP downlink ciphering after sending the AS security mode command message.
-Pre-Condition:
--	The UE and eNB network products are connected in the test environment. UE may be simulated.
+              <Purpose>To verify that the eNB performs RRC and UP downlink ciphering after sending the AS security mode command message.</Purpose>
+              <PreConditions>-	The UE and eNB network products are connected in the test environment. UE may be simulated.
 -	The tester  has access to the AS security context and the corresponding cryptographic keys (e.g. RRC and UP cipher keys).
--	The tester has access to Uu interface and ability to capture the Uu interface messages with the debug port enabled in the UE.</Purpose>
+-	The tester has access to Uu interface and ability to capture the Uu interface messages with the debug port enabled in the UE.</PreConditions>
               <ExecutionSteps>1)	The tester POWER ON the UE to trigger the registration procedures (Attach and SMC).
 2)	The tester performs packet capturing over the Uu interface using any packet analyser.
 3)	The tester filters the AS SMC command message and the following RRC and UP downlink packets from eNB to UE.
@@ -245,11 +251,10 @@ NOTE:	The requirement mentioned in this clause is tested in accordance with the 
             </Requirement>
             <TestCase>
               <Name>TC_MAP_NR_SEC_CAP</Name>
-              <Purpose>To verify that the eNB creates  mapped UE NR security capabilities.
-Pre-Condition:
--	The eNB and gNB network products are connected in the test environment. The gNB may be simulated.
+              <Purpose>To verify that the eNB creates  mapped UE NR security capabilities.</Purpose>
+              <PreConditions>-	The eNB and gNB network products are connected in the test environment. The gNB may be simulated.
 -	Tester  has access to trigger dual connection to a gNB.
--	The Tester can access to the X2 interface.</Purpose>
+-	The Tester can access to the X2 interface.</PreConditions>
               <ExecutionSteps>1)	The MeNB does not receive UE NR security capabilities from S1 Initial Context Setup Request message.
 2)	The MeNB sends SN Addition Request Message to the SgNB.
 3)	The tester checkes if the NR security capabilities are included in SN Addition Request Message.</ExecutionSteps>
@@ -266,10 +271,9 @@ Pre-Condition:
             </Requirement>
             <TestCase>
               <Name>TC_NR_SEC_CAP_SENT</Name>
-              <Purpose>To verify that the UE NR security capabilities are only sent to a SgNB.
-Pre-Condition:
--	The UE, gNB and eNB network products are connected in the test environment. UE and gNB may be simulated.
--	The tester  has access to the X2 interface.</Purpose>
+              <Purpose>To verify that the UE NR security capabilities are only sent to a SgNB.</Purpose>
+              <PreConditions>-	The UE, gNB and eNB network products are connected in the test environment. UE and gNB may be simulated.
+-	The tester  has access to the X2 interface.</PreConditions>
               <ExecutionSteps>1)	The tester triggers MeNB to send SN addition Request message to a SgNB.
 2)	The tester triggers UE HO from MeNB to another eNB.
 3)	The tester checks if the UE NR security capabilities were sent in the X2 interface in both step 1 and step 2.</ExecutionSteps>
@@ -296,12 +300,11 @@ Pre-Condition:
             </Requirement>
             <TestCase>
               <Name>TC-UP-DATA-INT_eNB</Name>
-              <Purpose>To verify that the user data packets are integrity protected over the Uu interface.
-Pre-Condition:
--	The eNB network product is connected in emulated/real network environments. UE may be simulated.
+              <Purpose>To verify that the user data packets are integrity protected over the Uu interface.</Purpose>
+              <PreConditions>-	The eNB network product is connected in emulated/real network environments. UE may be simulated.
 -	The tester has knowledge of integrity algorithm and integrity protection keys.
 -	The tester can capture the message via the Uu interface, or can capture the message at the UE.
--	The tester  enables user plane integrity protection and ensure that EIA0 is disabled at the eNB.</Purpose>
+-	The tester  enables user plane integrity protection and ensure that EIA0 is disabled at the eNB.</PreConditions>
               <ExecutionSteps>1. 	The tester triggers the eNB to send a RRCConnectionReconfiguration message with integrity protection indication &quot;on&quot; to the UE.
 2. 	The tester checks that any user data sent by eNB after sending the RRCConnectionReconfiguration message and while the UE is in active state is integrity protected.</ExecutionSteps>
               <ExpectedResults>Any user plane packets sent between UE and eNB over the Uu interface after eNB sending RRCConnectionReconfiguration is integrity protected.</ExpectedResults>
@@ -317,13 +320,12 @@ Pre-Condition:
             </Requirement>
             <TestCase>
               <Name>TC_LOCAL_UP_INTEGRITY_PROTECTION_CONFIGURATION</Name>
-              <Purpose>To verify that the eNB is locally configured with a UP integrity protection policy
-Pre-Condition:
--	The eNB network product is connected in emulated/real network environments. UE and MME may be simulated.
+              <Purpose>To verify that the eNB is locally configured with a UP integrity protection policy</Purpose>
+              <PreConditions>-	The eNB network product is connected in emulated/real network environments. UE and MME may be simulated.
 -	The eNB is locally configured to activate UP integrity protection by default if no UP integrity protection policy is received from MME.
 -	Tester has knowledge of integrity algorithm and integrity protection keys.
 -	The tester can capture the message via the Uu interface, or can capture the message at the UE.
--	The tester  disables EIA0 at the eNB.</Purpose>
+-	The tester  disables EIA0 at the eNB.</PreConditions>
               <ExecutionSteps>1. 	The tester triggers the MME to send an EPS security capability message with EIA7 indicating the UP integrity protection is supported by the UE to the eNB. But the tester also configures the MME to not send a UP integrity protection policy to the eNB.
 2. 	The eNB sends a RRCConnectionReconfiguration message with integrity protection indication &quot;on&quot; to the UE.
 3. 	The tester checks that any user data sent by eNB after sending the RRCConnectionReconfiguration message and while the UE is in active state is integrity protected.</ExecutionSteps>
@@ -341,13 +343,12 @@ Text of local configuration of the UP intergrity protection at the eNB.</Evidenc
             </Requirement>
             <TestCase>
               <Name>TC_UP_IP_POLICY_Selection</Name>
-              <Purpose>To verify that the UP IP policy sent from the MME is used by the eNB.
-Pre-Condition:
--	The eNB network product is connected in emulated/real network environments. UE and MME may be simulated.
+              <Purpose>To verify that the UP IP policy sent from the MME is used by the eNB.</Purpose>
+              <PreConditions>-	The eNB network product is connected in emulated/real network environments. UE and MME may be simulated.
 -	The eNB locally UP IP is set to NOT NEEDED.
 -	Tester has knowledge of integrity algorithm and integrity protection keys.
 -	The tester can capture the message via the Uu interface, or can capture the message at the UE.
--	The tester  disables EIA0 at the eNB.</Purpose>
+-	The tester  disables EIA0 at the eNB.</PreConditions>
               <ExecutionSteps>1. 	The tester triggers the MME to send a EPS security capability message with EIA7 indicating the UP IP is supported by the UE to the eNB. But the tester also configures the MME to send a UP IP policy with REQUIRED to the eNB.
 2. 	The eNB sends a RRCConnectionReconfiguration message with integrity protection indication &quot;on&quot; to the UE.
 3. 	The tester checks that any user data sent by eNB after sending the RRCConnectionReconfiguration message and while the UE is in active state is integrity protected.</ExecutionSteps>
@@ -364,12 +365,11 @@ Pre-Condition:
             </Requirement>
             <TestCase>
               <Name>TC_UP_IP_POLICY_Selection_S1_Handover</Name>
-              <Purpose>To verify that the eNB has correct selection on UP IP policy in S1 handover
-Pre-Condition:
--	The target eNB network product is connected in emulated/real network environments. UE, source eNB and MME may be simulated.
+              <Purpose>To verify that the eNB has correct selection on UP IP policy in S1 handover</Purpose>
+              <PreConditions>-	The target eNB network product is connected in emulated/real network environments. UE, source eNB and MME may be simulated.
 -	The target eNB locally UP IP is set to NOT NEEDED.
 -	The tester has knowledge of integrity algorithm and integrity protection keys.
--	The tester can capture the message via the Uu interface, or can capture the message at the UE.</Purpose>
+-	The tester can capture the message via the Uu interface, or can capture the message at the UE.</PreConditions>
               <ExecutionSteps>Test Case 1:
 1)	The tester triggers the source MME to send EPS security capability with EIA7 to the target eNB indicating the UP IP is supported by the UE. Furthermore, the tester triggers the source MME to send a UP IP policy with REQUIRED to the target eNB.
 2)	The source eNB sends UP IP policy with NOT NEEDED in the source-to-target container to the target eNB.

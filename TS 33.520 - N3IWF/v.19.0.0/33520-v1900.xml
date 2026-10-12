@@ -17,8 +17,8 @@
             <Requirement>
               <Name>Handling of EAP-Identity Request message</Name>
               <Reference>TS 33.501 [2], clause 7.2.1</Reference>
-              <Description>The N3IWF refrains from sending an EAP-Identity request. The UE may ignore an EAP Identity request or respond with the SUCI it sent in the Registration Request, as specified in TS 33.501 [2], clause 7.2.1.
-Threat Reference:  TR 33.926 [3], clause M.Y.2, N3IWF sends EAP-Identity Request</Description>
+              <Description>The N3IWF refrains from sending an EAP-Identity request. The UE may ignore an EAP Identity request or respond with the SUCI it sent in the Registration Request, as specified in TS 33.501 [2], clause 7.2.1.</Description>
+              <ThreatReference>TR 33.926 [3], clause M.Y.2, N3IWF sends EAP-Identity Request</ThreatReference>
             </Requirement>
             <TestCase>
               <Name>TC_N3IWF_REFRAIN_SEND_IDENTITY_REQUEST</Name>

@@ -28,10 +28,9 @@
             </Requirement>
             <TestCase>
               <Name>TC_DATA_MASKING</Name>
-              <Purpose>Verify that no privacy information of operators' users is revealed to the party who is not allowed to have.
-Pre-Condition:
-The vendor shall provide the documentation describing how to create an account for accessing the analytics results.
-Privacy information list (should be specified based on local policy, regulation and others).</Purpose>
+              <Purpose>Verify that no privacy information of operators' users is revealed to the party who is not allowed to have.</Purpose>
+              <PreConditions>The vendor shall provide the documentation describing how to create an account for accessing the analytics results.
+Privacy information list (should be specified based on local policy, regulation and others).</PreConditions>
               <ExecutionSteps>1.	Review the documentation provided by the vendor describing how to create the account for accessing the analytics results provided by the NWDAF.
 2.	The tester creates the account, and retrieves the analytics results from the NWDAF using the account.</ExecutionSteps>
               <ExpectedResults>The tester can create the account, and the account does not reveal subscriber permanent identifier.</ExpectedResults>

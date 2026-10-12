@@ -61,9 +61,8 @@ Execution
               <Description>According to TS 32.255 [6], clause 5.1.2:
 -	The SMF supports PDU session charging using service based interface.
 -	The SMF collects charging information per PDU session for UEs served under 3GPP access and non-3GPP access.
--	Every PDU session is assigned a unique identity number for billing purposes per PLMN. (i.e. the Charging Id).
-Threat Reference: TR 33.926 [4], clause J.2.2.3, &quot;Failure to assign unique Charging ID for a session&quot;
-TEST CASE:</Description>
+-	Every PDU session is assigned a unique identity number for billing purposes per PLMN. (i.e. the Charging Id).</Description>
+              <ThreatReference>TR 33.926 [4], clause J.2.2.3, &quot;Failure to assign unique Charging ID for a session&quot;</ThreatReference>
             </Requirement>
             <TestCase>
               <Name>TC_CHARGING_ID_UNIQUENESS_SMF</Name>

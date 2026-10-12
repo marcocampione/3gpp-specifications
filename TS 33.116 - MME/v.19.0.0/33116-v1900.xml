@@ -21,6 +21,13 @@
               <Description>&quot;Access to E-UTRAN with a GSM SIM or a SIM application on a UICC shall not be granted.&quot; as specified in TS 33.401 [5], clause 6.1.1.</Description>
               <ThreatReference>TR 33.926 [9], clause A.2.2.1 Access to GSM.</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that access to EPS with a GSM SIM is not possible.</Purpose>
+              <PreConditions>Test environment with HSS. HSS may be simulated.</PreConditions>
+              <ExecutionSteps>Include GSM authentication vector in authentication data response from HSS.</ExecutionSteps>
+              <ExpectedResults>MME rejects UE authentication when receiving GSM authentication vector from HSS.
+NOTE: 	When both MME and HSS function correctly GSM authentication vector are never included in authentication data response from HSS to MME.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.2.2	Re-synchronization" level="5">
             <Requirement>
@@ -29,6 +36,13 @@
               <Description>&quot;In the case of a synchronization failure, the MME shall also include RAND and AUTS.&quot; as specified in TS 33.401 [5], clause 6.1.2.</Description>
               <ThreatReference>TR 33.926 [9], clause A.2.2.2 Resynchronization.</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that Re-synchronization procedure works correctly.</Purpose>
+              <PreConditions>Test environment with UE and HSS. UE and HSS may be simulated.</PreConditions>
+              <ExecutionSteps>The MME receives an AUTHENTICATION FAILURE message, with the EMM cause #21 &quot;synch failure&quot; and a re-synchronization token AUTS.</ExecutionSteps>
+              <ExpectedResults>The MME includes the stored RAND and the received AUTS in the authentication data request to the HSS.
+NOTE: 	When RAND and AUTS are not included in the authentication data request to the HSS then the HSS will return a new authentication vector (AV) based on its current value of the sequence number SQNHE (cf. TS 33.102, clause 6.3.5) A new authentication procedure between MME and UE using this new AV will be successful just the same if the cause of the synchronisation failure was the sending of a &quot;stale&quot; challenge, i.e. one that the UE had seen before or deemed to be too old. But if the cause of the synchronisation failure was a problem with the sequence number SQNHE in the HSS (which should be very rare), and the RAND and AUTS are not included in the authentication data request to the HSS, then an update of SQNHE based on AUTS will not occur in the HSS, and the new authentication procedure between MME and UE using the new AV will fail again. This can be considered a security-relevant failure case as it may lead to a subscriber being shut out from the system permanently.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.2.3	Integrity check of Attach message" level="5">
             <Requirement>
@@ -37,6 +51,12 @@
               <Description>&quot;If the user cannot be identified or the integrity check fails, then the MME shall send a response indicating that the user identity cannot be retrieved.&quot; as specified in TS 33.401, clause 6.1.4.</Description>
               <ThreatReference>TR 33.926 [9], clause A.2.2.3 Failed Integrity check of Attach message.</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that secure user identification by means of integrity check of Attach request works correctly.</Purpose>
+              <PreConditions>Test environment with new and old MME. New MME may be simulated.</PreConditions>
+              <ExecutionSteps>The old MME receives an Identification Request message from the new MME with incorrect integrity protection.</ExecutionSteps>
+              <ExpectedResults>The old MME sends a response indicating that the user identity cannot be retrieved.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.2.4	Not forwarding EPS authentication data to SGSN" level="5">
             <Requirement>
@@ -45,6 +65,12 @@
               <Description>&quot;EPS authentication data shall not be forwarded from an MME towards an SGSN.&quot; as specified in TS 33.401[5], clause 6.1.4.</Description>
               <ThreatReference>TR 33.926 [9], clause A.2.2.4 Forwarding EPS authentication data to SGSN.</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that EPS authentication data remains in the EPC.</Purpose>
+              <PreConditions>Test environment with MME and SGSN. SGSN may be simulated.</PreConditions>
+              <ExecutionSteps>The MME receives an Identification Request message from the SGSN.</ExecutionSteps>
+              <ExpectedResults>The response to the SGSN does not include EPS authentication data.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.2.5	Not forwarding unused EPS authentication data between different security domains" level="5">
             <Requirement>
@@ -53,6 +79,12 @@
               <Description>&quot;Unused EPS authentication vectors, or non-current EPS security contexts, shall not be distributed between MMEs belonging to different serving domains (PLMNs).&quot; as specified in TS 33.401, clause 6.1.5.</Description>
               <ThreatReference>TR 33.926 [9], clause A.2.2.5 Forwarding unused EPS authentication data between different security domains.</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that unused EPS authentication data remains in the same serving domain.</Purpose>
+              <PreConditions>Test environment with old and new MME in different serving domains. New MME may be simulated.</PreConditions>
+              <ExecutionSteps>The old MME receives an Identification Request message from the new MME.</ExecutionSteps>
+              <ExpectedResults>The response to the new MME does not include unused EPS authentication data.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.3	Security mode command procedure" level="5"/>
           <Section title="4.2.2.3.1	Bidding down prevention" level="5">
@@ -62,6 +94,12 @@
               <Description>&quot;The SECURITY MODE COMMAND shall include the replayed security capabilities of the UE.&quot; as specified in TS 33.401[5], clause 7.2.</Description>
               <ThreatReference>TR 33.926 [9], A.2.3.1 Bidding Down.</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that bidding down by eliminating certain UE capabilities on the interface from UE to MME is not possible.</Purpose>
+              <PreConditions>Test environment with UE. UE may be simulated.</PreConditions>
+              <ExecutionSteps>Attach request message includes security capabilities of the UE.</ExecutionSteps>
+              <ExpectedResults>MME includes the same security capabilities of the UE in the SECURITY MODE COMMAND message.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.3.2	NAS integrity algorithm selection and use" level="5">
             <Requirement>
@@ -71,6 +109,13 @@
 NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It should properly read: &quot;…which has the highest priority according to the ordered lists and is contained in the UE EPS security capabilities.&quot;</Description>
               <ThreatReference>TR 33.926 [9], A.2.3.2 NAS integrity selection and use</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that NAS integrity protection algorithm is selected and applied correctly.</Purpose>
+              <PreConditions>Test environment with UE. UE may be simulated.</PreConditions>
+              <ExecutionSteps>The MME sends the SECURITY MODE COMMAND message. The UE replies with the SECURITY MODE COMPLETE message.</ExecutionSteps>
+              <ExpectedResults>1.	The MME has selected the integrity algorithm which has the highest priority according to the ordered lists and is contained in the UE EPS security capabilities. The MME checks the message authentication code on the SECURITY MODE COMPLETE message.
+2.	The MAC in the SECURITY MODE COMPLETE is verified, and the NAS integrity protection algorithm is selected and applied correctly.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.3.3	NAS NULL integrity protection" level="5">
             <Requirement>
@@ -79,6 +124,12 @@ NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It sh
               <Description>&quot;EIA0 shall only be used for unauthenticated emergency calls.&quot; as specified in TS 33.401[5], clause 5.1.4.1.&quot;</Description>
               <ThreatReference>TR 33.926 [9], A.2.3.3 NAS NULL integrity protection</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that NAS NULL integrity protection algorithm is used correctly.</Purpose>
+              <PreConditions>Test environment with UE. UE may be simulated.</PreConditions>
+              <ExecutionSteps>The MME sends the SECURITY MODE COMMAND message after successful UE authentication.</ExecutionSteps>
+              <ExpectedResults>The selected integrity algorithm is different from EIA0.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.3.4	NAS confidentiality protection" level="5">
             <Requirement>
@@ -87,6 +138,12 @@ NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It sh
               <Description>&quot;The UE…sends the NAS security mode complete message to MME ciphered and integrity protected.&quot; as specified in TS 33.401[5], clause 7.2.4.3.1.</Description>
               <ThreatReference>TR 33.926 [9], A.2.3.4 NAS confidentiality protection</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that NAS confidentiality protection algorithm is applied correctly.</Purpose>
+              <PreConditions>Test environment with UE. UE may be simulated.</PreConditions>
+              <ExecutionSteps>The MME receives the SECURITY MODE COMPLETE message without confidentiality protection.</ExecutionSteps>
+              <ExpectedResults>If a confidentiality algorithm different from EEA0 was selected the MME rejects the message.</ExpectedResults>
+            </TestCase>
           </Section>
         </Section>
         <Section title="4.2.2.4	Security in intra-RAT mobility" level="4">
@@ -97,6 +154,13 @@ NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It sh
               <Description>&quot;The MME shall verify that the UE EPS security capabilities received from the eNB are the same as the UE EPS security capabilities that the MME has stored.&quot; as specified in TS 33.401[5], clause 7.2.4.2.2.&quot;</Description>
               <ThreatReference>TR 33.926 [9], A.2.4.1 Bidding down on X2-Handover</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that bidding down is prevented in X2-handovers.</Purpose>
+              <PreConditions>Test environment with (target) eNB. eNB may be simulated.
+The MME is configured to log the event of a UE EPS security capability mismatch.</PreConditions>
+              <ExecutionSteps>The MME receives the path-switch message with the UE EPS security capabilities different from the ones stored in the MME for that UE.</ExecutionSteps>
+              <ExpectedResults>The MME logs the event.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.4.2	NAS integrity protection algorithm selection in MME change" level="5">
             <Requirement>
@@ -105,6 +169,12 @@ NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It sh
               <Description>&quot;In case there is change of MMEs and algorithms to be used for NAS, the target MME shall initiate a NAS security mode command procedure and include the chosen algorithms and the UE security capabilities (to detect modification of the UE security capabilities by an attacker) in the message to the UE (see clause 7.2.4.4). The MME shall select the NAS algorithms which have the highest priority according to the ordered lists (see clause 7.2.4.3.1).&quot; as specified in TS 33.401[5], clause 7.2.4.3.2.&quot;</Description>
               <ThreatReference>TR 33.926 [9], A.2.4.2 NAS integrity protection algorithm selection in MME change</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that NAS integrity protection algorithm is selected correctly.</Purpose>
+              <PreConditions>Test environment with source and target MME. Source MME may be simulated.</PreConditions>
+              <ExecutionSteps>The target MME receives the UE EPS security capabilities and the NAS algorithms used by the source MME from the source MME over the S10 interface. The target MME selects the NAS algorithms which have the highest priority according to the ordered lists. The lists are assumed such that the algorithms selected by the target MME are different from the ones received from the source MME.</ExecutionSteps>
+              <ExpectedResults>The target MME initiates a NAS security mode command procedure and include the chosen algorithms and the UE security capabilities.</ExpectedResults>
+            </TestCase>
           </Section>
         </Section>
         <Section title="4.2.2.5	Security in inter-RAT mobility" level="4">
@@ -115,6 +185,12 @@ NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It sh
               <Description>&quot;In case the MM context in the Context Response/SGSN Context Response indicates GSM security mode, the MME shall abort the procedure.&quot; as specified in TS 33.401, clause 9.1.2.</Description>
               <ThreatReference>TR 33.926 [9], A.2.5.1 GSM SIM access via idle mode mobility</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that GSM subscribers cannot obtain service in EPS via idle mode mobility.</Purpose>
+              <PreConditions>Test environment with source SGSN and target MME. Source SGSN may be simulated.</PreConditions>
+              <ExecutionSteps>The target MME receives the MM context in the Context Response indicating GSM security mode.</ExecutionSteps>
+              <ExpectedResults>The MME aborts the procedure by acknowledging the Context Response from the SGSN with an appropriate failure cause.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.5.2	No access with GSM SIM via handover" level="5">
             <Requirement>
@@ -123,6 +199,12 @@ NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It sh
               <Description>&quot;In case the MM context in the Forward relocation request message indicates GSM security mode (i.e. it contains a Kc), the MME shall abort the non-emergency call procedure.&quot; as specified in TS 33.401, clause 9.2.2.</Description>
               <ThreatReference>TR 33.926 [9], A.2.5.3 GSM SIM access via SRVCC</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that GSM subscribers cannot obtain service in EPS via handovers.</Purpose>
+              <PreConditions>Test environment with source SGSN and target MME. Source SGSN may be simulated.</PreConditions>
+              <ExecutionSteps>The target MME receives the MM context in the Forward Location Request message indicating GSM security mode.</ExecutionSteps>
+              <ExpectedResults>The MME aborts the procedure by responding to the Forward Relocation Request from the SGSN with an appropriate failure cause.</ExpectedResults>
+            </TestCase>
           </Section>
           <Section title="4.2.2.5.3	No access with GSM SIM via SRVCC" level="5">
             <Requirement>
@@ -131,6 +213,12 @@ NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It sh
               <Description>&quot;If the MME receives a GPRS Kc' from the source MSC server enhanced for SRVCC in the CS to PS HO request, the MME shall reject the request.&quot; as specified in TS 33.401, clause 14.3.1.</Description>
               <ThreatReference>TR 33.926 [9], A.2.6	Threats related to release of non-emergency bearer</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Verify that GSM subscribers cannot obtain service in EPS via SRVCC into E-UTRAN.</Purpose>
+              <PreConditions>Test environment with source MSC server and target MME. Source MSC server may be simulated.</PreConditions>
+              <ExecutionSteps>The target MME receives the GPRS Kc' and the CKSN'PS in the CS to PS handover request.</ExecutionSteps>
+              <ExpectedResults>The MME rejects the request.</ExpectedResults>
+            </TestCase>
           </Section>
         </Section>
         <Section title="4.2.2.6	Security Aspects of IMS Emergency Session Handling" level="4">
@@ -141,6 +229,12 @@ NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It sh
               <Description>&quot;The MME or UE shall always release any established non-emergency bearers, when the authentication fails in the UE or in the MME.&quot; as specified in TS 33.401, clause 15.1.</Description>
               <ThreatReference>TBA</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Purpose>Ensure that the MME enforces that only emergency bearers can be used without successful authentication.</Purpose>
+              <PreConditions>Test environment with MME and UE. UE may be simulated. The serving network policy allows unauthenticated IMS Emergency Sessions.</PreConditions>
+              <ExecutionSteps>The UE sends the initial attach request for EPS emergency bearer services, then the MME initiates an authentication, which fails. The UE attached for EPS emergency bearer services sends the PDN Connectivity request for EPS non-emergency bearer services.</ExecutionSteps>
+              <ExpectedResults>The MME allows to continue the set up of the emergency bearer, and will reject the PDN Connectivity request for EPS non-emergency bearer services.</ExpectedResults>
+            </TestCase>
           </Section>
         </Section>
       </Section>

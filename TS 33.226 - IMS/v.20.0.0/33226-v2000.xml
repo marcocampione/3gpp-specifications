@@ -25,8 +25,7 @@ as specified in TS 33.203 [3], clause 6.1.1.</Description>
             </Requirement>
             <TestCase>
               <Name>TC_ NO_DE-REGISTRATION_AUTH_FAIL</Name>
-              <Purpose>Verify the S-CSCF shall not de-register the registered UE when it fails an authentication during re-registration.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify the S-CSCF shall not de-register the registered UE when it fails an authentication during re-registration.</Purpose>
               <PreConditions>-	S-CSCF under test is connected in simulated/real network environment including P-CSCF and HSS.
 -	The UE supporting IMS AKA has already been registered into the IMS network.
 -	The tester shall have access to the Mw interface between the P-CSCF and S-CSCF.
@@ -49,8 +48,7 @@ as specified in TS 33.203 [3], clause 7.4.0.</Description>
             </Requirement>
             <TestCase>
               <Name>TC_UNPROTECTED_REGISTER_MESSAGE</Name>
-              <Purpose>Verify whether the S-CSCF authenticates the user by means of the AKA protocol, if the UE sends unprotected REGISTER messages, regardless whether the UE is already registered or not.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify whether the S-CSCF authenticates the user by means of the AKA protocol, if the UE sends unprotected REGISTER messages, regardless whether the UE is already registered or not.</Purpose>
               <PreConditions>-	S-CSCF network product are connected in simulated/real network environment.
 -	The list of ordered integrity and encryption algorithms are configured on the P-CSCF under test.
 -	The UE and the P-CSCF are simulated.
@@ -101,8 +99,7 @@ as specified in TS 33.203 [3], clause 7.2.</Description>
             </Requirement>
             <TestCase>
               <Name>TC_HIGH_PRIORITY_ALGORITHM_SELECTION</Name>
-              <Purpose>Verify the P-CSCF selects the highest priority algorithm combination on its own list which is also supported by the UE.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify the P-CSCF selects the highest priority algorithm combination on its own list which is also supported by the UE.</Purpose>
               <PreConditions>-	P-CSCF under test is connected in simulated/real network environment.
 -	The list of ordered integrity and encryption algorithms are configured on the P-CSCF under test by the tester.
 -	The UE supporting IMS AKA may be simulated.
@@ -128,8 +125,7 @@ as specified in TS 33.203 [3], clause 7.2.</Description>
               <Name>TC_BIDDING_DOWN_ON_SECURITY_ASSOCIATION_SET_UP</Name>
               <Purpose>Verify the P-CSCF checks whether the integrity and encryption algorithms list, SPI_P and Port_P received in SM7 is identical with the corresponding parameters sent in SM6.
 Verify the P-CSCF checks whether SPI_U and Port_U received in SM7 are identical with those received in SM1.
-Verify whether the P-CSCF abort the registration procedure, if the above checks are not successful.
-Procedure and execution steps:</Purpose>
+Verify whether the P-CSCF abort the registration procedure, if the above checks are not successful.</Purpose>
               <PreConditions>-	The P-CSCF under test is connected in simulated/real network environment.
 -	The list of ordered integrity and encryption algorithms are configured on the P-CSCF under test.
 -	The UE and the S-CSCF are simulated.
@@ -169,8 +165,7 @@ as specified in TS 33.203 [3], clause 7.1.</Description>
             </Requirement>
             <TestCase>
               <Name>TC_PROTECT_IMS_SIGNALLING_TRANSFER</Name>
-              <Purpose>Verify the IMS signalling protection mechanisms implemented in P-CSCF adherer to profiling given in clause 5.3.4 of TS 33.210 [5] with the addition that only algorithms that can be signalled according to Annex H of TS 33.203 [3] needs to be supported.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify the IMS signalling protection mechanisms implemented in P-CSCF adherer to profiling given in clause 5.3.4 of TS 33.210 [5] with the addition that only algorithms that can be signalled according to Annex H of TS 33.203 [3] needs to be supported.</Purpose>
               <PreConditions>-	P-CSCF network products are connected in simulated/real network environment.
 -	The UE supporting IMS AKA may be simulated.
 -	Tester shall have the knowledge of the security profiles for the IPSec ESP protection.
@@ -192,8 +187,7 @@ as specified in TS 33.203 [3], clause 7.2.</Description>
             <TestCase>
               <Name>TC_BIDDING_DOWN_ON_SECURITY_ASSOCIATION_SET_UP_CONFIDENTIALITY</Name>
               <Purpose>Verify that the P-CSCF policy requires confidentiality, then all UEs with no encryption support would be denied access to the IMS network.
-NOTE1:	The test case below is optional, which only applies to the P- policy requires confidentiality.
-Procedure and execution steps:</Purpose>
+NOTE1:	The test case below is optional, which only applies to the P- policy requires confidentiality.</Purpose>
               <PreConditions>-	The P-CSCF policy requires confidentiality.
 -	The UE and the S-CSCF are simulated.
 -	The tester has access to the Gm interface between the UE and P-CSCF.</PreConditions>
@@ -221,8 +215,7 @@ as specified in TS 33.203 [3], clause 7.1.</Description>
             </Requirement>
             <TestCase>
               <Name>TC_DIFFERENT_SPIS</Name>
-              <Purpose>Verify the P-CSCF selects SPIs that are different than the SPIs sent by the UE.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify the P-CSCF selects SPIs that are different than the SPIs sent by the UE.</Purpose>
               <PreConditions>-	P-CSCF under test is connected in simulated/real network environment.
 -	The UE supporting IMS AKA may be simulated.
 -	The tester has access to the Gm interface between the UE and P-CSCF.</PreConditions>
@@ -247,8 +240,7 @@ as specified in TS 33.203 [3], clause 6.4.</Description>
             <TestCase>
               <Name>TC_ENCRYPTION_IN_NETWORK_HIDING_I_CSCF</Name>
               <Purpose>Verify the I-CSCF encrypts the hiding information elements when the I-CSCF forwards SIP Request or Response messages to the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
-Verify the I-CSCF decrypts those information elements that were encrypted by the I-CSCF in this hiding network domain when the I-CSCF receives a SIP Request or Response message from the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
-Procedure and execution steps:</Purpose>
+Verify the I-CSCF decrypts those information elements that were encrypted by the I-CSCF in this hiding network domain when the I-CSCF receives a SIP Request or Response message from the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.</Purpose>
               <PreConditions>-	I-CSCF network products are connected in simulated/real network environment.
 -	The network hiding mechanism is configured to be used and the operator policy is configured that the topology shall be hidden.
 -	The same encryption and decryption key Kv is configured on the I-CSCFs under test by the tester.
@@ -284,8 +276,7 @@ as specified in TS 33.203 [3], clause 6.4.</Description>
             <TestCase>
               <Name>TC_ENCRYPTION_IN_NETWORK_HIDING_IBCF</Name>
               <Purpose>Verify the IBCF encrypts the hiding information elements when the IBCF forwards SIP Request or Response messages to the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
-Verify the IBCF decrypts those information elements that were encrypted by the IBCF in this hiding network domain when the IBCF receives a SIP Request or Response message from the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
-Procedure and execution steps:</Purpose>
+Verify the IBCF decrypts those information elements that were encrypted by the IBCF in this hiding network domain when the IBCF receives a SIP Request or Response message from the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.</Purpose>
               <PreConditions>-	IBCF network products are connected in simulated/real network environment.
 -	The encryption of the hiding information as the network hiding mechanism is configured to be used and the operator policy is configured that the topology shall be hidden.
 -	The same encryption and decryption key Kv is configured on the IBCFs under test by the tester.
@@ -319,8 +310,7 @@ as specified in TS 24.229 [6], clause 5.10.4.1.</Description>
             <TestCase>
               <Name>TC_REPLACEMENT IN NETWORK HIDING</Name>
               <Purpose>Verify the IBCF replaces the hiding information elements to constant values when the IBCF forwards SIP Request or Response messages to the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
-Verify the IBCF replaces the constant values that were replaced by the IBCF in this hiding network domain to the hiding information elements when the IBCF receives a SIP Request or Response message from the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.
-Procedure and execution steps:</Purpose>
+Verify the IBCF replaces the constant values that were replaced by the IBCF in this hiding network domain to the hiding information elements when the IBCF receives a SIP Request or Response message from the outside of the hiding network's domain, in cases of the network hiding mechanism is used and the operator policy states that the topology shall be hidden.</Purpose>
               <PreConditions>-	IBCF network products are connected in simulated/real network environment.
 -	The replacement of the hiding information as network hiding mechanism is configured to be used and the operator policy is configured that the topology shall be hidden.
 -	The network element in the hiding network's domain may be simulated.
@@ -356,8 +346,7 @@ If the request is not authorized, the AS shall either:
             </Requirement>
             <TestCase>
               <Name>TC_USER_AUTHORIZATION</Name>
-              <Purpose>Verify that the AS would reject the anonymous request if anonymous request is not allowed.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that the AS would reject the anonymous request if anonymous request is not allowed.</Purpose>
               <PreConditions>-	The authorization policy of the AS does not allow anonymous request.
 -	The UE is simulated.
 -	The tester has access to the interface between the UE and AS.</PreConditions>
@@ -380,8 +369,7 @@ Where privacy is required, in any initial request for a dialog or request for a 
             </Requirement>
             <TestCase>
               <Name>TC_AS_UE_ANONYMOUS_IDENTITY</Name>
-              <Purpose>Verify that the AS acting as originating UA should send the anonymous identity if privacy is required.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that the AS acting as originating UA should send the anonymous identity if privacy is required.</Purpose>
               <PreConditions>-	The privacy of the P-Asserted-Identity is required in AS.
 -	The UE is simulated.</PreConditions>
               <ExecutionSteps>The AS under test sends the initial request for a dialog or request for a standalone transaction.</ExecutionSteps>

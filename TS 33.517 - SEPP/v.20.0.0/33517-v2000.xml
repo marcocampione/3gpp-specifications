@@ -23,8 +23,7 @@
           </Requirement>
           <TestCase>
             <Name>TC_CRYPT_MATERIAL_SEPP_IPX_SEPARATION</Name>
-            <Purpose>Verify that the SEPP under test does not accept raw public keys/certificates by intermediate IPX-providers for N32-c TLS connection establishment. The opposite is to be ensured as well: The SEPP under test shall not accept N32-f JSON patches signed with raw public keys/certificates of peer SEPPs.
-Procedure and execution steps:</Purpose>
+            <Purpose>Verify that the SEPP under test does not accept raw public keys/certificates by intermediate IPX-providers for N32-c TLS connection establishment. The opposite is to be ensured as well: The SEPP under test shall not accept N32-f JSON patches signed with raw public keys/certificates of peer SEPPs.</Purpose>
             <PreConditions>-	System documentation of the SEPP under test, which details how raw public keys/certificates of peer SEPPs are to be configured and how internal log files can be accessed.
 -	A second SEPP instance for N32 communication with the SEPP under test, which allows for the creation of custom N32-f messages. This system may be simulated.
 -	Both SEPPs are to be configured with a raw public key/certificate of their communication peer to be able to establish a N32-c connection.
@@ -78,8 +77,7 @@ The pSEPP checks that the serving PLMN ID of subject claim in the access token m
           </Requirement>
           <TestCase>
             <Name>TC_PLMN_ID_MISMATCH</Name>
-            <Purpose>Verify that the SEPP under test is able to identify the mismatch between the PLMN-ID contained in the incoming N32-f message and the PLMN-ID in the related N32-f context, and take action accordingly.
-Procedure and execution steps:</Purpose>
+            <Purpose>Verify that the SEPP under test is able to identify the mismatch between the PLMN-ID contained in the incoming N32-f message and the PLMN-ID in the related N32-f context, and take action accordingly.</Purpose>
             <PreConditions>-	Test environment with a peer SEPP instance (as cSEPP), which may be simulated.
 -	The SEPP under test and the peer SEPP have mutually authenticated and already established N32-c connection.
 -	The SEPP under test has established N32-f context with the peer SEPP. The SEPP under test is in possession of the N32-f peer information which contains remote PLMN ID of the peer SEPP.
@@ -123,8 +121,7 @@ Procedure and execution steps:</Purpose>
           </Requirement>
           <TestCase>
             <Name>TC_SEPP_POLICY_MISMATCH</Name>
-            <Purpose>Verify that the SEPP under test is able to identify the mismatch between the protection policies manually configured for a specific roaming partner and IPX provider and the protection policies received on N32-c connection, and take action accordingly.
-Procedure and execution steps:</Purpose>
+            <Purpose>Verify that the SEPP under test is able to identify the mismatch between the protection policies manually configured for a specific roaming partner and IPX provider and the protection policies received on N32-c connection, and take action accordingly.</Purpose>
             <PreConditions>-	Test environment with a peer SEPP instance (as cSEPP), which may be simulated.
 -	The SEPP under test and the peer SEPP have mutually authenticated and already established N32-c connection.
 -	Exchanging of Data-type encryption policies and Modification policies is required to be performed between the SEPP under test and the peer SEPP.
@@ -153,8 +150,7 @@ NOTE:	The test case below only applies in case the SEPP under test supports manu
           </Requirement>
           <TestCase>
             <Name>TC_JWS_PROFILE_RESTRICTION</Name>
-            <Purpose>Verify that the SEPP under test is able to restrict the JWS profile to only use ES256 algorithm with IPX entities.
-Procedure and execution steps:</Purpose>
+            <Purpose>Verify that the SEPP under test is able to restrict the JWS profile to only use ES256 algorithm with IPX entities.</Purpose>
             <PreConditions>-	Network product documentation of the SEPP under test, containing the information about the supported signature algorithms for JWS operation.
 -	Test environment with a peer SEPP instance, which may be simulated.
 -	Test environment with one node simulating an IPX-provider, which supports JWS operation among others.
@@ -182,8 +178,7 @@ A SEPP verifies that an intermediate IPX has not moved or copied an encrypted IE
           </Requirement>
           <TestCase>
             <Name>TC_NO_ENCRYPTED_IE_MISPLACEMENT</Name>
-            <Purpose>Verify that the SEPP under test is able to verify that an intermediate IPX has not misplaced (moved or copied) an encrypted IE to a different location in a JSON object that would be reflected from the producer NF for an IE without encryption.
-Procedure and execution steps:</Purpose>
+            <Purpose>Verify that the SEPP under test is able to verify that an intermediate IPX has not misplaced (moved or copied) an encrypted IE to a different location in a JSON object that would be reflected from the producer NF for an IE without encryption.</Purpose>
             <PreConditions>-	System documentation of the SEPP under test, which details how raw public keys/certificates of peer SEPPs are to be configured and how internal log files can be accessed.
 -	A second SEPP instance for N32 communication with the SEPP under test, which allows for the creation of custom N32-f messages. This system may be simulated.
 -	Both SEPPs are to be configured with a raw public key/certificate of their communication peer to be able to establish a N32-c connection.
@@ -273,8 +268,7 @@ After step 3), the peer SEPP did not receive the HTTP request from the NF throug
         </Requirement>
         <TestCase>
           <Name>TC_CORRECT_TRUST_ANCHORING</Name>
-          <Purpose>Verify that the SEPP under test correctly implements trust anchoring when setting up HTTPS (TLS) connections.
-Procedure and execution steps:</Purpose>
+          <Purpose>Verify that the SEPP under test correctly implements trust anchoring when setting up HTTPS (TLS) connections.</Purpose>
           <PreConditions>- 	System documentation of the SEPP under test, which details the methods supported for TLS protection on N32 and how internal log files can be accessed.
 - 	Two simulated, independent root CAs, denoted RCA1 and RCA2
 -	A peer SEPP instance of a remote PLMN for N32 communication with the SEPP under test, which may be simulated.</PreConditions>

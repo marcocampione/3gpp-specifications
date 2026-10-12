@@ -23,8 +23,7 @@
             </Requirement>
             <TestCase>
               <Name>TC_GSM_SIM_FORBD_MME</Name>
-              <Purpose>Verify that access to EPS with a GSM SIM is not possible.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that access to EPS with a GSM SIM is not possible.</Purpose>
               <PreConditions>Test environment with HSS. HSS may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the HSS to send an authentication data response with GSM authentication vector to the MME under test.
 2)	The tester checks whether the MME under test rejects the UE authentication.</ExecutionSteps>
@@ -42,8 +41,7 @@ NOTE: 	When both the MME and HSS function correctly, the GSM authentication vect
             </Requirement>
             <TestCase>
               <Name>TC_SYNC_FAIL_SEAF_MME</Name>
-              <Purpose>Verify that Re-synchronization procedure works correctly.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that Re-synchronization procedure works correctly.</Purpose>
               <PreConditions>Test environment with UE and HSS. UE and HSS may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the UE to send an AUTHENTICATION FAILURE message with the EMM cause #21 &quot;synch failure&quot; and a re-synchronization token AUTS to the MME under test.
 2)	The MME under test receives the AUTHENTICATION FAILURE message from the UE.
@@ -62,8 +60,7 @@ NOTE: 	When RAND and AUTS are not included in the authentication data request to
             </Requirement>
             <TestCase>
               <Name>TC_INT_CHECK_MME</Name>
-              <Purpose>Verify that secure user identification by means of integrity check of Attach request works correctly.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that secure user identification by means of integrity check of Attach request works correctly.</Purpose>
               <PreConditions>Test environment with new and old MME. New MME may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the new MME to send an Identification Request message with incorrect integrity protection to the old MME under test.
 2)	The old MME under test receives the Identification Request message from the new MME.
@@ -81,8 +78,7 @@ Procedure and Execution Steps:</Purpose>
             </Requirement>
             <TestCase>
               <Name>TC_NOT_FORWARD_EPS_AUTH_MME</Name>
-              <Purpose>Verify that EPS authentication data remains in the EPC.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that EPS authentication data remains in the EPC.</Purpose>
               <PreConditions>Test environment with MME and SGSN. SGSN may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the SGSN to send an Identification Request message to the MME under test.
 2)	The MME under test receives the Identification Request message from SGSN.
@@ -100,8 +96,7 @@ Procedure and Execution Steps:</Purpose>
             </Requirement>
             <TestCase>
               <Name>TC_NOT_FORWARD_UNUSED_EPS_AUTH_MME</Name>
-              <Purpose>Verify that unused EPS authentication data remains in the same serving domain.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that unused EPS authentication data remains in the same serving domain.</Purpose>
               <PreConditions>Test environment with old and new MME in different serving domains. New MME may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the new MME to send an Identification Request message to the old MME under test.
 2)	The old MME under test receives the Identification Request message from the new MME.
@@ -120,8 +115,7 @@ Procedure and Execution Steps:</Purpose>
             </Requirement>
             <TestCase>
               <Name>TC_BIDDING_DOWN_MME</Name>
-              <Purpose>Verify that bidding down by eliminating certain UE capabilities on the interface from UE to MME is not possible.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that bidding down by eliminating certain UE capabilities on the interface from UE to MME is not possible.</Purpose>
               <PreConditions>Test environment with UE. UE may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the UE to send an Attach request message includes security capabilities of the UE to the MME under test.
 2)	The MME under test receives the Attach request message from the UE and responses with a SECURITY MODE COMMAND message.
@@ -140,8 +134,7 @@ NOTE: 	The text in TS 33.401 [5], clause 7.2.4.3.1 is somewhat incomplete. It sh
             </Requirement>
             <TestCase>
               <Name>TC_NAS_INT_SELECTION_USE_MME</Name>
-              <Purpose>Verify that NAS integrity protection algorithm is selected and applied correctly.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that NAS integrity protection algorithm is selected and applied correctly.</Purpose>
               <PreConditions>Test environment with UE. UE may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the UE to send an Attach request message with Initial Attach type of the UE to the MME under test.
 2)	The tester filters the Security Mode Command and Security Mode Complete messages.
@@ -160,8 +153,7 @@ Procedure and Execution Steps:</Purpose>
             </Requirement>
             <TestCase>
               <Name>TC_NAS_NULL_INT_MME</Name>
-              <Purpose>Verify that NAS NULL integrity protection algorithm is used correctly.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that NAS NULL integrity protection algorithm is used correctly.</Purpose>
               <PreConditions>Test environment with UE. UE may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the UE to initiate a non-emergency attach procedure.
 2)	The MME under test selects integrity algorithm after successful UE authentication.
@@ -180,8 +172,7 @@ The tester checks the SECURITY MODE COMMAND message.</ExecutionSteps>
             </Requirement>
             <TestCase>
               <Name>TC_NAS_CONFIDENTIALITY_MME</Name>
-              <Purpose>Verify that NAS confidentiality protection algorithm is applied correctly.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that NAS confidentiality protection algorithm is applied correctly.</Purpose>
               <PreConditions>Test environment with UE. UE may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the UE to send a SECURITY MODE COMPLETE message without confidentiality protection.
 2)	The MME under test receives the SECURITY MODE COMPLETE message from the UE.
@@ -201,8 +192,7 @@ If a confidentiality algorithm different from EEA0 was selected the MME rejects 
             </Requirement>
             <TestCase>
               <Name>TC_BIDDING_DOWN_X2_MME</Name>
-              <Purpose>Verify that bidding down is prevented in X2-handovers.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that bidding down is prevented in X2-handovers.</Purpose>
               <PreConditions>Test environment with (target) eNB. eNB may be simulated.
 The MME is configured to log the event of a UE EPS security capability mismatch.</PreConditions>
               <ExecutionSteps>1)	The tester sends EPS security capabilities for the UE, different from the ones stored in the MME, to the MME under test using a Path-Switch message.
@@ -221,8 +211,7 @@ The MME logs the event.</ExecutionSteps>
             </Requirement>
             <TestCase>
               <Name>TC_NAS_INTEGRITY_IN_MME_CHANGE</Name>
-              <Purpose>Verify that NAS integrity protection algorithm is selected correctly.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that NAS integrity protection algorithm is selected correctly.</Purpose>
               <PreConditions>Test environment with source and target MME. Source MME may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the source MME to send the UE EPS security capabilities and the NAS algorithms used by the source MME to the target MME under test over the S10 interface.
 2)	The target MME under test selects the NAS algorithms which have the highest priority according to the ordered lists. The lists are assumed such that the algorithms selected by the target MME are different from the ones received from the source MME.
@@ -242,8 +231,7 @@ Procedure and Execution Steps:</Purpose>
             </Requirement>
             <TestCase>
               <Name>TC_NOT_ACCESS_GSM_SIM_IDLE_MME</Name>
-              <Purpose>Verify that GSM subscribers cannot obtain service in EPS via idle mode mobility.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that GSM subscribers cannot obtain service in EPS via idle mode mobility.</Purpose>
               <PreConditions>Test environment with source SGSN and target MME. Source SGSN may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the source SGSN to send the MM context in the Context Response indicating GSM security mode to the target MME under test.
 2)	The target MME under test receives the Context Response.
@@ -261,8 +249,7 @@ Procedure and Execution Steps:</Purpose>
             </Requirement>
             <TestCase>
               <Name>TC_NOT_ACCESS_GSM_SIM_HANDOVER_MME</Name>
-              <Purpose>Verify that GSM subscribers cannot obtain service in EPS via handovers.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that GSM subscribers cannot obtain service in EPS via handovers.</Purpose>
               <PreConditions>Test environment with source SGSN and target MME. Source SGSN may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the source SGSN to send the MM context in the Forward Location Request message indicating GSM security mode to the target MME under test.
 2)	The target MME under test receives the Forward Location Request message.
@@ -280,8 +267,7 @@ Procedure and Execution Steps:</Purpose>
             </Requirement>
             <TestCase>
               <Name>TC_NOT_ACCESS_GSM_SIM_SRVCC_MME</Name>
-              <Purpose>Verify that GSM subscribers cannot obtain service in EPS via SRVCC into E-UTRAN.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Verify that GSM subscribers cannot obtain service in EPS via SRVCC into E-UTRAN.</Purpose>
               <PreConditions>Test environment with source MSC server and target MME. Source MSC server may be simulated.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the source MSC to send the GPRS Kc' and the CKSN'PS in the CS to PS handover request to the target MME under test.
 2)	The target MME under test receives the CS to PS handover request.
@@ -301,8 +287,7 @@ Procedure and Execution Steps:</Purpose>
             </Requirement>
             <TestCase>
               <Name>TC_AUTH_FAIL_EMER_MME</Name>
-              <Purpose>Ensure that the MME enforces that only emergency bearers can be used without successful authentication.
-Procedure and Execution Steps:</Purpose>
+              <Purpose>Ensure that the MME enforces that only emergency bearers can be used without successful authentication.</Purpose>
               <PreConditions>Test environment with MME and UE. UE may be simulated. The serving network policy allows unauthenticated IMS Emergency Sessions.</PreConditions>
               <ExecutionSteps>1)	The tester triggers the UE to send the initial attach request for EPS emergency bearer services to the target MME under test.
 2)	The MME under test initiates an authentication, which fails.

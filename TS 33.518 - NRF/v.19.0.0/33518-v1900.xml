@@ -28,8 +28,7 @@ If included, the requester-snssais IE is expected to contain the list of S-NSSAI
             </Requirement>
             <TestCase>
               <Name>TC_DISC_AUTHORIZATION_ALLOWED_PARAMETER</Name>
-              <Purpose>Ensure that the NRF being tested does not authorize a discovery request from an NF service consumer instance that lacks the correct authorization provided in the request, based on the parameters prefixed with “allowed” (e.g., allowedNfTypes, allowedNfDomains, allowedNssais…) provided by the NF service producer profile.
-Procedure and execution steps:</Purpose>
+              <Purpose>Ensure that the NRF being tested does not authorize a discovery request from an NF service consumer instance that lacks the correct authorization provided in the request, based on the parameters prefixed with “allowed” (e.g., allowedNfTypes, allowedNfDomains, allowedNssais…) provided by the NF service producer profile.</Purpose>
               <PreConditions>-	Test environment with the NF1 and NF2, which may be simulated. The NF2 will attempt to discover NF1.
 -	The NRF documentation provides information on whether unauthorized requests are rejected or accepted, but only returns NF Instances in the discovery response whose service the NF service consumer is authorized to access. If this is configurable, the tester is required to test both options.
 -	If the NRF under test does not support parameters from the allowedList in the table below, the test steps regarding these parameters are not applicable.</PreConditions>

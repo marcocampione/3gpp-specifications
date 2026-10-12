@@ -19,17 +19,14 @@
             <Name>Ability of NFs to update UE security-related information in the UDR</Name>
             <Reference>TS 33.501 [4], clause 5.8b Requirements on the UDR</Reference>
             <ThreatReference>TR 33.926 [5], clause AA.2 Assets and threats specific to the UDR</ThreatReference>
-            <Description>Only the UDM is able to update security-related information in the UDR.
-Test Case:</Description>
+            <Description>Only the UDM is able to update security-related information in the UDR.</Description>
           </Requirement>
           <TestCase>
             <Name>TC_ONLY_UDM_CAN_UPDATE_UDR</Name>
-            <Purpose>- Verify that only the UDM is able to update the security related information in the UDR.
-Procedure and execution steps:
-Pre-Condition:
-- The test case is applicable if UDR and UDM are implemented as separate network functions (non-colocated)
+            <Purpose>- Verify that only the UDM is able to update the security related information in the UDR.</Purpose>
+            <PreConditions>- The test case is applicable if UDR and UDM are implemented as separate network functions (non-colocated)
 - The network environment, such as the UDM, can be simulated.
-- The network environment, such as the non-UDM, can be simulated.</Purpose>
+- The network environment, such as the non-UDM, can be simulated.</PreConditions>
             <ExecutionSteps>Test Case 1:
 1)	The tester correctly calculates an access token with valid audience and scope claims reflecting the UDM network function to access the UDR resources.
 2)	The tester includes the access token into an update request to the UDR, e.g., update the SQN or the Authentication Status.
