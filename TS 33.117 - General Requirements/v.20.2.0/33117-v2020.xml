@@ -135,8 +135,7 @@ For test cases H~K on verification failure of optional claims in the access toke
               </Requirement>
               <TestCase>
                 <Name>TC_AUTHORIZATION_TOKEN_VERIFICATION_FAILURE_DIFF_PLMN</Name>
-                <Purpose>Verify that the NF service producer does not grant service access if the verification of authorization token from a NF service consumer in a different PLMN fails.
-Procedure and execution steps:</Purpose>
+                <Purpose>Verify that the NF service producer does not grant service access if the verification of authorization token from a NF service consumer in a different PLMN fails.</Purpose>
                 <PreConditions>-	Test environment with a NF service consumer and two SEPPs (one cSEPP, one pSEPP).
 -	The NF service consumer and SEPPs may be simulated.
 -	The network product under test has already mutually authenticated with the NF service consumer in a different PLMN via the SEPPs.
@@ -210,11 +209,9 @@ Test Case 4: NF instance ID mismatch between assertion and certificate
             </Requirement>
             <TestCase>
               <Name>TC_CONFIDENTIAL_SYSTEM_INTERNAL_DATA</Name>
-              <Purpose>Verify that no system function reveals sensitive data in the clear
-Procedure and execution steps:
-Pre-Condition:
-The vendor shall provide documentation describing how confidential system internal information that could possibly be revealed in clear-text is handled by system functions.
-A list of all system functions in the network product, information on how to enable and execute them should be provided as a part of the vendor's documentation. A system function is every function implemented in the network product needed by the services/functionalities provided by the network product itself.</Purpose>
+              <Purpose>Verify that no system function reveals sensitive data in the clear</Purpose>
+              <PreConditions>The vendor shall provide documentation describing how confidential system internal information that could possibly be revealed in clear-text is handled by system functions.
+A list of all system functions in the network product, information on how to enable and execute them should be provided as a part of the vendor's documentation. A system function is every function implemented in the network product needed by the services/functionalities provided by the network product itself.</PreConditions>
               <ExecutionSteps>1.	Review the documentation provided by the vendor describing how confidential system internal information is handled by system functions.
 2.	The tester checks whether any system functions as described in the product documentation (e.g. local or remote O&amp;M CLI or GUI, logging messages, alarms, error messages, configuration file exports, stack traces)  reveal any confidential system internal data in the clear (for example, passphrases).</ExecutionSteps>
               <ExpectedResults>There should be no confidential system internal data revealed in the clear by any	 system function.</ExpectedResults>
@@ -290,8 +287,7 @@ In some cases, the personal data stored in the log files may allow the direct id
             </Requirement>
             <TestCase>
               <Name>TC_LOGGING_ACCESS_TO_PERSONAL_DATA</Name>
-              <Purpose>Verify that in cases where a network product presents personal data in clear text, access attempts to such data are logged and the log information includes the user identity that has accessed the data. The test case also verifies that the personal data itself is not included in clear text in the log.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that in cases where a network product presents personal data in clear text, access attempts to such data are logged and the log information includes the user identity that has accessed the data. The test case also verifies that the personal data itself is not included in clear text in the log.</Purpose>
               <PreConditions>A document which provides a description of where personal data in clear text is accessible on the network product, how it can be accessed, and details of where such access attempts are logged and how to view these logs.</PreConditions>
               <ExecutionSteps>1.	The tester verifies, for cases where personal data is accessible in clear text, that attempts to access it are recorded in a log, that the log includes the identity of the user that has attempted to access the data, and that the log does not include the actual personal data in clear-text.
 2.	The tester repeats the check for each case where personal data is accessible.</ExecutionSteps>
@@ -314,13 +310,15 @@ Procedure and execution steps:</Purpose>
 -	Overload control method, e.g. limiting amount or size of transactions of a user or from an IP address in a specific time range.</Description>
               <ThreatReference>TR 33.926 [4], clause 5.3.7, Denial of service</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Reference>Refer to test case in clause 4.2.3.3.3.</Reference>
+            </TestCase>
           </Section>
           <Section title="4.2.3.3.2	Boot from intended memory devices only" level="5">
             <Requirement>
               <Name>Boot from intended memory devices only</Name>
               <Reference>In accordance with industry best practice</Reference>
-              <Description>The network product can boot only from the memory devices intended for this purpose.
-Test case:</Description>
+              <Description>The network product can boot only from the memory devices intended for this purpose.</Description>
             </Requirement>
             <TestCase>
               <Name>TC_BOOT_INT_MEM_1</Name>
@@ -381,6 +379,9 @@ Note: 	If some of the items listed above are not applicable to a network product
 -	White listing or escaping for inputs outside the values margin</Description>
               <ThreatReference>TR 33.926 [4], clause 5.3.7, Denial of service</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Reference>This requirement will be verified by Robustness and Protocol fuzzing tests as defined in clause 4.4.4 Robustness and fuzz testing.</Reference>
+            </TestCase>
           </Section>
           <Section title="4.2.3.3.5	Network Product software package integrity" level="5">
             <Requirement>
@@ -423,8 +424,7 @@ Note: 	If some of the items listed above are not applicable to a network product
               </Requirement>
               <TestCase>
                 <Name>TC_SYS_FUN_USAGE</Name>
-                <Purpose>To ensure that system functions shall not be used without successful authentication and authorization.
-Procedure and execution steps:</Purpose>
+                <Purpose>To ensure that system functions shall not be used without successful authentication and authorization.</Purpose>
                 <PreConditions>1.	The vendor shall supply the list of system functions which include network services, local access via a management console, local usage of operating system and applications.
 2.	The vendor shall supply the list of access entries for system functions.</PreConditions>
                 <ExecutionSteps>1.	The tester verifies that the access entries to use system functions, which are listed by the vendor, require successful authentication on basis of the user name and at least one authentication attribute.
@@ -445,8 +445,8 @@ NOTE 2:	This requirement does not preclude user group concepts for access contro
               </Requirement>
               <TestCase>
                 <Name>TC_ACCOUNT_DOCUMENTATION</Name>
-                <Purpose>To ensure that documentation of the network product does not encourage or require the use of group accounts, group credentials, or sharing of the same account between several users. To ensure that the network product does not support credentials unrelated to an account.
-Procedure and execution steps:</Purpose>
+                <Reference>NOTE 3:	Some typical default accounts suggest that they are shared amongst several persons (e.g. vendor_xy, support), or do not allow identification of individual users (e.g. guest, ftp, anonymous). In order to avoid overlap of this test case with clause 4.2.3.4.2.2, it is assumed for this test case that such accounts have been deleted or disabled in line with clause 4.2.3.4.2.2.</Reference>
+                <Purpose>To ensure that documentation of the network product does not encourage or require the use of group accounts, group credentials, or sharing of the same account between several users. To ensure that the network product does not support credentials unrelated to an account.</Purpose>
                 <PreConditions>1)	All user and group data bases for names and credentials supported by the network product are identified in the documentation accompanying the network product.
 2)	All predefined accounts and groups are identified in the documentation accompanying the Network Product.
 3)	Instructions of how administrator users can add accounts, groups, and credentials to the database(s) are provided in the documentation accompanying the Network Product.
@@ -458,8 +458,7 @@ Procedure and execution steps:</Purpose>
               </TestCase>
               <TestCase>
                 <Name>TC_ACCOUNT_DEFAULTS</Name>
-                <Purpose>To ensure that the default setup of the network product does not enable the use of group accounts or group credentials.
-Procedure and execution steps:</Purpose>
+                <Purpose>To ensure that the default setup of the network product does not enable the use of group accounts or group credentials.</Purpose>
                 <PreConditions>1)	All user and group data bases for names and credentials supported by the network product are identified in the documentation accompanying the network product.
 2)	Instructions of how administrator users can view all existing accounts, groups, and protected credentials in the databases are provided in the documentation accompanying the Network Product.</PreConditions>
                 <ExecutionSteps>After login via an account with necessary access rights (e.g. Admin) search in the databases for any group credentials. Example for Linux®: /etc/gshadow</ExecutionSteps>
@@ -468,8 +467,7 @@ Procedure and execution steps:</Purpose>
               </TestCase>
               <TestCase>
                 <Name>TC_ACCOUNT_NUMBER</Name>
-                <Purpose>To ensure that a minimum number of individual accounts per user data base is supported. The minimum number is defined in the requirement description of this clause.
-Procedure and execution steps:</Purpose>
+                <Purpose>To ensure that a minimum number of individual accounts per user data base is supported. The minimum number is defined in the requirement description of this clause.</Purpose>
                 <PreConditions>All user data bases for names and credentials supported by the network product are identified in the documentation accompanying the network product.</PreConditions>
                 <ExecutionSteps>Create accounts until the minimum number of accounts is reached.</ExecutionSteps>
                 <ExpectedResults>Successful creation of the minimum number of accounts.</ExpectedResults>
@@ -493,8 +491,7 @@ NOTE: 	Several of the above options can be combined (dual-factor authentication)
               </Requirement>
               <TestCase>
                 <Name>TC_ACCOUNT_PROTECTION</Name>
-                <Purpose>To ensure that all accounts are protected by at least one authentication attribute.
-Procedure and execution steps:</Purpose>
+                <Purpose>To ensure that all accounts are protected by at least one authentication attribute.</Purpose>
                 <PreConditions>1)	All predefined accounts are identified in the documentation accompanying the Network Product.
 2)	Instructions of how to create new accounts are provided in the documentation accompanying the Network Product.
 3)	Instructions of how administrator user can view all existing accounts in the database are provided in the documentation accompanying the Network Product.
@@ -518,8 +515,7 @@ Exceptions to this requirement to delete or disable accounts are accounts that a
               </Requirement>
               <TestCase>
                 <Name>TC_PREDEFINED_ACCOUNT_DELETION</Name>
-                <Purpose>To ensure that predefined accounts are deleted or disabled unless there is specific exception as defined in the requirement 4.2.3.4.2.2.
-Procedure and execution steps:</Purpose>
+                <Purpose>To ensure that predefined accounts are deleted or disabled unless there is specific exception as defined in the requirement 4.2.3.4.2.2.</Purpose>
                 <PreConditions>1)	All predefined accounts are identified in the documentation accompanying the Network Product.
 2)	Instructions of how administrator user can view all existing accounts in the database are provided in the documentation accompanying the Network Product.
 NOTE: 	No test is provided here for finding undocumented hard coded accounts as such tests can be impossible to define in a general way.</PreConditions>
@@ -543,8 +539,7 @@ Normally, authentication attributes such as password or cryptographic keys will 
               </Requirement>
               <TestCase>
                 <Name>TC_PREDEFINED_AUTHENTICATION_ATTRIBUTES_DELETION</Name>
-                <Purpose>To ensure that predefined or default authentication attributes are deleted or disabled as defined in the requirement 4.2.3.4.2.3.
-Procedure and execution steps:</Purpose>
+                <Purpose>To ensure that predefined or default authentication attributes are deleted or disabled as defined in the requirement 4.2.3.4.2.3.</Purpose>
                 <PreConditions>1)	Instructions of how administrator user can view all existing accounts in the database are provided in the documentation accompanying the Network Product.
 2)	All predefined accounts and their respective predefined or default passwords are identified in the documentation accompanying the Network Product.
 NOTE: 	No test is provided here for finding undocumented hard coded accounts as such tests can be impossible to define in a general way.</PreConditions>
@@ -578,8 +573,7 @@ When a user is changing a password or entering a new password, the system checks
               <TestCase>
                 <Name>TC_PASSWORD_STRUCT</Name>
                 <Purpose>To verify that password structure adheres to the password complexity criteria.
-To verify that password structure is configurable as per the complexity criteria.
-Procedure and execution steps:</Purpose>
+To verify that password structure is configurable as per the complexity criteria.</Purpose>
                 <PreConditions>-	Vendor documentation describing which component enforces password policy:
 -	the network product itself or
 -	a central authentication system;
@@ -633,8 +627,7 @@ Above requirements shall be applicable for all passwords used (e.g. application-
                 <Purpose>-	To check whether the network product is provisioned with the functionality that enables its user to change the password at any time.
 -	The network product enforces password change after initial login.
 -	To verify the new password adheres to the password management policy and also to verify whether it has password expiry rule.
--	The network product is configured to disallow specified number of previously used passwords (Password History).
-Procedure and execution steps:</Purpose>
+-	The network product is configured to disallow specified number of previously used passwords (Password History).</Purpose>
                 <PreConditions>1.	Tester has account with username and password in the network product.
 2.	Network product vendor will provide documentation for password management policy which should include details on how to change the password, configure password expiry rule and disallowing specified number of previously used passwords.
 3.	The network product vendor shall supply information on how many passwords the network product can store for each user in the password history.
@@ -769,8 +762,7 @@ Above requirements shall be applicable for all passwords used (e.g. application-
               </Requirement>
               <TestCase>
                 <Name>TC_HIDING_PASSWORD_DISPLAY</Name>
-                <Purpose>Verify that the given password is not visible to the casual local observer.
-Procedure and execution steps:</Purpose>
+                <Purpose>Verify that the given password is not visible to the casual local observer.</Purpose>
                 <PreConditions>Tester has account with username and password in the network product.</PreConditions>
                 <ExecutionSteps>1.	The network product will display the login screen.
 2.	The tester enters the username.
@@ -791,8 +783,7 @@ Procedure and execution steps:</Purpose>
               <TestCase>
                 <Name>TC_MUTUAL_AUTHENTICATION-ON_NETWORK_PRODUCT_MANAGEMENT_PROTOCOLS</Name>
                 <Purpose>Verify that:
-There is mutual authentication of entities for management interfaces on the network product.
-Procedure and execution steps:</Purpose>
+There is mutual authentication of entities for management interfaces on the network product.</Purpose>
                 <PreConditions>Documentation that lists each of the management protocols and describes the authentication mechanism used for each one.</PreConditions>
                 <ExecutionSteps>1.	The tester checks that the authentication mechanisms have been configured on the network product.
 2.	The tester triggers communication between network product and a test entity that has a legitimate authentication credential.
@@ -814,38 +805,32 @@ b)	If supported, infinite (permanent) locking of an account that has exceeded ma
             <TestCase>
               <Name>TC_FAILED_LOGIN_ATTEMPTS</Name>
               <Purpose>To ensure that the policy regarding failed login attempts is adhered to.
-Case 1: Testing for requirement 4.2.3.4.5 a)
-Procedure and execution steps:</Purpose>
+Case 1: Testing for requirement 4.2.3.4.5 a)</Purpose>
               <PreConditions>1)	At least one user account has been created as per vendor instructions.
 2)	Directions of how to configure the maximum permissible number of consecutive failed user account login attempts and the default value of this number are identified in the documentation accompanying the Network Product. Default value shall be stated as well.
-3)	Directions of how to configure the block delay in allowing a user attempt to login again when the number of failed login attempts has exceeded the maximum number are identified in the documentation accompanying the Network Product. Default value of the delay shall be stated as well.
-1.	At least one user account has been created as pervendor's instructions.
-2.	Directions of how to configure the maximum permissible number of consecutive failed user account login attempts and the default value of this number are identified in the documentation accompanying the Network Product. Default value shall be stated as well.
-3.	Directions of how to optionally configure permanent locking for non-administrative accounts shall be stated as well.</PreConditions>
+3)	Directions of how to configure the block delay in allowing a user attempt to login again when the number of failed login attempts has exceeded the maximum number are identified in the documentation accompanying the Network Product. Default value of the delay shall be stated as well.</PreConditions>
               <ExecutionSteps>1)	Check default values from precondition 2 and 3.
 2)	Perform consecutive failed login attempts for the user account until the default maximum number from precondition 2 is reached.
 3)	Attempt again one extra login, which fails again.
 4)	Attempt one extra login in less time than the default for the delay of precondition 3, using the correct credentials.
-5)	Attempt one extra login in more time than the default for the delay of precondition 3, using the correct credentials.
-1.	Check default values from precondition 2.
+5)	Attempt one extra login in more time than the default for the delay of precondition 3, using the correct credentials.</ExecutionSteps>
+              <ExpectedResults>1)	Default values from precondition 2 and 3 are in accordance with the requirement.
+2)	In execution step 2, 3 and 4, the login attempt shall be rejected in all cases.
+3)	In execution step 5, it is verified that the user can login only at the last login attempt.</ExpectedResults>
+              <EvidenceFormat>Evidence containing the results of all login attempts, e.g. screenshots, log files, configurations, error messages.
+Case 2: Testing for requirement 4.2.3.4.5 b)</EvidenceFormat>
+              <PreConditions>1.	At least one user account has been created as pervendor's instructions.
+2.	Directions of how to configure the maximum permissible number of consecutive failed user account login attempts and the default value of this number are identified in the documentation accompanying the Network Product. Default value shall be stated as well.
+3.	Directions of how to optionally configure permanent locking for non-administrative accounts shall be stated as well.</PreConditions>
+              <ExecutionSteps>1.	Check default values from precondition 2.
 2.	Perform consecutive failed login attempts for the user account until the default maximum number of precondition 2 is reached.
 3.	Attempt again one extra login, which fails again.
 4.	Attempt one extra login in more time than the default for the delay of precondition 3, using the correct credentials.
 5a.	If supported enable permanent locking of accounts exceeding the maximum permissible number of consecutive failed user account login attempts and repeat steps 1-4 for an unprivileged user.
 5b.	If supported enable permanent locking of accounts exceeding the maximum permissible number of consecutive failed user account login attempts and repeat steps 1-4 for a user with administrative access rights.</ExecutionSteps>
-              <ExpectedResults>1)	Default values from precondition 2 and 3 are in accordance with the requirement.
-2)	In execution step 2, 3 and 4, the login attempt shall be rejected in all cases.
-3)	In execution step 5, it is verified that the user can login only at the last login attempt.
-In execution step 5a it is verified that the user cannot login at any execution step.
+              <ExpectedResults>In execution step 5a it is verified that the user cannot login at any execution step.
 In execution step 5b it is verified that an administrator user can successfully login only at execution step 5b.</ExpectedResults>
-              <EvidenceFormat>Evidence containing the results of all login attempts, e.g. screenshots, log files, configurations, error messages.
-Case 2: Testing for requirement 4.2.3.4.5 b)
-Procedure and execution steps:
-Evidence containing the results of all login attempts, e.g. screenshots, log files, configurations, error messages.</EvidenceFormat>
-              <PreConditions/>
-              <ExecutionSteps/>
-              <ExpectedResults/>
-              <EvidenceFormat/>
+              <EvidenceFormat>Evidence containing the results of all login attempts, e.g. screenshots, log files, configurations, error messages.</EvidenceFormat>
             </TestCase>
           </Section>
           <Section title="4.2.3.4.6	Authorization and access control" level="5">
@@ -860,8 +845,7 @@ Alongside access to data, execution of applications and components shall also ta
               </Requirement>
               <TestCase>
                 <Name>TC_AUTHORIZATION_POLICY</Name>
-                <Purpose>Verify authorization policy is in place and that user access and data access in the system are according to the authorization policy.
-Procedure and execution steps:</Purpose>
+                <Purpose>Verify authorization policy is in place and that user access and data access in the system are according to the authorization policy.</Purpose>
                 <PreConditions>Documentation describing the authorization policy defined for the system including details on the lowest access rights assigned to user accounts, access to data, application execution and components.</PreConditions>
                 <ExecutionSteps>1.	Assign access rights (e.g. read only) to user accounts, data files, and applications.
 2.	Operations, that are allowed as per authorization policy (as defined in the network product documentation), are attempted via the different user accounts, data files, and applications.</ExecutionSteps>
@@ -880,8 +864,7 @@ The network product supports RBAC, in particular, for O&amp;M privilege manageme
               </Requirement>
               <TestCase>
                 <Name>TC_RBAC_SUPPORT</Name>
-                <Purpose>Verify that users are granted access with role-based privileges.
-Procedure and execution steps:</Purpose>
+                <Purpose>Verify that users are granted access with role-based privileges.</Purpose>
                 <PreConditions>Documentation describing the role-based access control system including details on which user roles are defined.</PreConditions>
                 <ExecutionSteps>1.	User accounts which are assigned to different access roles are created.
 2.	The tester attempts operations via the different user accounts, that are allowed by different roles (as defined in the network product documentation).</ExecutionSteps>
@@ -896,14 +879,14 @@ Procedure and execution steps:</Purpose>
           <Section title="4.2.3.5.1	Protecting sessions – logout function" level="5">
             <Requirement>
               <Name>Protecting sessions – logout function</Name>
+              <Reference>In accordance with industry best practice</Reference>
               <Description>The system shall have a function that allows a signed in user to logout at any time. All processes under the logged in user ID shall be terminated on log out. The network product shall be able to continue to operate without interactive sessions.
 Only for debugging purposes, processes under a logged in user ID may be allowed to continue to run after detaching the interactive session.</Description>
               <ThreatReference>TR 33.926 [4], clause 5.3.6, Information disclosure</ThreatReference>
             </Requirement>
             <TestCase>
               <Name>TC_PROTECTING_SESSION_LOGOUT</Name>
-              <Purpose>To ensure a signed in user can logout at any time.
-Procedure and execution steps:</Purpose>
+              <Purpose>To ensure a signed in user can logout at any time.</Purpose>
               <PreConditions>-	The vendor shall declare that it has a function that allows a signed in user to logout at any time.
 -	The tester has privileges to create a new account or use an existing account.</PreConditions>
               <ExecutionSteps>1)	The tester creates a new account.
@@ -923,8 +906,7 @@ Note: 	The kind of activity required to reset the timeout timer depends on the t
             </Requirement>
             <TestCase>
               <Name>TC_PROTECTING_SESSION_INAC_TIMEOUT</Name>
-              <Purpose>To ensure an O&amp;M user interactive session shall be terminated at inactivity timeout.
-Procedure and execution steps:</Purpose>
+              <Purpose>To ensure an O&amp;M user interactive session shall be terminated at inactivity timeout.</Purpose>
               <PreConditions>-	The tester has privileges to create an O&amp;M user interactive session.
 -	The tester has privileges to configure the inactivity time-out period for user interactive session.
 -	Session log should be enabled.</PreConditions>
@@ -977,8 +959,7 @@ b)	Log functions should support secure uploading of log files to a central locat
             </Requirement>
             <TestCase>
               <Name>TC_LOG_TRANS_TO_CENTR_STORAGE</Name>
-              <Purpose>To ensure log shall be transferred to centralized storage.
-Procedure and execution steps:</Purpose>
+              <Purpose>To ensure log shall be transferred to centralized storage.</Purpose>
               <PreConditions>-	The vendor shall list the protocols which transfer security event logging data (in accordance with clause 4.2.3.2.4).
 -	The session between network product and central location or external system for network product log functions has been set up.
 -	The tester has privilege to operate network product and related logs can be outputted.</PreConditions>
@@ -998,13 +979,13 @@ Procedure and execution steps:</Purpose>
           <Section title="4.2.3.6.3	Protection of security event log files" level="5">
             <Requirement>
               <Name>Protection of security event log files</Name>
+              <Reference>In accordance with industry best practice</Reference>
               <Description>The security event log shall be access controlled (file access rights) so only privileged users have access to the log files.</Description>
               <ThreatReference>TR 33.926 [4], clause 5.3.6.12, Log Disclosure</ThreatReference>
             </Requirement>
             <TestCase>
               <Name>TC_EVENT_LOG</Name>
-              <Purpose>Verify that the log(s) is(are) only accessible by privileged user(s).
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that the log(s) is(are) only accessible by privileged user(s).</Purpose>
               <PreConditions>Documentation describing where logs are stored and how these logs are accessed and the Network Product interfaces that these logs can be access from.</PreConditions>
               <ExecutionSteps>1. 	The tester attempts to access log files using users accounts with and without the correct permissions for accessing log files.
 2. Repeat the test as described in step 1 using each of the interfaces as described in the Network Product documentation.</ExecutionSteps>
@@ -1026,8 +1007,7 @@ Procedure and execution steps:</Purpose>
               </Requirement>
               <TestCase>
                 <Name>TC_HANDLING_OF_GROWING_CONTENT</Name>
-                <Purpose>To verify that the growing or dynamic content does not influence system functions.
-Procedure and execution steps:</Purpose>
+                <Purpose>To verify that the growing or dynamic content does not influence system functions.</Purpose>
                 <PreConditions>1.	Growing or dynamic content sources like e.g. log files and their paths are documented.
 2.	Measures that are taken to protect system functions from growing or dynamic content that can exhaust file system capacity are documented.
 3.	All logging capabilities that are not enabled by default are enabled manually as per the documentation instructions.</PreConditions>
@@ -1047,13 +1027,12 @@ Procedure and execution steps:</Purpose>
 ICMP message types which on receipt lead to responses or to configuration changes are not mentioned in this requirement, but they may be necessary to support relevant and specified networking features. Those shall be documented.
 Certain ICMP types are generally permitted and do not need to be specifically documented. Those are marked as &quot;Permitted&quot; in below table.
 The network product shall not send certain ICMP types by default, but it may support the option to enable utilization of these types (e.g. for debugging). This is marked as &quot;Optional&quot; in below table.
-The network product shall not respond to, or process (i.e. do changes to configuration), under any circumstances certain ICMP message types as marked in below table.
-Threat Reference: TR 33.926 [4], clause 5.3.7, Denial of service
-Test Case:
-The test for this requirement can be carried out using a suitable tool or manually by performing the steps described below. If a tool is used then the tester needs to provide evidence, e.g. by referring to the documentation of the tool, that the tool actually provides functionality equivalent to the steps described below.</Description>
+The network product shall not respond to, or process (i.e. do changes to configuration), under any circumstances certain ICMP message types as marked in below table.</Description>
+                <ThreatReference>TR 33.926 [4], clause 5.3.7, Denial of service</ThreatReference>
               </Requirement>
               <TestCase>
                 <Name>TC_HANDLING_OF_ICMP</Name>
+                <Reference>The test for this requirement can be carried out using a suitable tool or manually by performing the steps described below. If a tool is used then the tester needs to provide evidence, e.g. by referring to the documentation of the tool, that the tool actually provides functionality equivalent to the steps described below.</Reference>
                 <Purpose>To verify that the network product does not process, send or reply to certain ICMP types in accordance with the requirement.</Purpose>
                 <PreConditions>-	The vendor provides documentation whether the network product supports IPv4 and/or IPv6.
 -	If applicable, the tester has the needed system privileges for confirming that the ICMP messages with types &quot;Not Permitted&quot; to process are indeed not leading to configuration changes.
@@ -1085,8 +1064,8 @@ ICMP message types which lead to responses or to configuration changes on receip
               </Requirement>
               <TestCase>
                 <Name>TC_HANDLING-IP-OPTIONS-AND-EXTENSIONS</Name>
-                <Purpose>To verify that the network product provides functionality to filter out IP packets with unnecessary options or extension headers in reference to RFC 7126 [20].
-Procedure and execution steps:</Purpose>
+                <Reference>The test for this requirement can be carried out using a suitable tool or manually by performing the steps described below. If a tool is used then the tester needs to provide evidence, e.g. by referring to the documentation of the tool, that the tool actually provides functionality equivalent to the steps described below.</Reference>
+                <Purpose>To verify that the network product provides functionality to filter out IP packets with unnecessary options or extension headers in reference to RFC 7126 [20].</Purpose>
                 <PreConditions>-	The vendor declares in the documentation accompanying the network product at least the following information:
 -	The support of filtering capability for IP packets with unnecessary options or extensions headers.
 -	The actions performed by the network product when an IP packet with unnecessary options or extensions headers is received (e.g. the packet is dropped, the options or extensions are ignored and the packet is treated as if it has no IP options, etc.).
@@ -1126,8 +1105,7 @@ Implementation example: Disable insecure privilege escalation methods so that us
               </Requirement>
               <TestCase>
                 <Name>TC_OS_PRIVILEGE</Name>
-                <Purpose>To ensure that privileged operating system functions shall not be used without successful authentication and authorization, and that violations of this requirement are documented and strictly limited in number and functionality.
-Procedure and execution steps:</Purpose>
+                <Purpose>To ensure that privileged operating system functions shall not be used without successful authentication and authorization, and that violations of this requirement are documented and strictly limited in number and functionality.</Purpose>
                 <PreConditions>1.	The vendor shall provide documentation of the operating system(s) used in the network product.
 2.	The vendor shall supply a list &quot;A&quot; of operating system functions which a system user can use to explicitly gain higher privileges, and how these functions are configured. Unix® example: sudo command and its configuration file /etc/sudoers or used Linux® capabilities.
 3.	The vendor shall supply a list &quot;B&quot; of operating system commands, GUI functions, and files which will execute specifically limited tasks automatically with higher privileges, even when used by a low-privileged user. List &quot;B&quot; shall also contain:
@@ -1167,8 +1145,7 @@ Capabilities: getcap -r / 2&gt;/dev/null
             </Requirement>
             <TestCase>
               <Name>TC_UNIQUE_SYSTEM_ACCOUNT_IDENTIFICATION</Name>
-              <Purpose>To verify that UNIX® account UIDs are assigned uniquely.
-Procedure and execution steps:</Purpose>
+              <Purpose>To verify that UNIX® account UIDs are assigned uniquely.</Purpose>
               <PreConditions>UNIX® is used on the Network Product.</PreConditions>
               <ExecutionSteps>1.	Create several UNIX® accounts.
 2.	Check UIDs of created accounts and of existing system accounts and, in particular, the root account.</ExecutionSteps>
@@ -1211,10 +1188,9 @@ These are the same as for the test case in clause 4.2.3.2.4, except that, for ex
             </Requirement>
             <TestCase>
               <Name>TC_WEBSERVER_LOGGING</Name>
-              <Purpose>Verify that all accesses to the webserver are logged with the required information.
-Pre-Condition:
-Network Product documentation which contains information on log file location and procedure to access it.
-Tester has the necessary privileges to access the log files.</Purpose>
+              <Purpose>Verify that all accesses to the webserver are logged with the required information.</Purpose>
+              <PreConditions>Network Product documentation which contains information on log file location and procedure to access it.
+Tester has the necessary privileges to access the log files.</PreConditions>
               <ExecutionSteps>1.	The tester tries to access existing resources on the webserver using correctly and incorrectly crafted requests.
 2.	If a login is required, then the tester is using correct and incorrect access credentials.
 3.	The tester verifies whether the requests were logged correctly with all of the required information.</ExecutionSteps>
@@ -1244,8 +1220,7 @@ Tester has the necessary privileges to access the log files.</Purpose>
           </Requirement>
           <TestCase>
             <Name>TC_HTTP_USER_SESSIONS</Name>
-            <Purpose>Verify that the above 12 session ID and session cookie requirements have been met.
-Procedure and execution steps:</Purpose>
+            <Purpose>Verify that the above 12 session ID and session cookie requirements have been met.</Purpose>
             <PreConditions>-	The Network Product uses a session ID that is communicated between the client and Network Product to establish and maintain a session.
 -	Documentation describing how a session is maintained and where the session ID is stored / and how this is communicated and after how long sessions expire.
 -	The documentation should describe the algorithm used to generate the session IDs.
@@ -1282,6 +1257,9 @@ c.	keep a session alive for longer than the configured maximum lifetime (by defa
             <Description>The Network Product shall have a mechanism in place to ensure that web application inputs are not vulnerable to command injection or cross-site scripting attacks. The Network Product shall validate, filter, escape, and encode user-controllable input(e.g., query parameters, form data, headers) before the input is processed in any other way.</Description>
             <ThreatReference>TR 33.926 [4], clause 5.3.3.6, Malware</ThreatReference>
           </Requirement>
+          <TestCase>
+            <Reference>This requirement is covered by the basic vulnerability testing as described in clause 4.4.</Reference>
+          </TestCase>
         </Section>
       </Section>
       <Section title="4.2.6	Network devices" level="3">
@@ -1306,8 +1284,7 @@ In particular the Network Product shall provide a mechanism:
             </Requirement>
             <TestCase>
               <Name>TC_PACKET_FILTERING</Name>
-              <Purpose>Verify that the system provides functionality for incoming packet filtering
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that the system provides functionality for incoming packet filtering</Purpose>
               <PreConditions>-	The Network Product has packet filtering enabled.
 - 	The Network Product supports ICMP echo reply.
 -	The Network Product has 2 different logical or physical Ethernet ports and each port is connected to a host.</PreConditions>
@@ -1333,6 +1310,9 @@ Examples of such packets are:
 Sometimes the relevant behaviour of the network device is configured. In other cases, the behaviour of the network device can only be verified by the relevant tests.</Description>
               <ThreatReference>TR 33.926 [4], clause 5.3.7, Denial of service</ThreatReference>
             </Requirement>
+            <TestCase>
+              <Reference>Refer to Test Case in clause 4.4.4.</Reference>
+            </TestCase>
           </Section>
           <Section title="4.2.6.2.3	GTP-C Filtering" level="5">
             <Requirement>
@@ -1355,6 +1335,7 @@ NOTE 4: The test cases are only applicable to all network product classes utiliz
             </Requirement>
             <TestCase>
               <Name>TC_GTP-C_FILTERING</Name>
+              <Reference>The test case described here apply only when GTP-C filtering is provided on the Network Product itself.</Reference>
               <Purpose>To verify that the network product provides filtering functionalities for incoming GTP-C messages. In particular this test case verifies that:
 1.	The network product provides filtering of incoming GTP-C messages on any interface.
 2.	It is possible to block all GTP-C messages on those network product interfaces where they are unwanted.
@@ -1419,6 +1400,7 @@ NOTE 4:	The test cases are only applicable to all network product classes utiliz
           </Requirement>
           <TestCase>
             <Name>TC_GTP-U_FILTERING</Name>
+            <Reference>The test case described here apply only when GTP-U filtering is provided on the Network Product itself.</Reference>
             <Purpose>To verify that the network product provides filtering functionalities for incoming GTP-U messages. In particular this test case verifies that:
 1.	The network product provides filtering of incoming GTP-U messages on any interface.
 2.	It is possible to block all GTP-U messages on those network product interfaces where they are unwanted.
@@ -1562,8 +1544,7 @@ NOTE:	It might not be possible for certain transport layer protocols (like UDP) 
           </Requirement>
           <TestCase>
             <Name>TC_NO_UNUSED_SOFTWARE</Name>
-            <Purpose>To ensure that there is no unused software or associated components that might be installed in the network product which are not required for its operation or functionality.
-Procedure and execution steps:</Purpose>
+            <Purpose>To ensure that there is no unused software or associated components that might be installed in the network product which are not required for its operation or functionality.</Purpose>
             <PreConditions>A list of all available software and libraries and associated components containing at least the following information shall be included in the documentation accompanying the Network Product:
 -	name of the software / library;
 -	version of the software / library installed;
@@ -1598,8 +1579,7 @@ NOTE 1:	A function within the scope of this test case is a hardware, software or
           </Requirement>
           <TestCase>
             <Name>TC_NO_UNUSED_FUNCTIONS</Name>
-            <Purpose>To ensure that all active hardware functions or software functions are explicitly required for operation or functionality of the network product.
-Procedure and execution steps:</Purpose>
+            <Purpose>To ensure that all active hardware functions or software functions are explicitly required for operation or functionality of the network product.</Purpose>
             <PreConditions>NOTE 2:	If the network product under test is pure software, the hardware aspects of this test case do not apply.
 A list of all available software or hardware and associated components containing at least the following information shall be included in the documentation accompanying the Network Product:
 -	name of the software or hardware;
@@ -1634,8 +1614,7 @@ There should be no unused function that is not deactivated in the network produc
           </Requirement>
           <TestCase>
             <Name>TC_NO_UNSUPPORTED_COMPONENTS</Name>
-            <Purpose>To ensure that all software and hardware components running in the network product are still supported and have not reached either their end-of-life or end-of-support.
-Procedure and execution steps:</Purpose>
+            <Purpose>To ensure that all software and hardware components running in the network product are still supported and have not reached either their end-of-life or end-of-support.</Purpose>
             <PreConditions>NOTE 1:	If the network product under test is pure software, the hardware aspects of this test case do not apply.
 A list of all available software and associated components containing at least the following information shall be included in the documentation accompanying the Network Product:
 -	name of the software or hardware component;
@@ -1668,10 +1647,8 @@ There should be no software installed in the network product which is unsupporte
           </Requirement>
           <TestCase>
             <Name>TC_REMOTE_LOGIN_RESTRICTIONS_PRIVILEGED_USERS</Name>
-            <Purpose>Verify that root or equivalent highest privileged user will not be allowed to login to the system remotely.
-Procedure and execution steps:
-Pre-Condition:
-A document that describes the interfaces to the network product and how the tester can login to them remotely.</Purpose>
+            <Purpose>Verify that root or equivalent highest privileged user will not be allowed to login to the system remotely.</Purpose>
+            <PreConditions>A document that describes the interfaces to the network product and how the tester can login to them remotely.</PreConditions>
             <ExecutionSteps>1.	The tester tries to remotely login to the network product using the credentials of the root or equivalent highest privileged user via the interfaces as described in the documentation.
 2.	The tester tries to login to the network product using the credentials of the root or equivalent highest privileged user from the physical console of the system.</ExecutionSteps>
             <ExpectedResults>The tester is not able to login to the system remotely using the root or equivalent highest privileged user credentials.
@@ -1689,10 +1666,8 @@ EXAMPLE:	On Unix® systems a 'sticky' bit may be set on all directories where al
           </Requirement>
           <TestCase>
             <Name>TC_FILESYSTEM_AUTHORIZATION_PRIVILEGES</Name>
-            <Purpose>Verify that users are only permitted to modify files, data, directories or file systems for which they have been authorized according to the vendor documentation.
-Procedure and execution steps:
-Pre-Condition:
-A document describing how access control is configured for the filesystems in the network product shall be provided by the vendor.</Purpose>
+            <Purpose>Verify that users are only permitted to modify files, data, directories or file systems for which they have been authorized according to the vendor documentation.</Purpose>
+            <PreConditions>A document describing how access control is configured for the filesystems in the network product shall be provided by the vendor.</PreConditions>
             <ExecutionSteps>1.	The tester checks that OS-level permissions are configured correctly according to the vendor documentation for users that are authorized to modify files, data, directories or file systems on the system.
 2.	The tester logs into the network product under test with a valid user account (not the system administrator, e.g. root user on UNIX®).
 3.	The tester tries to modify at least one file and directory for which the user has the necessary privileges.
@@ -1715,9 +1690,9 @@ Screenshot or terminal output of file and directory modification attempts.</Evid
             </Requirement>
             <TestCase>
               <Name>TC_IP_SPOOFING_MITIGATION</Name>
+              <Reference>The test for this requirement can be carried out using a suitable tool or manually by performing the steps described below. If a tool is used then the tester needs to provide evidence, e.g. by referring to the documentation of the tool, that the tool actually provides functionality equivalent to the steps described below.</Reference>
               <Purpose>To verify that the network product provides anti-spoofing function that is, before a packet is processed, the network product checks whether the source IP of the received packet is reachable through the interface it comes in.
-To verify that if the received packet source address is not routable through the interface on which it comes, then the network product drops this packet.
-Procedure and execution steps:</Purpose>
+To verify that if the received packet source address is not routable through the interface on which it comes, then the network product drops this packet.</Purpose>
               <PreConditions>-	A node N1 is available with:
 -	Two interfaces named respectively if1-n1 connected to the network product and if2-n1 to which the tester connects a tester machine
 -	routing capabilities
@@ -1770,8 +1745,7 @@ Answering routine for broadcast ICMP packets. In particular all ICMP ECHO and TI
             </Requirement>
             <TestCase>
               <Name>TC_PROXY_ARP_DISABLING</Name>
-              <Purpose>Verify that the Proxy ARP feature is disabled by default on the network product. In particular this test case verifies that the network product does not respond to ARP requests intended for another host.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that the Proxy ARP feature is disabled by default on the network product. In particular this test case verifies that the network product does not respond to ARP requests intended for another host.</Purpose>
               <PreConditions>-	The network product shall have at least 2 different physical or logical Ethernet interface IF1 and IF2. E.g.
 -	Host 1 is connected to IF1 on subnet A (for example 172.16.10.0/16).
 -	Host 2 is connected to IF2 on subnet B (for example 172.16.20.0/24).
@@ -1784,8 +1758,7 @@ Procedure and execution steps:</Purpose>
             </TestCase>
             <TestCase>
               <Name>TC_DIRECTED_BROAD_DISABLING</Name>
-              <Purpose>Verify that the Directed broadcast is disabled by default on the network product. In particular this test case verifies that a packet received by a network product whose destination address is a valid broadcast address is dropped.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that the Directed broadcast is disabled by default on the network product. In particular this test case verifies that a packet received by a network product whose destination address is a valid broadcast address is dropped.</Purpose>
               <PreConditions>-	The network product has at least 2 different physical or logical Ethernet interface IF1 and IF2.
 -	Host 1 is connected to IF1 on Subnet A and Host 2 is connected to IF2 on Subnet B.
 -	Network traffic analyser on the network product (e.g. TCPDUMP) or an external traffic analyser directly connected to the network product is available.</PreConditions>
@@ -1797,8 +1770,7 @@ Procedure and execution steps:</Purpose>
             </TestCase>
             <TestCase>
               <Name>TC_ IP_MULTICAST_HANDLING</Name>
-              <Purpose>Verify that IP Multicast is disabled by default on the network product. In particular this test case verifies that packets with IP source or destination address belonging to the multicast IP ranges (224.0.0.0 through 239.255.255.255) are not handled by the network product.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that IP Multicast is disabled by default on the network product. In particular this test case verifies that packets with IP source or destination address belonging to the multicast IP ranges (224.0.0.0 through 239.255.255.255) are not handled by the network product.</Purpose>
               <PreConditions>-	Network traffic analyser on the network product or an external traffic analyser directly connected to the network product is available.
 -	Network product
 Capability:
@@ -1810,8 +1782,7 @@ NOT applicable in certain deployment scenarios where multicast needs to be enabl
             </TestCase>
             <TestCase>
               <Name>TC_GRATUITOUS_ARP_DISABLING</Name>
-              <Purpose>Verify that the Gratuitous ARP feature is disabled by default on the network product. In particular this test case verifies that the network product cannot send gratuitous ARP requests and that the network product discards incoming Gratuitous ARP requests.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that the Gratuitous ARP feature is disabled by default on the network product. In particular this test case verifies that the network product cannot send gratuitous ARP requests and that the network product discards incoming Gratuitous ARP requests.</Purpose>
               <PreConditions>-	Network traffic analyser on the network product (e.g. TCPDUMP) or an external traffic analyser directly connected to the network product is available.
 -	Host 1 is connected to the network product
 -	The network product ARP Cache already contains an entry for Host 1
@@ -1826,8 +1797,7 @@ Procedure and execution steps:</Purpose>
             </TestCase>
             <TestCase>
               <Name>TC_BROADCAST_ICMP_HANDLING</Name>
-              <Purpose>Verify that responses to ICMP broadcast packets are disabled by default on the network product. In particular this test case verifies that all ICMP ECHO and TIMESTAMP requests sent to the network product via broadcast/multicast are not answered.
-Procedure and execution steps:</Purpose>
+              <Purpose>Verify that responses to ICMP broadcast packets are disabled by default on the network product. In particular this test case verifies that all ICMP ECHO and TIMESTAMP requests sent to the network product via broadcast/multicast are not answered.</Purpose>
               <PreConditions>-	The network product has at least one physical or logical Ethernet interface IF1 connected to a host, Host 1.
 -	Network traffic analyser on the network product (e.g. TCPDUMP) or an external traffic analyser directly connected to the network product is available.</PreConditions>
               <ExecutionSteps>1.	If the feature is available in a configuration file, verify that it is disabled by default.
@@ -1897,8 +1867,7 @@ b.	After the SYN Flood attack was executed.</ExecutionSteps>
             </Requirement>
             <TestCase>
               <Name>TC_PROTECTION_FROM_BUFFER_OVERFLOW</Name>
-              <Purpose>To ensure that the system supports mechanisms that protect against buffer overflow.
-Procedure and execution steps:</Purpose>
+              <Purpose>To ensure that the system supports mechanisms that protect against buffer overflow.</Purpose>
               <PreConditions>1.	A document which provides a detailed technical description of the system's buffer overflow protection mechanisms.
 2.	If a standard buffer overflow mechanism from a 3rd party vendor is used then a reference to the standard feature in the 3rd party vendors documentation should be provided.
 3.	Test results from a test execution phase of buffer overflow protection mechanism testing.</PreConditions>
@@ -1931,10 +1900,9 @@ NOTE: 	This requirement does not apply when the docker is used to mount file sys
             </Requirement>
             <TestCase>
               <Name>TC_EXTERNAL_FILE_SYSTEM_MOUNT_RESTRICTIONS</Name>
-              <Purpose>Verify that OS-level restrictions are set properly for users that are allowed to mount external file systems (attached locally or via the network). This is to prevent privilege escalation or extended access permissions due to the contents of the mounted file systems.
-Pre-Condition:
-Tester has admin access to check and configure the external filesystem mount permissions in the OS.
-Tester has username and password of a user in the network product that has external filesystem mount privileges.</Purpose>
+              <Purpose>Verify that OS-level restrictions are set properly for users that are allowed to mount external file systems (attached locally or via the network). This is to prevent privilege escalation or extended access permissions due to the contents of the mounted file systems.</Purpose>
+              <PreConditions>Tester has admin access to check and configure the external filesystem mount permissions in the OS.
+Tester has username and password of a user in the network product that has external filesystem mount privileges.</PreConditions>
               <ExecutionSteps>1.	The tester shall verify that OS-level restrictions are set properly in order to prevent privilege escalation due to the contents of the mounted file systems (e.g. In Linux® systems, administrators shall set the options nodev and nosuid in the /etc/fstab for all filesystems, which also have the &quot;user&quot; option). The tester checks that OS-level parameters are configured correctly on the system.
 2.	The tester mounts an external filesystem prepared by the tester with files exploiting privilege escalation methods (e.g. with writable SUID/GUID files).
 3.	The tester tries to gain privileged access to system by privilege escalation method, using the contents of the mounted file system, and then the tester confirms that privilege escalation doesn't happen.</ExecutionSteps>
@@ -2018,9 +1986,8 @@ NOTE:	If the web server is integrated directly into (parts of) the network produ
           <Requirement>
             <Name>No compiler, interpreter, or shell via CGI or other server-side scripting.</Name>
             <Reference>In accordance with industry best practice</Reference>
-            <Description>If CGI (Common Gateway Interface) or other scripting technology is used, the CGI directory - or other corresponding scripting directory - shall not include compilers or interpreters (e.g. PERL® interpreter, PHP interpreter/compiler, Tcl interpreter/compiler or operating system shells).
-Threat Reference: TR 33.926 [4], clause 5.3.6, Information disclosure
-Test Case:</Description>
+            <Description>If CGI (Common Gateway Interface) or other scripting technology is used, the CGI directory - or other corresponding scripting directory - shall not include compilers or interpreters (e.g. PERL® interpreter, PHP interpreter/compiler, Tcl interpreter/compiler or operating system shells).</Description>
+            <ThreatReference>TR 33.926 [4], clause 5.3.6, Information disclosure</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_NO_COMPILER_FOR_CGI</Name>
@@ -2046,9 +2013,8 @@ NOTE:	If the web server is integrated directly into (parts of) the network produ
           </Requirement>
           <TestCase>
             <Name>TC_NO_CGI_OR_SCRIPTING_FOR_UPLOADS</Name>
-            <Purpose>To ensure that directories with write permissions for the web server do not contain executable code such as CGI scripts.
-Pre-Condition:
-If the web server is configured with CGI/Scripting on, this test applies.</Purpose>
+            <Purpose>To ensure that directories with write permissions for the web server do not contain executable code such as CGI scripts.</Purpose>
+            <PreConditions>If the web server is configured with CGI/Scripting on, this test applies.</PreConditions>
             <ExecutionSteps>1.	The tester identifies directories where the web server user has write permissions.
 2.	The tester verifies that these writable directories do not contain any executable scripts, CGI programs, or other executable code.
 3.	The tester verifies that directories configured for CGI/Scripting do not have write permissions for the web server.
@@ -2061,15 +2027,13 @@ NOTE:	If the web server is integrated directly into (parts of) the network produ
           <Requirement>
             <Name>No execution of system commands with SSI.</Name>
             <Reference>In accordance with industry best practice</Reference>
-            <Description>If Server Side Includes (SSI) is active, the execution of system commands shall be deactivated.
-Threat Reference: TR 33.926 [4], clause 5.3.8, Elevation of privilege
-Test Case:</Description>
+            <Description>If Server Side Includes (SSI) is active, the execution of system commands shall be deactivated.</Description>
+            <ThreatReference>TR 33.926 [4], clause 5.3.8, Elevation of privilege</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_NO_EXECUTION_OF_SYSTEM_COMMANDS</Name>
-            <Purpose>To test whether it is possible to use the exec directive and if so, whether it can be used for system commands.
-Pre-Condition:
-If the web server is configured with SSI active, this test applies.</Purpose>
+            <Purpose>To test whether it is possible to use the exec directive and if so, whether it can be used for system commands.</Purpose>
+            <PreConditions>If the web server is configured with SSI active, this test applies.</PreConditions>
             <ExecutionSteps>1.	The tester checks whether execution of system commands is disabled in the web server configuration.
 NOTE:	If the web server is integrated directly into (parts of) the network product, it could not use configuration files. Configuration could be done via command line parameters or simply be hardcoded into the application. In such cases, the tester can omit test steps or parts of test steps related to web server configuration files.
 2.	The tester actually attempts to use the exec directive in an SSI file with and without system commands.</ExecutionSteps>
@@ -2107,8 +2071,7 @@ NOTE:	If the web server is integrated directly into (parts of) the network produ
           </Requirement>
           <TestCase>
             <Name>TC_NO_DEFAULT_CONTENT</Name>
-            <Purpose>To verify that there is no default content on the web server, that is not needed for web server operation, since such default content can be useful for an attacker.
-Procedure and execution steps</Purpose>
+            <Purpose>To verify that there is no default content on the web server, that is not needed for web server operation, since such default content can be useful for an attacker.</Purpose>
             <PreConditions>-	The tester has needed administrative privileges.
 -	A tester machine is available.
 -	The tester should have configured a script, or an automatic assessment tool adapted in line with the Requirement Description.
@@ -2151,8 +2114,7 @@ NOTE 2:	Directory listings could be obtained by entering a valid URL (e.g., /var
           </Requirement>
           <TestCase>
             <Name>TC_NO_WEB_SERVER_HEADER_INFORMATION</Name>
-            <Purpose>To verify that HTTP headers do not include information on the version of the web server and the modules/add-ons used.
-Procedure and execution steps</Purpose>
+            <Purpose>To verify that HTTP headers do not include information on the version of the web server and the modules/add-ons used.</Purpose>
             <PreConditions>-	The tester has administrative privileges.
 -	A tester machine is available.
 -	The tester should have configured a script, or an automatic assessment tool adapted in line with the Requirement Description.</PreConditions>
@@ -2201,8 +2163,7 @@ NOTE 4:	The 5xx error page could be triggered by requesting a HTTP method the we
           </Requirement>
           <TestCase>
             <Name>TC_NO_WEB_SERVER_FILE_TYPE MAPPINGS</Name>
-            <Purpose>To verify that file type- or script-mappings that are not required have been deleted.
-Procedure and execution steps</Purpose>
+            <Purpose>To verify that file type- or script-mappings that are not required have been deleted.</Purpose>
             <PreConditions>-	The tester has needed administrative privileges.
 -	A tester machine is available.
 -	The tester should have configured a script, or an automatic assessment tool adapted in line with the Requirement Description.</PreConditions>
@@ -2220,9 +2181,8 @@ Procedure and execution steps</Purpose>
           </Requirement>
           <TestCase>
             <Name>TC_RESTRICTED_FILE_ACCESS</Name>
-            <Purpose>To test whether the restrictive access rights are assigned to all files which are directly or indirectly in the web server's document directory and to verify whether path traversal is made improbable.
-Pre-Condition:
-The web server is configured according to the manual</Purpose>
+            <Purpose>To test whether the restrictive access rights are assigned to all files which are directly or indirectly in the web server's document directory and to verify whether path traversal is made improbable.</Purpose>
+            <PreConditions>The web server is configured according to the manual</PreConditions>
             <ExecutionSteps>1.	The tester verifies that access rights on the servable content (meaning directories and files) is set to the following:
 a.	The files are owned by the user that runs the web server;
 b.	The files are not writable to others, except the web server's account;
@@ -2247,11 +2207,9 @@ NOTE:	If the web server is integrated directly into (parts of) the network produ
           </Requirement>
           <TestCase>
             <Name>TC_TRAFFIC_SEPARATION</Name>
-            <Purpose>To test whether traffic belonging to different network domains is separated.
-Procedure and execution steps:
-Pre-Condition:
-NOTE: 	This test applies if the network product is meant to handle traffic from different network domains, e.g. both O&amp;M and control plane traffic.
-The network product has at least two separate (logical) interfaces dedicated to different network domains. The vendor  provides this domain related information for the tester. Network products for which the test applies and that fail to meet this precondition fail the test by definition.</Purpose>
+            <Purpose>To test whether traffic belonging to different network domains is separated.</Purpose>
+            <PreConditions>NOTE: 	This test applies if the network product is meant to handle traffic from different network domains, e.g. both O&amp;M and control plane traffic.
+The network product has at least two separate (logical) interfaces dedicated to different network domains. The vendor  provides this domain related information for the tester. Network products for which the test applies and that fail to meet this precondition fail the test by definition.</PreConditions>
             <ExecutionSteps>1.	The tester checks whether the network product refuses traffic intended for one network domain on all interfaces meant for the other network domain, and vice versa.
 2.	Step 1 is to be performed for all pairs of different network domains.</ExecutionSteps>
             <ExpectedResults>-	The two tests are successful.
@@ -2299,6 +2257,7 @@ The network product has at least two separate (logical) interfaces dedicated to 
           </Requirement>
           <TestCase>
             <Name>TC_UNIQUE_KEY_VALUES</Name>
+            <Reference>NOTE:	This requirement can also be verified as part of Robustness and Protocol fuzzing tests as defined in clause 4.4.4 Robustness and fuzz testing according to referenced requirements.</Reference>
             <Purpose>Verify that the API implementation fulfils the requirements as specified in 29.501 [13], clause 6.2.</Purpose>
             <PreConditions>Test environment with network product under test so that the tester is able to send HTTP requests with keys (valid and duplicate) in message IE payload towards the network product under test. Rest of the network and network products may be simulated.</PreConditions>
             <ExecutionSteps>1)	The test equipment sends HTTP requests with duplicate keys in message IE payload to the network product under test.
@@ -2325,6 +2284,7 @@ If a received HTTP request contains IEs or query parameters not compliant with t
           </Requirement>
           <TestCase>
             <Name>TC_IE_VALUE_FORMAT</Name>
+            <Reference>NOTE 1:	This requirement can also be verified as part of Robustness and Protocol fuzzing tests as defined in clause 4.4.4 Robustness and fuzz testing according to referenced requirements.</Reference>
             <Purpose>Verify that the API implementation fulfils the requirements as specified in 29.501[13], clause 6.2.</Purpose>
             <PreConditions>Test environment with network product under test so that the tester is able to send HTTP requests with &quot;out of bound IEs&quot; towards the network product under test. Rest of the network may be simulated.
 NOTE 2:	IEs having invalid format and/or not in the defined range of values can be considered as out of bound IEs.</PreConditions>
@@ -2364,8 +2324,7 @@ The test for this requirement can be carried out using a suitable tool or manual
         </Requirement>
         <TestCase>
           <Name>TC_BVT_PORT_SCANNING</Name>
-          <Purpose>To ensure that on all network interfaces, only documented ports on the transport layer respond to requests from outside the system
-Procedure and execution steps:</Purpose>
+          <Purpose>To ensure that on all network interfaces, only documented ports on the transport layer respond to requests from outside the system</Purpose>
           <PreConditions>A list of all available network services containing at least the following information shall be included in the documentation accompanying the Network Product:
 1.	all interfaces providing IP-based protocols;
 2.	the available transport layer protocols on these interfaces;
@@ -2396,8 +2355,7 @@ The test for this requirement can be carried out using a vulnerability assessmen
         </Requirement>
         <TestCase>
           <Name>TC_BVT_VULNERABILITY_SCANNING</Name>
-          <Purpose>The purpose of vulnerability scanning is to ensure that there are no known vulnerabilities (or that relevant vulnerabilities are identified and remediation plans in place to mitigate them) on the Network Product that can be detected by means of automatic testing tools via the Internet Protocol enabled network interfaces.
-Procedure and execution steps:</Purpose>
+          <Purpose>The purpose of vulnerability scanning is to ensure that there are no known vulnerabilities (or that relevant vulnerabilities are identified and remediation plans in place to mitigate them) on the Network Product that can be detected by means of automatic testing tools via the Internet Protocol enabled network interfaces.</Purpose>
           <PreConditions>A list of all available network services containing at least the following information shall be included in the documentation accompanying the Network Product:
 -	all interfaces providing IP-based protocols;
 -	the available transport layer protocols on these interfaces;
