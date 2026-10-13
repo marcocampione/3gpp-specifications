@@ -31,21 +31,18 @@
               <Requirement>
                 <Name>VNF package and VNF image integrity</Name>
                 <Description>1) VNF package and image shall contain integrity validation value (e.g. MAC).
-2) VNF package shall be integrity protected during on boarding.
-Threat Reference: Clause 5.3.2.5.1 of the TR 33.927[2], &quot;Software Tampering &quot;;
-Test case:</Description>
+2) VNF package shall be integrity protected during on boarding.</Description>
+                <ThreatReference>Clause 5.3.2.5.1 of the TR 33.927[2], &quot;Software Tampering &quot;;</ThreatReference>
               </Requirement>
               <TestCase>
                 <Name>TC_VNF_PACKAGE_AND_IMAGE_INTEGRITY</Name>
                 <Purpose>1. To test whether the VNF package has been integrity protected or not.
-2. To test whether the VNF image has been integrity protected or not.
-Procedure and execution steps:
-Pre-Condition:
--	The virtualized network product document describes information that the VNF package and VNF images is integrity protected.
+2. To test whether the VNF image has been integrity protected or not.</Purpose>
+                <PreConditions>-	The virtualized network product document describes information that the VNF package and VNF images is integrity protected.
 -	A valid VNF package and a not-valid VNF package (i.e. a tampered image in VNF package) are available.
 -	A valid VNF image (i.e. a correct HASH value is attached) and a not-valid VNF image (i.e. an incorrect HASH value is attached, e.g. the VNF image can be tampered when the VNF image is sent from the NFVO to the VIM or when the VNF image is stored in the image repository) are available in the image repository of VIM.
 -	There are NFVO and VIM, or simulated NFVO and VIM. The certificate or the public key which is used to verify the digital signature of VNF package and image has been pre-configured in the NFVO and VIM respectively.
-NOTE: The NFVO and VIM may be renamed or collocated with other components in the simulated environment based on the various deployment options.</Purpose>
+NOTE: The NFVO and VIM may be renamed or collocated with other components in the simulated environment based on the various deployment options.</PreConditions>
                 <ExecutionSteps>1.	Review the documentation provided by the vendor describing how VNF package integrity is verified;
 2.	During VNF package on boarding, the tester uploads a valid VNF package into a NFVO. The NFVO verifies the integrity of the VNF package by validating the digital signature of the VNF package using the pre-configured certificate or public key according to the documentation;
 3.	During VNF package on boarding, the tester uploads a not-valid VNF package into a NFVO. The NFVO validates the digital signature of the VNF package using the pre-configured certificate or public key;
@@ -75,9 +72,8 @@ NOTE: The NFVO and VIM may be renamed or collocated with other components in the
 2)	VNF shall be able to establish securely protected connection with the VNFM.
 3)	VNF shall check whether VNFM has been authorized when VNFM access VNF's API.
 4)	VNF shall log VNFM's management operations for auditing.
-Note: 	According to the definition in ETSI GS NFV 003 [6], VNFM is responsible for the lifecycle management of VNF. The lifecycle management of VNF is set of functions required to manage the instantiation, maintenance and termination of VNF. The GVNP of type 1 is 3GPP VNF. A 3GPP VNF lifecycle management begins when the 3GPP VNF is instantiated by a VNFM after the 3GPP VNF package is delivered to the operator and uploaded to NFVO. It is different terminology with the product lifecycle management process in clause 6 that includes set of functions required to manage first commercial introduction, update, minor release, major release, end of life.
-Threat Reference: Threats on interface between 3GPP VNF and VNFM, in clause 5.3.2.3 of TR 33.927 [3].
-Test case:</Description>
+Note: 	According to the definition in ETSI GS NFV 003 [6], VNFM is responsible for the lifecycle management of VNF. The lifecycle management of VNF is set of functions required to manage the instantiation, maintenance and termination of VNF. The GVNP of type 1 is 3GPP VNF. A 3GPP VNF lifecycle management begins when the 3GPP VNF is instantiated by a VNFM after the 3GPP VNF package is delivered to the operator and uploaded to NFVO. It is different terminology with the product lifecycle management process in clause 6 that includes set of functions required to manage first commercial introduction, update, minor release, major release, end of life.</Description>
+            <ThreatReference>Threats on interface between 3GPP VNF and VNFM, in clause 5.3.2.3 of TR 33.927 [3].</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_LIFECYCLE_MANAGEMENT_SECURITY</Name>
@@ -85,12 +81,10 @@ Test case:</Description>
 2.	To test the VNF establishes secure connection with the VNFM after successful authentication.
 3.	To test the VNF check whether VNFM has been authorized when VNFM access to VNF's API.
 4.	To check whether VNF logs the lifecycle management operations from VNFM.
-Note: 	Void
-Procedure and execution steps:
-Pre-Condition:
-NOTE:	If the interface between VNF and VNFM is not exposed and not accessible, execution steps 1-5 are not applicable. If the interface between VNF and VNFM is proprietary, the vendor provides as much and as detailed information on the interface implementation so that the tester is able to verify the interfaces security requirements.
+Note: 	Void</Purpose>
+            <PreConditions>NOTE:	If the interface between VNF and VNFM is not exposed and not accessible, execution steps 1-5 are not applicable. If the interface between VNF and VNFM is proprietary, the vendor provides as much and as detailed information on the interface implementation so that the tester is able to verify the interfaces security requirements.
 1.	There is a VNFM (or simulated VNFM) in the test environment.
-2.	The VNF vendor's document describes how VNF authenticates/authorizes VNFM. Execution Steps</Purpose>
+2.	The VNF vendor's document describes how VNF authenticates/authorizes VNFM. Execution Steps</PreConditions>
             <ExecutionSteps>1.	The tester triggers the establishment of communication between the VNF and the VNFM.
 2.	The tester captures the communication between the VNF and the VNFM using a tool (e.g. wireshark).
 3.	The tester checks whether the VNF authenticates the VNFM or not according to the mechanism described in the vendor's document. For example, the VNF can use HTTPS to communicate with the VNFM, the VNF uses VNFM's certificate for authentication.
@@ -107,18 +101,15 @@ NOTE:	If the interface between VNF and VNFM is not exposed and not accessible, e
         <Section title="4.2.7.2	Security functional requirements on executive environment provision" level="4">
           <Requirement>
             <Name>secure executive environment provision</Name>
-            <Description>The VNF shall support to compare the owned resource state with the parsed resource state from VNFD (VNF Description) by the VNFM. The VNF can query the parsed resource state by the VNFM from the OAM. The VNF shall send an alarm to the OAM if the two resource states are inconsistent. This comparing process can be triggered periodically by the VNF, or the administrator can manually trigger the VNF to perform the comparing process.
-Threat Reference: Threats on interface between 3GPP VNF and virtualisation layer, in clause 5.3.2.3 of TR 33.927 [3].
-Test case:</Description>
+            <Description>The VNF shall support to compare the owned resource state with the parsed resource state from VNFD (VNF Description) by the VNFM. The VNF can query the parsed resource state by the VNFM from the OAM. The VNF shall send an alarm to the OAM if the two resource states are inconsistent. This comparing process can be triggered periodically by the VNF, or the administrator can manually trigger the VNF to perform the comparing process.</Description>
+            <ThreatReference>Threats on interface between 3GPP VNF and virtualisation layer, in clause 5.3.2.3 of TR 33.927 [3].</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_SECURE_EXECUTIVE_ENVIRONMENT_PROVISION</Name>
             <Purpose>1.	To test whether the VNF compares the owned resource state (e.g. scale) with the parsed resource state.
-2.	To test whether the VNF send an alarm to the OAM if the two resource states are inconsistent.
-Procedure and execution steps:
-Pre-Condition:
-There are a VNF, a virtualization layer (or simulated virtualization layer), an OAM, a VNFM, a VIM (or simulated OAM, VNFM, VIM) on the test environment.
-NOTE:	This test case is applicable only for the scenario that the virtualization layer is able to change the resource state of VNF.</Purpose>
+2.	To test whether the VNF send an alarm to the OAM if the two resource states are inconsistent.</Purpose>
+            <PreConditions>There are a VNF, a virtualization layer (or simulated virtualization layer), an OAM, a VNFM, a VIM (or simulated OAM, VNFM, VIM) on the test environment.
+NOTE:	This test case is applicable only for the scenario that the virtualization layer is able to change the resource state of VNF.</PreConditions>
             <ExecutionSteps>1.	The tester utilizes the virtualization layer to change the resource state of VNF (e.g. change vCPU size of the VNF).
 2.	The tester uses the VNF to query the parsed resource state from the OAM.
 3.	The tester uses the OAM to query the parsed resource state of the VNF from the VNFM and send the received resource state to the VNF.
@@ -130,20 +121,17 @@ NOTE:	This test case is applicable only for the scenario that the virtualization
         <Section title="4.2.7.3	Instantiating VNF from trusted VNF image" level="4">
           <Requirement>
             <Name>Instantiating VNF from trusted VNF image</Name>
-            <Description>A VNF shall be initiated from trusted images in a VNF package. The VNF image(s) shall be signed by an authorized party. The authorized party is trusted by the operators.
-Threat Reference: TR 33.926 [7], Clause5.3.4.1, &quot;Software Tampering &quot;;
-Test case:</Description>
+            <Description>A VNF shall be initiated from trusted images in a VNF package. The VNF image(s) shall be signed by an authorized party. The authorized party is trusted by the operators.</Description>
+            <ThreatReference>TR 33.926 [7], Clause5.3.4.1, &quot;Software Tampering &quot;;</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_INSTANTIATING_VNF_TRUSTED_IMAGE</Name>
-            <Purpose>To test whether the instantiating VNF from trusted VNF image.
-Procedure and execution steps:
-Pre-Condition:
--	The virtualized network product document describes information that the VNF images is integrity protected.
+            <Purpose>To test whether the instantiating VNF from trusted VNF image.</Purpose>
+            <PreConditions>-	The virtualized network product document describes information that the VNF images is integrity protected.
 -	One VNF package included two trusted VNF images and the VNF package carries a correct digital signature of the VNF package.
 -	Another VNF package included untrusted VNF image which carry wrong digital signature of VNF image and the VNF package carries a correct digital signature of the VNF package.
 -	There are a NFVO, or a simulated NFVO. A certificate or public key which is used to verify the digital signature of VNF image has been pre-configured in the NFVO. This certificate is trusted by the operator. It means the digital signature of the VNF image is successfully verified by using the public key in the certificate trusted by the operator
-NOTE:	The NFVO and VIM may be renamed or collocated with other components in the simulated environment based on the various deployment options.</Purpose>
+NOTE:	The NFVO and VIM may be renamed or collocated with other components in the simulated environment based on the various deployment options.</PreConditions>
             <ExecutionSteps>1.	Review the documentation provided by the vendor describing how digital signature of the VNF image is verified;
 2.	The tester uploads a VNF package included two trusted VNF images into a NFVO. The NFVO verifies the VNF images by validating each digital signature of the VNF image using the pre-configured certificate or the public key according to the documentation;
 3.	The tester uploads another VNF package included un-trusted VNF image into NFVO. The NFVO verifies the VNF image(s) by validating each digital signature of the VNF image using the pre-configured certificate or the public key according to the documentation.
@@ -174,18 +162,15 @@ Note:	The digital signature validation of the image is also described in clause 
         <Section title="4.3.6.2	Separation of inter-VNF and intra-VNF traffic" level="4">
           <Requirement>
             <Name>inter-VNF and intra-VNF Traffic Separation</Name>
-            <Description>The network used for the communication between the VNFCIs of a VNF (intra-VNF traffic) and the network used for the communication between VNFs (inter-VNF traffic) shall be separated to prevent the security threats from the different networks affect each other.
-Threat Reference: Security threat caused by lack of GVNP traffic isolation in clause 5.3.2.7.15 of TR 33.927 [3]
-Test case:</Description>
+            <Description>The network used for the communication between the VNFCIs of a VNF (intra-VNF traffic) and the network used for the communication between VNFs (inter-VNF traffic) shall be separated to prevent the security threats from the different networks affect each other.</Description>
+            <ThreatReference>Security threat caused by lack of GVNP traffic isolation in clause 5.3.2.7.15 of TR 33.927 [3]</ThreatReference>
           </Requirement>
           <TestCase>
             <Name>TC_TRAFFIC_SEPARATION_INTER-VNF_INTRA-VNF</Name>
-            <Purpose>To test whether the traffics between inter-VNF traffic and intra-VNF traffic are separated.
-Procedure and execution steps:
-Pre-Condition:
-1.	There has a VNF instance on the test environment. This VNF instance has more than one VNFCI (VNF component Instance). The network between VNFCIs means intra-VNF network which is private network provided by vendor.
+            <Purpose>To test whether the traffics between inter-VNF traffic and intra-VNF traffic are separated.</Purpose>
+            <PreConditions>1.	There has a VNF instance on the test environment. This VNF instance has more than one VNFCI (VNF component Instance). The network between VNFCIs means intra-VNF network which is private network provided by vendor.
 2.	The document which describes how to separate the inter-VNF traffic with the intra-VNF traffic has been provided by the vendor. For example, the different network segments are described in the document.
-3.	Another VNF instance (or a simulated VNF instance) is on the test environment and can communicate with the tested VNF instance.</Purpose>
+3.	Another VNF instance (or a simulated VNF instance) is on the test environment and can communicate with the tested VNF instance.</PreConditions>
             <ExecutionSteps>1.	The tester checks whether the inter-VNF traffic and intra-VNF traffic are separated according the document by the vendor. For example, the tester checks whether the different network segments used by inter-VNF traffic and intra-VNF traffic respectively.
 2.	The tester checks whether a VNFCI refuses inter-VNF traffic on all intra-VNF interfaces. For example, the tester can send ping to all intra-VNF interfaces through an inter-VNF interface.
 3.	The tester checks whether a VNFCI refuses intra-VNF traffic on all inter-VNF interfaces. For example, the tester can send ping to all inter-VNF interfaces through an intra-VNF interface.</ExecutionSteps>

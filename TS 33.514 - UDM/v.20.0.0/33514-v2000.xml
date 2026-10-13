@@ -22,16 +22,15 @@
           </Requirement>
           <TestCase>
             <Name>TC_DE-CONCEAL_SUPI_from_SUCI_UDM</Name>
-            <Purpose>Verify that the SIDF De-conceals the SUPI from the SUCI based on the protection scheme used to generate the SUCI.
-Pre-Condition:
--	UDM network product is connected in simulated/real network environment including an AUSF and AMF.
+            <Purpose>Verify that the SIDF De-conceals the SUPI from the SUCI based on the protection scheme used to generate the SUCI.</Purpose>
+            <PreConditions>-	UDM network product is connected in simulated/real network environment including an AUSF and AMF.
 -	Tester shall have access to the subscription data stored in UDR.
 -	Tester shall record the SUPI from the UE.
 -	Tester shall provision subscription data in the UDR and for the UE with the following protection schemes (see TS 33.501 [2], clause Annex C):
 -	Null-scheme (mandatory to support).
 -	Profile A (mandatory to support).
 -	Profile B (mandatory to support).
--	any other implemented protection scheme as stated in the vendor documentation.</Purpose>
+-	any other implemented protection scheme as stated in the vendor documentation.</PreConditions>
             <ExecutionSteps>Tester shall capture the procedure between UDM and AUSF over N13 interface, AMF and AUSF over N12 interface using any network analyser.
 For every implemented protection scheme the tester repeats the following steps:
 1.	Tester shall filter the Nudm_UEAuthentication_Get Response message sent from UDM to AUSF over N13 interface containing the SUPI.
@@ -50,11 +49,10 @@ NOTE:	The tester may filter the Nausf_UEAutentication_Authenticate Response mess
           </Requirement>
           <TestCase>
             <Name>TC_REJECT_SUCI_PROFILE_B_INVALID_PUBKEY_UDM</Name>
-            <Purpose>Verify that the SIDF rejects the SUCI if it uses an ECIES protection scheme and contains an invalid point as the UE’s public key for Profile B.
-Pre-Condition:
--	The tester has access to the public information of the SUCI profile (e.g., profile type, public key …) of the UDM/SIDF under test.
+            <Purpose>Verify that the SIDF rejects the SUCI if it uses an ECIES protection scheme and contains an invalid point as the UE’s public key for Profile B.</Purpose>
+            <PreConditions>-	The tester has access to the public information of the SUCI profile (e.g., profile type, public key …) of the UDM/SIDF under test.
 -	The tester has configured the UDM to use Profile B.
--	The tester has access to a SUPI of provisioned subscriber.</Purpose>
+-	The tester has access to a SUPI of provisioned subscriber.</PreConditions>
             <ExecutionSteps>1.	The tester selects an invalid point (NOTE 1) and uses the point as a public key to encrypt the SUPI based on the encryption defined in Annex C of 33.501 [2] and SECG SEC 1 [8] (NOTE 2).
 2.	The tester sends the SUCI to the Nudm_UEAuthentication_Get service of the UDM/ SIDF under test.
 NOTE 1: 	An example invalid point for Profile B (of order 47) is: 0x049af0190d4e237c462c94c447052c770f6d348866f1dbbe29a0ee889f18835d6a973457a6730323716ef2c8a3723793be64b54cec40eb86ab194057c95baf8cfe.
@@ -73,9 +71,8 @@ NOTE 3:  	Values for &quot;ProblemDetails&quot; may be AUTHENTICATION_REJECTED o
           </Requirement>
           <TestCase>
             <Name>TC_REJECT_SUCI_PROFILE_B_NO_COMPRESSION_UDM</Name>
-            <Purpose>Verify that the SIDF rejects the SUCI if it uses the ECIES Profile B protection scheme and contains an uncompressed point as the UE's public key.
-Pre-Condition:
-Tester shall have access to the HN’s public key for SUCI decryption with Profile B.</Purpose>
+            <Purpose>Verify that the SIDF rejects the SUCI if it uses the ECIES Profile B protection scheme and contains an uncompressed point as the UE's public key.</Purpose>
+            <PreConditions>Tester shall have access to the HN’s public key for SUCI decryption with Profile B.</PreConditions>
             <ExecutionSteps>1.	The tester shall generate a SUCI for a registered SUPI with the protection scheme output for Profile B. Theephemeral public key of the UE should be in the uncompressed point format specified in SECG SEC 1 [8] clause 2.3.3. The remaining parts of the protection scheme output retain their format specified in SECG SEC 1 [8].
 NOTE 1: 	The uncompressed point format shall have a size of 65 bytes, and the most significant byte shall be 0x04. The compressed point format shall have a size of 33 bytes, with 0x02 or 0x03 as the most significant byte. Test data in TS 33.501 [2], clause C.4.4.1.
 2.	The tester shall send the SUCI to the Nudm_UEAuthentication_Get service of the UDM/ SIDF under test.</ExecutionSteps>
@@ -114,10 +111,9 @@ NOTE:	The expected results would be that the UDM/AUSF sends an Nausf_UEAuthentic
           </Requirement>
           <TestCase>
             <Name>TC_AUTH_STATUS_STORE_UDM</Name>
-            <Purpose>Verify that the UDM under test stores the authentication status of UE.
-Pre-Condition:
--	UDM network product is connected with an AUSF in simulated/real network environment.
--	The tester shall have access to the UDM under test.</Purpose>
+            <Purpose>Verify that the UDM under test stores the authentication status of UE.</Purpose>
+            <PreConditions>-	UDM network product is connected with an AUSF in simulated/real network environment.
+-	The tester shall have access to the UDM under test.</PreConditions>
             <ExecutionSteps>1.	The tester shall send an Nudm_UEAuthentication_Get Request message to the UDM with the UE credentials and a selected serving network name.
 2. 	The tester shall receive a successful Nudm_UEAuthentication_Get Response from the UDM.
 3. 	The tester shall simulate the successful authentication by sending the Nudm_UEAuthentication_ResultConfirmation Request message with a selected timestamp to the UDM.

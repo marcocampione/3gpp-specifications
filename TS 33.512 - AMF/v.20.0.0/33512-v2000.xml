@@ -74,8 +74,7 @@ Also, if the SEAF does not receive any Nausf_UEAuthentication_Authenticate Respo
               <Name>TC_RES_STAR_VERIFICATION_FAILURE</Name>
               <Purpose>1)	Verify that the SEAF/AMF correctly handles RES* verification failure detected in the SEAF/AMF or/and in the AUSF, when the SUCI is included in the initial NAS message.
 2)	Verify that the SEAF/AMF correctly handles RES* verification failure detected in the SEAF/AMF or/and in the AUSF, when the 5G-GUTI is included in the initial NAS message.
-3)	Verify that the SEAF/AMF correctly handles a missing Nausf_UEAuthentication_Authenticate Response message from the AUSF.
-Procedure and execution steps:</Purpose>
+3)	Verify that the SEAF/AMF correctly handles a missing Nausf_UEAuthentication_Authenticate Response message from the AUSF.</Purpose>
               <PreConditions>Test environment with UE and AUSF. The UE and the AUSF may be simulated.</PreConditions>
               <ExecutionSteps>Test Case A:
 1)	The tester triggers the UE to send a Registration Request with SUCI to the SEAF/AMF under test, to trigger the SEAF/AMF under test to initiate the authentication, i.e. to send Nausf_UEAuthentication_Authenticate Request to the AUSF.
@@ -123,9 +122,8 @@ For test case A and B, a null value RES* is in the Nausf_UEAuthentication_Authen
 -	the AMF only sends such a Registration Reject message once NAS security has been established between the AMF and the UE; and
 -	the UE only acts upon such Registration Reject message if received integrity protected and if UE has verified the integrity of the Registration Reject message successfully.
 NOTE 1:	Void
-In addition, in networks that support CIoT features in both EPC and 5GC, the operator may steer UEs from a specific CN type due to operator policy, e.g. due to roaming agreements, Preferred and Supported Network Behaviour, load redistribution, etc. Operator policies in EPC and 5GC are assumed to avoid steering UEs back and forth between EPC and 5GC.
-Threat Reference:  TR 33.926 [6], clause K.2.8, NAS based redirection from 5GS to EPS in 5G CIoT
-Test Case:</Description>
+In addition, in networks that support CIoT features in both EPC and 5GC, the operator may steer UEs from a specific CN type due to operator policy, e.g. due to roaming agreements, Preferred and Supported Network Behaviour, load redistribution, etc. Operator policies in EPC and 5GC are assumed to avoid steering UEs back and forth between EPC and 5GC.</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.8, NAS based redirection from 5GS to EPS in 5G CIoT</ThreatReference>
             </Requirement>
             <TestCase>
               <Name>TC_AMF_REDIRECTION_5GS_EPS</Name>
@@ -146,9 +144,8 @@ NOTE 2: Void</Purpose>
             <Requirement>
               <Name>NAS integrity failure</Name>
               <Reference>TS 33.501 [2] clause 6.4.3.3.</Reference>
-              <Description>In case of failed integrity check (i.e. faulty or missing NAS-MAC) is detected after the start of NAS integrity protection, the concerned message shall be discarded except for some NAS messages specified in TS 24.501.
-Threat Reference: TR 33.926 [6], clause K.2.2.2, Failed Integrity check of Initial Registration message
-Test Case:</Description>
+              <Description>In case of failed integrity check (i.e. faulty or missing NAS-MAC) is detected after the start of NAS integrity protection, the concerned message shall be discarded except for some NAS messages specified in TS 24.501.</Description>
+              <ThreatReference>TR 33.926 [6], clause K.2.2.2, Failed Integrity check of Initial Registration message</ThreatReference>
             </Requirement>
             <TestCase>
               <Name>TC_AMF_NAS_INTEGRITY_FAILURE</Name>
@@ -180,11 +177,10 @@ Test case 2 (missing NAS-MAC):
             </Requirement>
             <TestCase>
               <Name>TC_NAS_REPLAY_AMF</Name>
-              <Purpose>Verify that the NAS signalling messages are replay protected by AMF over N1 interface between UE and AMF.
-Pre-Condition:
--	AMF network product is connected in emulated/real network environment.
+              <Purpose>Verify that the NAS signalling messages are replay protected by AMF over N1 interface between UE and AMF.</Purpose>
+              <PreConditions>-	AMF network product is connected in emulated/real network environment.
 -	Tester shall have access to the NAS signalling packets sent between UE and AMF over N1 interface.
--	Tester shall ensure that integrity protection algorithm other than NIA0 is used.</Purpose>
+-	Tester shall ensure that integrity protection algorithm other than NIA0 is used.</PreConditions>
               <ExecutionSteps>1.	The tester shall capture the NAS Security Mode Command procedure taking place between UE and AMF over N1 interface using any network analyser.
 2.	The tester shall filter the NAS Security Mode Complete message by using a filter.
 3.	The tester shall replay the captured NAS Security Mode Complete message.
@@ -253,7 +249,8 @@ Verify that the selected NAS integrity algorithm is being used.</Purpose>
               <PreConditions>-	AMF network product is connected in emulated/real network environment.
 -	UE does not have a 5G NAS security context
 -	The Tester is able to intercept and modify the NAS signalling packets sent between UE and AMF over the N1 interface.</PreConditions>
-              <ExecutionSteps>2.	The tester intercepts the unprotected Registration Request message sent from the UE to the AMF and modifies either the Requested NSSAI or Registration Type.
+              <ExecutionSteps>1.	The tester triggers the UE to conduct an initial registration procedure.
+2.	The tester intercepts the unprotected Registration Request message sent from the UE to the AMF and modifies either the Requested NSSAI or Registration Type.
 3.	The AMF initiates the Security Mode Command Procedure after receiving the unprotected Registration Request (initial NAS message) from the UE. The AMF sets the RINMR bit (Retransmission of the initial NAS message requested) to 1 in the Security Mode Command message sent to the UE.
 4.	The UE sends a Security Mode Complete message with a retransmitted and protected Registration Request message to the AMF.
 5.	The tester observers the AMFs consecutive behaviour.</ExecutionSteps>

@@ -25,13 +25,12 @@
             </Requirement>
             <TestCase>
               <Name>TC_CP_AUTH_AF_NEF</Name>
-              <Purpose>To verify that the NEF can authenticate application function and establish TLS connection towards the application server with certificate based authentication, and may authenticate application function and establish TLS connection towards the application server with pre-shared key based authentication.
-Pre-Condition:
--	The NEF network product shall be connected in emulated/real network environments.
+              <Purpose>To verify that the NEF can authenticate application function and establish TLS connection towards the application server with certificate based authentication, and may authenticate application function and establish TLS connection towards the application server with pre-shared key based authentication.</Purpose>
+              <PreConditions>-	The NEF network product shall be connected in emulated/real network environments.
 -	In order to establish TLS connections to the NEF network product, the application function shall offer a feature that is supported by the NEF network product, including protocol version and combination of cryptographic algorithms.
 -	The application function and the NEF network product shall support certificate based authentication, and may support pre-shared key based authentication.
 -	If the NEF network product does not support CAPIF as specified in clause 6.2.5.1 in TS 23.501 [3], the certificates or the pre-shared key shall be provisioned in the NEF network product.
--	If the NEF network product supports CAPIF, the certificates or the pre-shared key shall be provisioned in the CAPIF core function, the CAPIF core function shall be able to select appropriate authentication method as defined in the sub-clause 6.5.2 in TS 33.122 [4].</Purpose>
+-	If the NEF network product supports CAPIF, the certificates or the pre-shared key shall be provisioned in the CAPIF core function, the CAPIF core function shall be able to select appropriate authentication method as defined in the sub-clause 6.5.2 in TS 33.122 [4].</PreConditions>
               <ExecutionSteps>1.	If certificate based authentication is used, provision correct certificate on the application function, if pre-shared key based authentication is used, provision same pre-shared key on the application function.
 2.	The application function shall initiate establishment of TLS connection towards the NEF network product, and check whether a TLS connection is established successfully.
 3.	If certificate based authentication is used, provision incorrect certificate on the application function, if pre-shared key based authentication is used, provision different pre-shared key on the application function.
@@ -49,13 +48,12 @@ Pre-Condition:
             </Requirement>
             <TestCase>
               <Name>TC_CP_AUTHOR_AF_NEF</Name>
-              <Purpose>To verify that the NEF can authorize application function.
-Pre-Condition:
--	The NEF network product shall be connected in emulated/real network environments.
+              <Purpose>To verify that the NEF can authorize application function.</Purpose>
+              <PreConditions>-	The NEF network product shall be connected in emulated/real network environments.
 -	The application function and the NEF network product shall support OAuth-based authorization mechanism.
 -	An authorization server (e.g. NRF, or CAPIF core function) that supports OAuth2 protocol to authorize NEF northbound APIs using the &quot;Client Credentials&quot; authorization grant has been deployed.
 -	The TLS connection between the NEF network product and the application function has been established.
--	The authorization server is configured to grant the application function access to a specific northbound API of the NEF network product, called NEF northbound API A, using access tokens that are scoped to individual NEF northbound APIs (i.e. a token for API A is not valid for API B).</Purpose>
+-	The authorization server is configured to grant the application function access to a specific northbound API of the NEF network product, called NEF northbound API A, using access tokens that are scoped to individual NEF northbound APIs (i.e. a token for API A is not valid for API B).</PreConditions>
               <ExecutionSteps>Test 1: valid token:
 1.	The application function invokes Obtain_Authorization service towards the authorization server to get a token from the authorization server for accessing the NEF northbound API A.
 2.	The tester triggers the application function to invoke northbound API A of the NEF network product with a valid token for API A.
